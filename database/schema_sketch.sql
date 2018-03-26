@@ -1,46 +1,61 @@
-CREATE DATABASE tavola_db;
-USE tavola_db;
+CREATE DATABASE beeziniss_db;
+USE beeziniss_db;
 
--- CREATE TABLE student (
+-- CREATE TABLE user (
 -- 	id INT NOT NULL AUTO_INCREMENT,
 -- 	first_name VARCHAR(40) NOT NULL,
 -- 	last_name VARCHAR(40) NOT NULL,
--- 	birthdate DATE NOT NULL,
--- 	parent_id INT NOT NULL,
--- 	teacher_id INT NOT NULL,
--- 	teacher_last_name VARCHAR(30), -- <–– this probably wont be necessary since will use joins
--- 	asthma BOOLEAN DEFAULT false,
--- 	allergy VARCHAR(100),
--- 	epiPen BOOLEAN DEFAULT false,
+--  task_id INT NOT NULL,
+--  checklist_id INT NOT NULL,
+--  project_id INT NOT NULL,
 -- 	date TIMESTAMP,
 -- 	PRIMARY KEY(id),
--- 	FOREIGN KEY(parent_id) REFERENCES parent(id),
--- 	FOREIGN KEY(teacher_id) REFERENCES staff(id)
+--  FOREIGN KEY(task_id) REFERENCES user(task_id),
+-- 	FOREIGN KEY(checklist_id) REFERENCES user(task_id),
+-- 	FOREIGN KEY(project_id) REFERENCES user(task_id)
 
 -- );
 
--- CREATE TABLE parent (
+-- CREATE TABLE task (
 -- 	id INT NOT NULL AUTO_INCREMENT,
--- 	first_name VARCHAR(40) NOT NULL,
--- 	last_name VARCHAR(40) NOT NULL,
--- 	phone_number INT(7) NOT NULL,
--- 	username VARCHAR(24) NOT NULL,
--- 	password VARCHAR(24) NOT NULL,
--- 	student_id INT NOT NULL,
--- 	parentMedContent BOOLEAN DEFAULT false,
+-- 	heading VARCHAR(40) NOT NULL,
+-- 	description VARCHAR(40) NOT NULL,
+-- 	due_date DATE_ADD(date, INTERVAL value unit),
+-- 	checklist_item BOOLEAN DEFAULT false,
+--  user_id INT NOT NULL,
+--  checklist_id INT NOT NULL,
+--  project_id INT NOT NULL,
 -- 	date TIMESTAMP,
 -- 	PRIMARY KEY(id),
--- 	FOREIGN KEY(student_id) REFERENCES student(id)
+-- 	FOREIGN KEY(user_id) REFERENCES user(id),
+-- 	FOREIGN KEY(checklist_id) REFERENCES user(task_id),
+-- 	FOREIGN KEY(project_id) REFERENCES user(task_id)
 -- );
 
--- CREATE TABLE staff (
+-- CREATE TABLE checklist(
 -- 	id INT NOT NULL AUTO_INCREMENT,
--- 	first_name VARCHAR(40) NOT NULL,
--- 	last_name VARCHAR(40) NOT NULL,
--- 	username VARCHAR(24) NOT NULL,
--- 	password VARCHAR(24) NOT NULL,
--- 	isAdmin BOOLEAN NOT NULL DEFAULT false,
--- 	isTeacher BOOLEAN NOT NULL DEFAULT false,
+-- 	title VARCHAR(30) NOT NULL,
+-- 	completed BOOLEAN DEFAULT false,
+-- 	due_date DATE_ADD(date, INTERVAL value unit),
+--  user_id INT NOT NULL,
 -- 	date TIMESTAMP,
--- 	PRIMARY KEY(id)
+-- 	PRIMARY KEY(id),
+-- 	FOREIGN KEY(user_id) REFERENCES user(id)
 -- );
+
+-- CREATE TABLE project (
+-- 	id INT NOT NULL AUTO_INCREMENT,
+-- 	title VARCHAR(40) NOT NULL,
+-- 	due_date DATE_ADD(date, INTERVAL value unit),
+-- 	checklist_item BOOLEAN DEFAULT false,
+--  user_id INT NOT NULL,
+--  checklist_id INT NOT NULL,
+--  project_id INT NOT NULL,
+-- 	date TIMESTAMP,
+-- 	PRIMARY KEY(id),
+-- 	FOREIGN KEY(user_id) REFERENCES user(id),
+-- 	FOREIGN KEY(checklist_id) REFERENCES user(task_id),
+-- 	FOREIGN KEY(project_id) REFERENCES user(task_id)
+-- );
+
+
