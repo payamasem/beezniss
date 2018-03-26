@@ -1,7 +1,9 @@
 const router = require("express").Router();
-const bookRoutes = require("./books");
+const taskRoutes = require("./taskRouter");
+const salesRoutes = require("./salesRouter");
 
-// Book routes
-router.use("/books", bookRoutes);
+// TaskManager & SalesTracker routes
+router.use("/tasks", taskRoutes);
+router.use("/sales", salesRoutes);
 
 module.exports = router;
