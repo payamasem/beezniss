@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+import "./TaskManager.css";
 
 class TaskManager extends Component {
   state = {
@@ -30,8 +31,11 @@ class TaskManager extends Component {
 
   loadTasks = () => {
     API.getTasks()
-      .then(res =>
+      .then(res => {
+        console.log("res = ", res);
+        console.log('res.data = ', res.data);
         this.setState({ tasksGotten: res.data, heading: "", description: "" })
+      }
       )
       .catch(err => console.log(err));
   };
@@ -72,6 +76,7 @@ class TaskManager extends Component {
               <h1>Task Manager</h1>
             </div>
             <form>
+              <h2>create new task</h2>
               <Input
                 value={this.state.task.heading}
                 onChange={this.handleInputChange}

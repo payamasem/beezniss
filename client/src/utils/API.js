@@ -37,6 +37,9 @@ export default {
   getSales: function() {
     return axios.get("/api/sales");
   },
+  createCookie: function() {
+    return axios.post("/api/sales/cookies")
+  },
 
   //  ===================================
   //========== Messenger paths ============

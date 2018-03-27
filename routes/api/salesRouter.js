@@ -4,7 +4,11 @@ const salesController = require("../../controllers/salesController");
 // Matches with "/api/sales"
 router.route("/")
   .get(salesController.findAll)
-  .post(salesController.create);
+
+// Matches with "/api/sales/cookies"
+router.route("/cookies")
+  .get(salesController.findAllCookies)
+  .post(salesController.createCookie);
 
 // =======================----------------------------
 // for FUTURE DEVELOPMENT:  inputting new sales data

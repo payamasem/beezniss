@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     description: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      default: null
     },
     due_date: {
       type: DataTypes.DATE,  //<–– ????
