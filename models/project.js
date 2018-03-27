@@ -1,4 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
+  var Project_User = sequelize.define("Project_User");
   var Project = sequelize.define("Project", {
     name: {
       type: DataTypes.STRING,
@@ -14,11 +15,12 @@ module.exports = function(sequelize, DataTypes) {
   Project.associate = function(models) {
     Project.hasMany(models.Task, {
       foreignKey: 'task_id',
-      sourceKey: 'project_id'
+      // sourceKey: 'project_id'
     });
-    Project.hasMany(models.User, {
-      foreignKey: "user_id",    // ???????????
-      otherKey: "project_id"
+    Project.belongsToMany(models.User, {
+      through: 'Project_User' //,
+      // foreignKey: "project_id",    // ???????????
+      // otherKey: "project_id"
     });
   };
 
