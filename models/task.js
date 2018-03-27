@@ -8,21 +8,21 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     description: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.TEXT
     },
     due_date: {
       type: DataTypes.DATE,  //<–– ????
-      allowNull: false
+      allowNull: true
     }
   }, {underscored: true, timestamps: false});
 
 
   Task.associate = function(models) {
-    Task.belongsToMany(models.Checklist_Item, {
-      through: [Checklist_User],
+    Task.belongsToMany(models.User, {
+      through: 'Task_User',
       // foreignKey: "checklist_item_id"
     });
+    Task.hasMany(models.Checklist_Item);
   };
 
   return Task;

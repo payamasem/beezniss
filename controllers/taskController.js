@@ -8,9 +8,16 @@ module.exports = {
       .findAll({
         order: ['due_date', 'DESC'],
         include: [
-          { model: User }, 
-          { model: Project }, 
-          { model: Checklist_Item }
+          { model: User,
+            as: "users",
+            required: false,
+            attributes: ['id', 'username', 'first_name', 'last_name']}, 
+          { model: Project,
+            as: "projects",
+            required: false,
+            attributes: ['id', 'name', 'due_date'] }, 
+          { model: Checklist_Item,
+            as: "checklist_items" }
         ]
       })
       .then(data => {
@@ -30,7 +37,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    console.log("req.body to be used for creating new: ", req.body);
+    console.log("taskController ––> req.body to be used for creating new: ", req.body);
     db.Task
       .create({
         heading: req.body.heading,
@@ -40,8 +47,11 @@ module.exports = {
         project_id: req.body.project_id,
         user_id: req.body.user_id
       })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+      .then(data => res.json(data))
+      .catch(err => {
+        console.log("taskController ––> the .catch: ", err);
+        res.status(422).json(err)
+      });
   },
   update: function(req, res) {
     db.Task

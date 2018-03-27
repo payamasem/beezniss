@@ -9,47 +9,57 @@ import { Input, TextArea, FormBtn } from "../../components/Form";
 
 class TaskManager extends Component {
   state = {
-    books: [],
-    title: "",
-    author: "",
-    synopsis: ""
+    tasksGotten: [],
+    user: {
+      first_name: "",
+      last_name: ""
+    },
+    project: {
+      name: ""
+    },
+    task: {
+      heading: "",
+      description: "",
+      due_date: ""
+    }
   };
 
   componentDidMount() {
-    this.loadBooks();
+    this.loadTasks();
   }
 
-  loadBooks = () => {
-    API.getBooks()
+  loadTasks = () => {
+    API.getTasks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ tasksGotten: res.data, heading: "", description: "" })
       )
       .catch(err => console.log(err));
   };
 
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
+  deleteTask = id => {
+    API.deleteTask(id)
+      .then(res => this.loadTasks())
       .catch(err => console.log(err));
   };
 
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
+      task: {
+        [name]: value
+      }
     });
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
+    if (this.state.task.heading) {
+      API.createTask({
+        heading: this.state.task.heading,
+        description: this.state.task.description
       })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
+      .then(res => this.loadTasks())
+      .catch(err => console.log(err));
     }
   };
 
@@ -58,50 +68,45 @@ class TaskManager extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
-            <Jumbotron>
+            <div>
               <h1>Task Manager</h1>
-            </Jumbotron>
+            </div>
             <form>
               <Input
-                value={this.state.title}
+                value={this.state.task.heading}
                 onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
+                name="heading"
+                placeholder="heading (required)"
+                type="text"
               />
               <Input
-                value={this.state.author}
+                value={this.state.task.description}
                 onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
+                name="description"
+                placeholder="description"
+                type="text"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.task.heading)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Submit Task
               </FormBtn>
             </form>
           </Col>
           <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
+            <div>
+              <h1>tasks from the database</h1>
+            </div>
+            {this.state.tasksGotten.length ? (
               <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
+                {this.state.tasksGotten.map(task => (
+                  <ListItem key={task.id}>
                       <strong>
-                        {book.title} by {book.author}
+                        {task.heading}
                       </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                        {task.description}
+                    <DeleteBtn onClick={() => this.deleteTask(task.id)} />
                   </ListItem>
                 ))}
               </List>
@@ -115,4 +120,4 @@ class TaskManager extends Component {
   }
 }
 
-export default Books;
+export default TaskManager;

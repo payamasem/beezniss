@@ -10,5 +10,6 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: false
     }
   }, {underscored: true, timestamps: false});
-
+  
+  return Checklist_Item;
 };
