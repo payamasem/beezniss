@@ -1,117 +1,78 @@
-import React, { Component } from "react";
-import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
-import API from "../../utils/API";
-import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import React, {Component} from 'react';
+import {Doughnut} from 'react-chartjs-2';
+import SkyLight from 'react-skylight';
+import {Button} from 'semantic-ui-react'
 
-class Marketing extends Component {
-  state = {
-    books: [],
-    title: "",
-    author: "",
-    synopsis: ""
-  };
-
-  componentDidMount() {
-    this.loadBooks();
-  }
-
-  loadBooks = () => {
-    API.getBooks()
-      .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-      )
-      .catch(err => console.log(err));
-  };
-
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
-  };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
+class Marketing extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+                chartDataExpenses: {
+                    labels: ['Instagram', 'Google Ads', 'Twitter', 'Billboards'],
+                    datasets: [{
+                        data: [7499, 45000, 12980, 78500],
+                        backgroundColor: ['#ff6384', '#ffce56', '#cc65fe', '#36a2eb']
+                    }
+            ]}, chartDataClicks: {
+                labels: ['Instagram', 'Google Ads', 'Twitter', 'Billboards'],
+                datasets: [{
+                    data: [79499, 65000, 14980, 7500],
+                    backgroundColor: ['#ff6384', '#ffce56', '#cc65fe', '#36a2eb']
+                }]
+            }
+        }
     }
-  };
-
-  render() {
-    return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
-              <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
-    );
+    
+    render(){
+        const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
+        return (
+        <div>
+        <section>
+        <div className="well" style={wellStyles}>
+            <h2>Marketing Trends</h2>
+            <p>Please select the type of chart you'd like to generate:</p>
+        <Button.Group vertical>
+          <Button color='yellow' icon='pie chart' content='Marketing Expenses: All Campaigns' onClick={() => this.animatedexpenses.show()} />
+          <Button color='black' icon='pie chart' content='Marketing Click-Through-Rate: All Campaigns' onClick={() => this.animatedclicks.show()} />
+        </Button.Group>
+        </div>
+        </section>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedexpenses = ref} 
+          title="Marketing Expenses: All Campaigns"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Doughnut
+            data={this.state.chartDataExpenses}
+            width={500}
+	        height={315}
+	        options={{
+		        maintainAspectRatio: false
+	        }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedclicks = ref} 
+          title="Marketing Click-Through-Rate: All Campaigns"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Doughnut
+            data={this.state.chartDataClicks}
+            width={500}
+	        height={315}
+	        options={{
+		        maintainAspectRatio: false
+	        }}
+            />
+            </div>
+        </SkyLight>
+      </div>
+    )
   }
 }
 
