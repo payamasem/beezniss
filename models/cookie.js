@@ -22,9 +22,9 @@ module.exports = function(sequelize, DataTypes) {
     Sales_YearTotal_2018: {
       type: DataTypes.DECIMAL(16,2)
     },
-    last_modified: {
-      type: DataTypes.TIMESTAMP
-    }
+    // last_modified: {
+    //   type: DataTypes.DATETIME
+    // }
   }, {underscored: true, timestamps: false});
 
   return Cookie;
