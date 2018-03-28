@@ -7,12 +7,13 @@ export default {
   // Gets all books
   getTasks: function() {
     return axios.get("/api/tasks")
-      .then(function(res) {
-      console.log("axios res.data: ", res.data);
-      })
-      .catch(function(err) {
-        console.log("axios error: ", err);
-      });
+      // .then(function(res) {
+      // console.log("axios res.data: ", res.data);
+      // })
+      // .catch(function(err) {
+      //   console.log("axios error: ", err);
+      // })
+      ;
   },
   // Gets the Task with the given id
   getTask: function(id) {
@@ -29,6 +30,7 @@ export default {
   editTask: function(id, taskData) {
     return axios.post("/api/tasks/" + id, taskData);
   },
+
 
   //  ===================================
   //========== SalesTracker paths ==========

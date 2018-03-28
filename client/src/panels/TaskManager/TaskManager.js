@@ -10,7 +10,9 @@ import "./TaskManager.css";
 
 class TaskManager extends Component {
   state = {
+    projectsGotten: [],
     tasksGotten: [],
+    checklistItemsGotten: [],
     user: {
       first_name: "",
       last_name: ""
@@ -34,9 +36,13 @@ class TaskManager extends Component {
       .then(res => {
         console.log("res = ", res);
         console.log('res.data = ', res.data);
-        this.setState({ tasksGotten: res.data, heading: "", description: "" })
-      }
-      )
+        this.setState({ 
+          projectsGotten: res.data.projects,
+          tasksGotten: res.data.tasks, 
+          checklistItemsGotten: res.data.checklist_items,
+          heading: "", 
+          description: "" })
+      })
       .catch(err => console.log(err));
   };
 
@@ -107,11 +113,14 @@ class TaskManager extends Component {
               <List>
                 {this.state.tasksGotten.map(task => (
                   <ListItem key={task.id}>
+
                       <strong>
-                        {task.heading}
-                      </strong>
+                        {task.heading}"
+                      </strong><br/>
                         {task.description}
-                    <DeleteBtn onClick={() => this.deleteTask(task.id)} />
+
+                      <DeleteBtn onClick={() => this.deleteTask(task.id)} />
+
                   </ListItem>
                 ))}
               </List>
