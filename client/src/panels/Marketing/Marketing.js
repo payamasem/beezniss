@@ -32,8 +32,8 @@ class Marketing extends Component{
             <h2>Marketing Trends</h2>
             <p>Please select the type of chart you'd like to generate:</p>
         <Button.Group vertical>
-          <Button color='yellow' icon='pie chart' content='Marketing Expenses: All Campaigns' onClick={() => this.animatedexpenses.show()} />
-          <Button color='black' icon='pie chart' content='Marketing Click-Through-Rate: All Campaigns' onClick={() => this.animatedclicks.show()} />
+          <Button fluid color='yellow' icon='pie chart' content='Marketing Expenses: All Campaigns' onClick={() => this.animatedexpenses.show()} />
+          <Button fluid color='black' icon='pie chart' content='Marketing Click-Through-Rate: All Campaigns' onClick={() => this.animatedclicks.show()} />
         </Button.Group>
         </div>
         </section>

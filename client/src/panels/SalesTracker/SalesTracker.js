@@ -64,9 +64,9 @@ class SalesTracker extends Component{
             <h2>Sales Forecasts</h2>
             <p>Please select the type of forecast you'd like to generate:</p>
         <Button.Group vertical>
-          <Button color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
-          <Button color='black' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
-          <Button color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
+          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
+          <Button fluid color='black' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
+          <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
         </Button.Group>
         </div>
         </section>
