@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/9.3.0_1/bin/node /usr/local/bin/yarn seed
+  /usr/local/Cellar/node/9.3.0_1/bin/node /usr/local/bin/yarn start
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -7844,11 +7844,10 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 1
+  Exit code: 127
   Command: sh
   Arguments: -c concurrently "nodemon server.js" "npm run client" "react-scripts start"
   Directory: /Users/ouyangtt/Desktop/beezniss
-
   Output:
   
       at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
