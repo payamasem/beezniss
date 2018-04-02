@@ -4,24 +4,27 @@ const db = require("../models");
 module.exports = {
   findAll: function(req, res) {
     console.log("findAll in salesController triggered");
-    db.Cookie
-      .findAll()
-      .then(data => {
-        console.log("db.Cookie findAll res data: \n", data[0].dataValues);
-        res.json(data[0].dataValues);
-      })
-      .catch(err => res.status(422).json(err));
+    db.Cookie.findAll().then(cookieData => {
+      console.log("db.Cookie findAll res data: \n", data[0].dataValues);
+      // db.Motor.findAll().then(motorData => {
+      //   db.RNA.findAll().then(RNAdata => {
+      //     let salesData = {
+      //       cookies: cookieData,
+      //       motors: motorData,
+      //       RNA: RNAdata, 
+      //     };
+      //     console.log('salesData to be res.jsond: ', salesData);
+      //     res.json(salesData);
+      //   });
+      // });
+      res.json(cookieData);
+    })
+    .catch(err => res.status(422).json(err));
   },
-  findById: function(req, res) {
-    db.Cookie
-      .findOne({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then(data => res.json(data))
-      .catch(err => res.status(422).json(err));
-  },
+
+
+
+
   createCookie: function(req, res) {
     console.log("salesController ––> req.body to be used for creating new: ", req.body);
     db.Cookie
