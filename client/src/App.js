@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TaskManager from "./panels/TaskManager";
 import SalesTracker from "./panels/SalesTracker";
 import Marketing from "./panels/Marketing";
+import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
 import Messages from "./panels/Messenger";
 import NewsScraper from "./panels/NewsScraper";
@@ -26,7 +27,7 @@ const App = () => (
 
     <Grid.Row columns={3}>
       <Grid.Column>
-        Insert Calendar Widget here...
+        <CalendarPanel />
       </Grid.Column>
       <Grid.Column>
         Insert Stock Market Widget here...
