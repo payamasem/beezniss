@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Doughnut} from 'react-chartjs-2';
-import SkyLight from 'react-skylight';
-import {Button} from 'semantic-ui-react'
 
 class Marketing extends Component{
     constructor(props){
@@ -21,17 +19,17 @@ class Marketing extends Component{
         return (
         <div>
           <h2>Marketing Trends</h2>
-          <h5>Click-Through-Rate by Campaign</h5>
           <div className="chart">
             <Doughnut
             data={this.state.chartDataExpenses}
-            width={500}
-	        height={315}
+            width={250}
+	        height={250}
 	        options={{
 		        maintainAspectRatio: false
 	        }}
             />
             </div>
+            <p>*Data based on Click-Through-Rates for each campaign</p>
             </div>
 
     )
