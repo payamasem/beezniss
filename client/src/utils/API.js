@@ -31,6 +31,7 @@ export default {
   //  ===================================  
   // Gets all sales data
   getSales: function() {
+    console.log('getSales function triggered in API');
     return axios.get("/api/sales");
   },
   createCookie: function() {

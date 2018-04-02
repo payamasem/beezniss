@@ -5,19 +5,22 @@ module.exports = {
   findAll: function(req, res) {
     console.log("findAll in salesController triggered");
     db.Cookie.findAll().then(cookieData => {
-      console.log("db.Cookie findAll res data: \n", data[0].dataValues);
-      // db.Motor.findAll().then(motorData => {
-      //   db.RNA.findAll().then(RNAdata => {
-      //     let salesData = {
-      //       cookies: cookieData,
-      //       motors: motorData,
-      //       RNA: RNAdata, 
-      //     };
-      //     console.log('salesData to be res.jsond: ', salesData);
-      //     res.json(salesData);
-      //   });
-      // });
-      res.json(cookieData);
+      console.log("db.Cookie findAll cookie data: \n", cookieData);
+      db.Motor.findAll().then(motorData => {
+        db.RNA.findAll().then(RNAdata => {
+          let salesData = {
+            cookies: cookieData,
+            motors: motorData,
+            RNA: RNAdata, 
+          };
+          console.log('salesData to be res.jsond: ', salesData);
+          res.json(salesData);
+        });
+      });
+      // let salesData = {
+        // cookies: cookieData
+      // }
+      // res.json(salesData);
     })
     .catch(err => res.status(422).json(err));
   },
