@@ -9,19 +9,19 @@ module.exports = {
     db.Task
       .findAll(
       // {
-        // order: ['due_date', 'DESC'],
-        // include: [
-        //   { model: User,
-        //     as: "users",
-        //     required: false,
-        //     attributes: ['id', 'username', 'first_name', 'last_name']}, 
-        //   { model: Project,
-        //     as: "projects",
-        //     required: false,
-        //     attributes: ['id', 'name', 'due_date'] }, 
-        //   { model: Checklist_Item,
-        //     as: "checklist_items" }
-        // ]
+      //   // order: ['due_date', 'DESC'],
+      //   include: [
+      //     { model: User,
+      //       as: "users",
+      //       // required: false,
+      //       attributes: ['id', 'username', 'first_name', 'last_name']}, 
+      //     { model: Project,
+      //       as: "projects",
+      //       // required: false,
+      //       attributes: ['id', 'name', 'due_date'] }, 
+      //     { model: Checklist_Item,
+      //       as: "checklist_items" }
+      //   ]
       // }
       )
       .then(task_data => {
@@ -48,17 +48,21 @@ module.exports = {
         .then(project_data => {
 
           console.log("project_data = ", project_data);
-          db.Project.findAll({}).then(checklist_data => {
-
+          db.Checklist_Item.findAll({
+            // include: [
+            // { model: Tasks }]
+          }).then(checklist_data => {
+            db.User.findAll().then(user_data => {
               let d_object = {
                 projects: project_data,
                 tasks: task_data,
-                checklist_items: checklist_data
+                checklist_items: checklist_data,
+                users: user_data
               };
 
               console.log("full d_object to be sent back: ", d_object);
               res.json(d_object);
-              
+            });
           });
         }).catch(err => res.status(422).json(err));
 

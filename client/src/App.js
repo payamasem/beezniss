@@ -3,20 +3,52 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TaskManager from "./panels/TaskManager";
 import SalesTracker from "./panels/SalesTracker";
 import Marketing from "./panels/Marketing";
-import Messenger from "./panels/Messenger";
+import CalendarPanel from "./panels/Calendar";
+import TwitterPanel from "./panels/Twitter";
+import Messages from "./panels/Messenger";
 import NewsScraper from "./panels/NewsScraper";
 import NoMatch from "./panels/NoMatch";
-import Nav from "./components/Nav";
+import Header from "./components/Header";
+import {Grid, Image} from 'semantic-ui-react'
 
 const App = () => (
     <div>
-      <Nav />
+    <Header />
+    <Grid divided>
+    <Grid.Row color='grey' columns={2}>
+    <Grid.Column>
       <TaskManager />
-{      // <SalesTracker />		
-     // <NewsScraper />		
-      // <Marketing />		
-      // <Messenger />		
-   }
+    </Grid.Column>
+    <Grid.Column>
+      <SalesTracker />
+    </Grid.Column>
+    </Grid.Row>
+
+
+    <Grid.Row columns={3}>
+      <Grid.Column>
+        <CalendarPanel />
+      </Grid.Column>
+      <Grid.Column>
+        Insert Stock Market Widget here...
+      </Grid.Column>
+      <Grid.Column>
+        <Marketing />
+      </Grid.Column>
+    </Grid.Row>
+
+    <Grid.Row color='grey' columns={3}>
+      <Grid.Column>
+        Insert Google News Widget here...
+      </Grid.Column>
+      <Grid.Column>
+        <TwitterPanel />
+      </Grid.Column>
+      <Grid.Column>
+        <Messages />
+      </Grid.Column>
+      </Grid.Row>
+    </Grid>
     </div>
 );
 
