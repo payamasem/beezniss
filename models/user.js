@@ -1,6 +1,5 @@
 // Requiring bcrypt for password hashing. Using the bcrypt-nodejs version as the regular bcrypt module
 // sometimes causes errors on Windows machines
-
 var bcrypt = require("bcrypt-nodejs");
 
 // Creating our User model
@@ -39,14 +38,14 @@ module.exports = function (sequelize, DataTypes) {
 
     User.associate = function(models) {
         User.belongsToMany(models.Project, {
-          through: "UserProject",
-          foreignKey: "user_id",
-          otherKey: "project_id"
+            through: 'Project_User'//,
+            // foreignKey: "user_id",
+            // otherKey: "project_id"
         });
         User.belongsToMany(models.Task, {
-            through: "UserTask",
-            foreignKey: "user_id",
-            otherKey: "task_id"
+            through: 'Task_User'//,
+            // foreignKey: "user_id",
+            // otherKey: "task_id"
         });
         User.belongsTo(models.Checklist_Item, {
             foreignKey: "user_id"

@@ -1,4 +1,5 @@
 // var models = require("./");
+
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Task = sequelize.define("Task", {
@@ -8,22 +9,21 @@ module.exports = function(sequelize, DataTypes) {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      default: null
     },
     due_date: {
       type: DataTypes.DATE,  //<–– ????
-      allowNull: false
+      allowNull: true
     }
   }, {underscored: true, timestamps: false});
 
 
-
   Task.associate = function(models) {
+    Task.belongsToMany(models.User, {
+      through: 'Task_User',
+      // foreignKey: "checklist_item_id"
+    });
     Task.hasMany(models.Checklist_Item);
-    // Task.hasMany(models.Checklist_Item, {
-      // through: ["family"],
-      foreignKey: "checklist_item_id"
-    // });
   };
 
   return Task;

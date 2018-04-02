@@ -1,7 +1,8 @@
 import React from "react";
+import "./Nav.css";
 
 const Nav = () => (
-  <nav className="navbar navbar-inverse navbar-top">
+  <nav className="navbar navbar-top">
     <div className="container-fluid">
       <div className="navbar-header">
         <button type="button" className="collapsed navbar-toggle">
@@ -10,7 +11,7 @@ const Nav = () => (
           <span className="icon-bar" />
         </button>
         <a href="/" className="navbar-brand">
-          React Reading List
+          nun ya beezniss
         </a>
       </div>
     </div>
