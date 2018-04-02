@@ -54,7 +54,16 @@ class SalesTracker extends Component{
         }
     }
     
+    componentDidMount() {
+        this.loadSales();
+    }
 
+    loadSales = () => {
+        API.getSales()
+          .then(res => {
+            console.log('Cookies res.data = ', res.data);
+          })
+    }
     render(){
         const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
         return (
