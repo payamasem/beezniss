@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import trim from 'trim';
-var names = "Tung Tung: ";
+import { Form, TextArea } from 'semantic-ui-react';
+
+// var names = "Tung Tung: ";
 
 class MessageBox extends Component {
   
@@ -9,7 +11,7 @@ class MessageBox extends Component {
     this.onChange = this.onChange.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
     this.state = {
-      message: names + ''
+      message: ''
     };
   }
   onChange(e){
@@ -25,22 +27,21 @@ class MessageBox extends Component {
         message: trim(e.target.value)
       });
       this.setState({
-        message: names + ''
+        message: ''
       });
     }
   }
   render() {
     return (
-      <form>
+      <Form>
         <textarea
             className="textarea"
-            placeholder="Type a message"
-            cols="100"
+            rows={3}         
             onChange={this.onChange}
             onKeyUp={this.onKeyup}
             value={this.state.message}>
           </textarea>
-      </form>
+      </Form>
     )
   }
 }

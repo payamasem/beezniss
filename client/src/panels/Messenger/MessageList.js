@@ -4,6 +4,8 @@ import _ from 'lodash';
 import "./list.css";
 
 
+
+
 class MessageList extends Component {
   constructor(props){
     super(props);
@@ -31,18 +33,10 @@ class MessageList extends Component {
       });
   }
 
-
-
-
   render() {
     let messageNodes = this.state.messages.map((message) => {
       return (
-        
-        <div className="card">
-          <div className="card-content">
-            <Message message = {message.message} />
-          </div>
-        </div>
+           <Message message = {message.message} />
               )
     });
     return (

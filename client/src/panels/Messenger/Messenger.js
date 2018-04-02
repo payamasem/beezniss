@@ -7,7 +7,6 @@ import firebase from 'firebase';
 
 
 
-
 class messageApp extends Component {
 
 constructor(props){
@@ -27,7 +26,8 @@ constructor(props){
   render() {
     return (
       <div className="container">
-              <MessageList db={firebase} />
+ 
+               <MessageList db={firebase} />
               <MessageBox db={firebase} />
         </div>
     );    
