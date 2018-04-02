@@ -4,16 +4,9 @@ export default {
   //  ===================================
   //========== TaskManager paths ==========
   //  ===================================
-  // Gets all books
+  // Gets all tasks
   getTasks: function() {
-    return axios.get("/api/tasks")
-      // .then(function(res) {
-      // console.log("axios res.data: ", res.data);
-      // })
-      // .catch(function(err) {
-      //   console.log("axios error: ", err);
-      // })
-      ;
+    return axios.get("/api/tasks");
   },
   // Gets the Task with the given id
   getTask: function(id) {
@@ -25,6 +18,7 @@ export default {
   },
   // Saves a Task to the database
   createTask: function(taskData) {
+    console.log('task to be created: ', taskData);
     return axios.post("/api/tasks", taskData);
   },
   editTask: function(id, taskData) {
@@ -35,7 +29,7 @@ export default {
   //  ===================================
   //========== SalesTracker paths ==========
   //  ===================================  
-  // Gets all books
+  // Gets all sales data
   getSales: function() {
     return axios.get("/api/sales");
   },
