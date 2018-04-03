@@ -8,6 +8,7 @@ class SalesTracker extends Component{
     constructor(props){
         super(props);
         this.state = {
+
             cookieQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: []
@@ -19,20 +20,27 @@ class SalesTracker extends Component{
             rnaQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: []
+
             },
             chartDataQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: [{
                     label: 'Cookie Division',
+
+
                  }, {
+
                     label: 'Electric Motors Division',
                     data: [64600, 64800, 63900, 65450],
-                    backgroundColor: '#ffce56'
+                    // backgroundColor: '#ffce56'
                 },{
                     label: 'Mitochondrial RNA Research Division',
                     data: [64600, 64800, 73900, 64450],
+
+
                     backgroundColor: '#cc65fe'
                 } 
+
                 ]},
             chartDataAnnual: {
                 labels: ['Cookie Division', 'Electric Motors Division', 'Mitochondrial RNA Research Division'],
@@ -166,7 +174,7 @@ class SalesTracker extends Component{
           transitionDuration={500} 
         >
           <div className="chart">
-            <Bar
+            <Line
             data={this.state.chartDataQuarterly}
             width={500}
 	        height={320}
