@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Bar, Pie} from 'react-chartjs-2';
+import {Bar, Pie, Line} from 'react-chartjs-2';
 import SkyLight from 'react-skylight';
 import {Button, Icon} from 'semantic-ui-react';
 
@@ -8,22 +8,22 @@ class SalesTracker extends Component{
         super(props);
         this.state = {
             chartData: {
-                labels: ['Chocolate Chip', 'Oatmeal Raisin', 'Snickerdoodle', 'Peanut Butter'],
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: [{
-                    label: 'Q1',
-                    data: [65499, 62898, 69400, 65899],
+                    label: 'Chocolate Chip',
+                    data: [65499, 72898, 69400, 65899],
                     backgroundColor: '#ff6384'
                 }, {
-                    label: 'Q2',
-                    data: [64600, 64800, 63900, 65450],
+                    label: 'Oatmeal Raisin',
+                    data: [64600, 5000, 63900, 65450],
                     backgroundColor: '#ffce56'
                 },{
-                    label: 'Q3',
-                    data: [64600, 64800, 73900, 64450],
+                    label: 'Snickerdoodle',
+                    data: [64600, 24800, 73900, 64450],
                     backgroundColor: '#cc65fe'
                 },{
-                    label: 'Q4',
-                    data: [64600, 64800, 73900, 64450],
+                    label: 'Peanut Butter',
+                    data: [64600, 84800, 73900, 64450],
                     backgroundColor: '#36a2eb'
                 }]
 
@@ -33,15 +33,15 @@ class SalesTracker extends Component{
                 datasets: [{
                     label: 'Cookie Division',
                     data: [65499, 62898, 69400, 65899],
-                    backgroundColor: '#ff6384'
+                    // backgroundColor: '#ff6384'
                 }, {
                     label: 'Electric Motors Division',
                     data: [64600, 64800, 63900, 65450],
-                    backgroundColor: '#ffce56'
+                    // backgroundColor: '#ffce56'
                 },{
                     label: 'Mitochondrial RNA Research Division',
                     data: [64600, 64800, 73900, 64450],
-                    backgroundColor: '#cc65fe'
+                    // backgroundColor: '#cc65fe'
                 }, 
                 ]},
                 chartDataAnnual: {
@@ -94,7 +94,7 @@ class SalesTracker extends Component{
           transitionDuration={500} 
         >
           <div className="chart">
-            <Bar
+            <Line
             data={this.state.chartDataQuarterly}
             width={500}
 	        height={320}
