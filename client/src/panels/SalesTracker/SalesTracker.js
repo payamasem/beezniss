@@ -52,10 +52,10 @@ class SalesTracker extends Component{
         console.log('loadSales function triggered');
         API.getSales()
           .then(res => {
-            console.log('Cookies res.data = ', res.data);
+            console.log('All divisions res.data = ', res.data);
             this.sortCookies(res.data);
-            // this.sortMotors(res.data);
-            // this.sortRNA(res.data);
+            this.sortMotors(res.data);
+            this.sortRNA(res.data);
           }).catch(err => console.log(err));
     }
 
@@ -91,6 +91,70 @@ class SalesTracker extends Component{
         console.log('NEW this.state.cookieQuarterly = ', this.state.cookieQuarterly);
     }
 
+    sortMotors = obj => {
+
+        let newMotorDatasets = [];
+
+        for (let i = 0; i < obj.motors.length; i++) {
+            
+            const motorColors = ['hsla(69, 53%, 50%, 0.27)', 'hsla(179, 53%, 50%, 0.27)', 'hsla(258, 55%, 73%, 0.27)', 'hsla(332, 55%, 73%, 0.27)'];
+            
+            let theMotor = {
+                label: '',
+                data: [],
+                backgroundColor: motorColors[i]
+            }
+
+            theMotor.label = obj.motors[i].elecMotor_name;
+            theMotor.data.push(obj.motors[i].Sales_1Q2018);
+            theMotor.data.push(obj.motors[i].Sales_2Q2018);
+            theMotor.data.push(obj.motors[i].Sales_3Q2018);
+            theMotor.data.push(obj.motors[i].Sales_4Q2018);
+
+            newMotorDatasets.push(theMotor);
+
+            console.log('motor '+i+', for the chart = ', theMotor);
+        }
+        this.setState({
+            motorQuarterly: {
+                datasets: newMotorDatasets
+            }
+        });
+        console.log('NEW this.state.motorQuarterly = ', this.state.motorQuarterly);
+    }
+
+    sortRNA = obj => {
+
+        let newRNAdatasets = [];
+
+        for (let i = 0; i < obj.RNA.length; i++) {
+            
+            const RNAcolors = ['hsla(69, 53%, 50%, 0.27)', 'hsla(179, 53%, 50%, 0.27)', 'hsla(258, 55%, 73%, 0.27)', 'hsla(332, 55%, 73%, 0.27)'];
+            
+            let theStrand = {
+                label: '',
+                data: [],
+                backgroundColor: RNAcolors[i]
+            }
+
+            theStrand.label = obj.RNA[i].mitochonProduct_name;
+            theStrand.data.push(obj.RNA[i].Sales_1Q2018);
+            theStrand.data.push(obj.RNA[i].Sales_2Q2018);
+            theStrand.data.push(obj.RNA[i].Sales_3Q2018);
+            theStrand.data.push(obj.RNA[i].Sales_4Q2018);
+
+            newRNAdatasets.push(theStrand);
+
+            console.log('motor '+i+', for the chart = ', theStrand);
+        }
+        this.setState({
+            rnaQuarterly: {
+                datasets: newRNAdatasets
+            }
+        });
+        console.log('NEW this.state.rnaQuarterly = ', this.state.rnaQuarterly);
+    }
+
     render(){
         const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
         return (
@@ -112,7 +176,7 @@ class SalesTracker extends Component{
           hideOnOverlayClicked 
           ref={ref => this.animated = ref} 
           title="Quarterly Sales: Cookie Division"
-          transitionDuration={500} 
+          transitionDuration={300} 
         >
           <div className="chart">
             <Line
@@ -129,7 +193,7 @@ class SalesTracker extends Component{
           hideOnOverlayClicked 
           ref={ref => this.animatedmotors = ref} 
           title="Quarterly Sales: Electric Motors Division"
-          transitionDuration={500} 
+          transitionDuration={300} 
         >
           <div className="chart">
             <Line
@@ -146,7 +210,7 @@ class SalesTracker extends Component{
           hideOnOverlayClicked 
           ref={ref => this.animatedRNA = ref} 
           title="Quarterly Sales: Mitochondrial RNA Division"
-          transitionDuration={500} 
+          transitionDuration={300} 
         >
           <div className="chart">
             <Line
@@ -163,7 +227,7 @@ class SalesTracker extends Component{
           hideOnOverlayClicked 
           ref={ref => this.animatedquarterly = ref} 
           title="Quarterly Sales: All Divisions"
-          transitionDuration={500} 
+          transitionDuration={300} 
         >
           <div className="chart">
             <Bar
@@ -180,7 +244,7 @@ class SalesTracker extends Component{
           hideOnOverlayClicked 
           ref={ref => this.animatedannual = ref} 
           title="Annual Sales: All Divisions"
-          transitionDuration={500} 
+          transitionDuration={300} 
         >
           <div className="chart">
             <Pie

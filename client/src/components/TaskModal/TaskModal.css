@@ -1,0 +1,18 @@
+nav {
+	background-color: gray;
+	border-radius: 2px;
+}
+.navbar {
+	background-color: gray;
+	border: solid gray 4px;
+	border-radius: 0;
+	box-shadow: 0 0 14px 0 lightgray;
+	color: white;
+}
+.navbar-brand {
+	color: white;
+}
+a:hover {
+	background-color: darkgray;
+	color: white;
+}
