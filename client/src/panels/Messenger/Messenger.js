@@ -7,7 +7,7 @@ import firebase from 'firebase';
 
 
 
-class messageApp extends Component {
+class Messenger extends Component {
 
 constructor(props){
   super(props);
@@ -34,3 +34,5 @@ constructor(props){
   }
   }
 
+
+export default Messenger;
