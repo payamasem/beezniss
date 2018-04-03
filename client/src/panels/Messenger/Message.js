@@ -9,9 +9,9 @@ class Message extends Component {
       <Comment>
     	  <Comment.Avatar as='a' src="https://semantic-ui.com/images/avatar/large/daniel.jpg" />
       	  <Comment.Content>
-      	  	<Comment.Author>Tung Tung</Comment.Author>
-		      <Comment.Text> 
-       			 {this.props.message}
+          <Comment.Author>{this.props.username}</Comment.Author>
+		        <Comment.Text> 
+       			  {this.props.message}
         	  </Comment.Text>
           </Comment.Content>
       </Comment>

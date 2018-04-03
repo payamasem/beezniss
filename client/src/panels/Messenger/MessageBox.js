@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import trim from 'trim';
 import { Form, TextArea } from 'semantic-ui-react';
 
-// var names = "Tung Tung: ";
+// Grab the username here!
+
 
 class MessageBox extends Component {
   
@@ -11,7 +12,8 @@ class MessageBox extends Component {
     this.onChange = this.onChange.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
     this.state = {
-      message: ''
+      username: "Tung Tung",
+      message:  ''
     };
   }
   onChange(e){
@@ -24,10 +26,11 @@ class MessageBox extends Component {
       e.preventDefault();
       let dbCon = this.props.db.database().ref('/messages');
       dbCon.push({
+        username: this.state.username,
         message: trim(e.target.value)
       });
       this.setState({
-        message: ''
+        message:  ''
       });
     }
   }

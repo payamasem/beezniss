@@ -26,9 +26,8 @@ constructor(props){
   render() {
     return (
       <div className="container">
- 
                <MessageList db={firebase} />
-              <MessageBox db={firebase} />
+               <MessageBox db={firebase} />
         </div>
     );    
   }
