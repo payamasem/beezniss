@@ -4,16 +4,9 @@ export default {
   //  ===================================
   //========== TaskManager paths ==========
   //  ===================================
-  // Gets all books
+  // Gets all tasks
   getTasks: function() {
-    return axios.get("/api/tasks")
-      // .then(function(res) {
-      // console.log("axios res.data: ", res.data);
-      // })
-      // .catch(function(err) {
-      //   console.log("axios error: ", err);
-      // })
-      ;
+    return axios.get("/api/tasks");
   },
   // Gets the Task with the given id
   getTask: function(id) {
@@ -25,6 +18,7 @@ export default {
   },
   // Saves a Task to the database
   createTask: function(taskData) {
+    console.log('task to be created: ', taskData);
     return axios.post("/api/tasks", taskData);
   },
   editTask: function(id, taskData) {
@@ -33,14 +27,12 @@ export default {
 
 
   //  ===================================
-  //========== SalesTracker paths ==========
+  //========== SalesTracker path ==========
   //  ===================================  
-  // Gets all books
+  // Gets all sales data
   getSales: function() {
+    console.log('getSales function triggered in API');
     return axios.get("/api/sales");
-  },
-  createCookie: function() {
-    return axios.post("/api/sales/cookies")
   },
 
   //  ===================================
@@ -51,13 +43,5 @@ export default {
   },
   saveMessage: function() {
 
-  },
-
-
-  //  ===================================
-  //========== Twitter paths ==============
-  //  ===================================
-  getTweets: function() {
-    return axios.get("api/tweets");
   }
 };

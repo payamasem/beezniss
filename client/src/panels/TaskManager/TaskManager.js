@@ -18,7 +18,8 @@ class TaskManager extends Component {
       last_name: ""
     },
     project: {
-      name: ""
+      name: "",
+      task_id: ""
     },
     task: {
       heading: "",
@@ -29,19 +30,21 @@ class TaskManager extends Component {
 
   componentDidMount() {
     this.loadTasks();
+    // this.loadSales();
   }
 
   loadTasks = () => {
     API.getTasks()
       .then(res => {
-        console.log("res = ", res);
-        console.log('res.data = ', res.data);
-        this.setState({ 
-          projectsGotten: res.data.projects,
-          tasksGotten: res.data.tasks, 
-          checklistItemsGotten: res.data.checklist_items,
-          heading: "", 
-          description: "" })
+        console.log("getTasks res = ", res);
+        console.log('UNSORTED getTasks res.data = ', res.data);
+        // this.setState({ 
+        //   projectsGotten: res.data.projects,
+        //   tasksGotten: res.data.tasks, 
+        //   checklistItemsGotten: res.data.checklist_items,
+        //   heading: "", 
+        //   description: "" })
+        this.sortResData(res.data);
       })
       .catch(err => console.log(err));
   };
@@ -51,6 +54,46 @@ class TaskManager extends Component {
       .then(res => this.loadTasks())
       .catch(err => console.log(err));
   };
+
+  sortResData = obj => {
+    const nest = {
+      Projects: obj.Projects,
+      Tasks: obj.Tasks
+    };
+
+    //====================
+    //== for each project, 
+    //== find any tasks with a matching project id
+    //== and put them in the array of that project's tasks
+
+    for (let i = 0; i < obj.Projects.length; i++) {
+          //  for ex., Project[1] has an id === 7
+      let tasksPerProject = 0;
+
+      for (let j = 0; j < obj.Tasks.length; j++) {
+        // for ex., Tasks[3] has an id == 9, project_id == 7
+        if (obj.Projects[i].id === obj.Tasks[j].project_id) {
+          nest.Projects[i].Tasks.unshift(obj.Tasks[j]);
+          nest.Projects[i].Tasks.pop();
+          tasksPerProject++;
+        }
+      }
+    }
+
+    this.setState({
+      projectsGotten: nest.Projects,
+      tasksGotten: nest.Tasks
+    });
+    console.log("POST sorting, projectsGotten: ", this.state.projectsGotten);
+  };
+
+  // loadSales = () => {
+  //   API.getSales()
+  //     .then(res => {
+  //       console.log('Cookies res.data = ', res.data);
+  //     })
+  // }
+
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -68,7 +111,16 @@ class TaskManager extends Component {
         heading: this.state.task.heading,
         description: this.state.task.description
       })
-      .then(res => this.loadTasks())
+      .then(res => {
+        console.log('task created!! -- ', res.data);
+        this.loadTasks();
+        this.setState({
+          task: {
+            heading: "",
+            description: ""
+          }
+        });
+      })      
       .catch(err => console.log(err));
     }
   };
@@ -115,7 +167,7 @@ class TaskManager extends Component {
                   <ListItem key={task.id}>
 
                       <strong>
-                        {task.heading}"
+                        {task.heading}
                       </strong><br/>
                         {task.description}
 

@@ -9,7 +9,7 @@ import Messages from "./panels/Messenger";
 import NewsScraper from "./panels/NewsScraper";
 import NoMatch from "./panels/NoMatch";
 import Header from "./components/Header";
-import {Grid, Image} from 'semantic-ui-react'
+import {Grid, Image} from 'semantic-ui-react';
 
 const App = () => (
     <div>

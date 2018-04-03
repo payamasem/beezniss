@@ -1,40 +1,30 @@
 import React, {Component} from 'react';
-import {Bar, Pie} from 'react-chartjs-2';
+import {Bar, Pie, Line} from 'react-chartjs-2';
 import SkyLight from 'react-skylight';
+import API from '../../utils/API';
 import {Button, Icon} from 'semantic-ui-react';
 
 class SalesTracker extends Component{
     constructor(props){
         super(props);
         this.state = {
-            chartData: {
-                labels: ['Chocolate Chip', 'Oatmeal Raisin', 'Snickerdoodle', 'Peanut Butter'],
-                datasets: [{
-                    label: 'Q1',
-                    data: [65499, 62898, 69400, 65899],
-                    backgroundColor: '#ff6384'
-                }, {
-                    label: 'Q2',
-                    data: [64600, 64800, 63900, 65450],
-                    backgroundColor: '#ffce56'
-                },{
-                    label: 'Q3',
-                    data: [64600, 64800, 73900, 64450],
-                    backgroundColor: '#cc65fe'
-                },{
-                    label: 'Q4',
-                    data: [64600, 64800, 73900, 64450],
-                    backgroundColor: '#36a2eb'
-                }]
-
+            cookieQuarterly: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: []
+            },
+            motorQuarterly: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: []
+            },
+            rnaQuarterly: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: []
             },
             chartDataQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: [{
                     label: 'Cookie Division',
-                    data: [65499, 62898, 69400, 65899],
-                    backgroundColor: '#ff6384'
-                }, {
+                 }, {
                     label: 'Electric Motors Division',
                     data: [64600, 64800, 63900, 65450],
                     backgroundColor: '#ffce56'
@@ -42,18 +32,64 @@ class SalesTracker extends Component{
                     label: 'Mitochondrial RNA Research Division',
                     data: [64600, 64800, 73900, 64450],
                     backgroundColor: '#cc65fe'
-                }, 
+                } 
                 ]},
-                chartDataAnnual: {
-                    labels: ['Cookie Division', 'Electric Motors Division', 'Mitochondrial RNA Research Division'],
-                    datasets: [{
-                        data: [65499, 45000, 32980],
-                        backgroundColor: ['#ff6384', '#ffce56', '#cc65fe']
-                    }
+            chartDataAnnual: {
+                labels: ['Cookie Division', 'Electric Motors Division', 'Mitochondrial RNA Research Division'],
+                datasets: [{
+                    data: [65499, 45000, 32980],
+                    backgroundColor: ['#ff6384', '#ffce56', '#cc65fe']
+                }
             ]}
         }
     }
     
+    componentDidMount() {
+        this.loadSales();
+    }
+
+    loadSales = () => {
+        console.log('loadSales function triggered');
+        API.getSales()
+          .then(res => {
+            console.log('Cookies res.data = ', res.data);
+            this.sortCookies(res.data);
+            // this.sortMotors(res.data);
+            // this.sortRNA(res.data);
+          }).catch(err => console.log(err));
+    }
+
+    sortCookies = obj => {
+
+        let newCookieDatasets = [];
+
+        for (let i = 0; i < obj.cookies.length; i++) {
+            
+            const cookieColors = ['hsla(69, 53%, 50%, 0.27)', 'hsla(179, 53%, 50%, 0.27)', 'hsla(258, 55%, 73%, 0.27)', 'hsla(332, 55%, 73%, 0.27)'];
+            
+            let theCookie = {
+                label: '',
+                data: [],
+                backgroundColor: cookieColors[i]
+            }
+
+            theCookie.label = obj.cookies[i].cookie_name;
+            theCookie.data.push(obj.cookies[i].Sales_1Q2018);
+            theCookie.data.push(obj.cookies[i].Sales_2Q2018);
+            theCookie.data.push(obj.cookies[i].Sales_3Q2018);
+            theCookie.data.push(obj.cookies[i].Sales_4Q2018);
+
+            newCookieDatasets.push(theCookie);
+
+            console.log('cookie '+i+', for the chart = ', theCookie);
+        }
+        this.setState({
+            cookieQuarterly: {
+                datasets: newCookieDatasets
+            }
+        });
+        console.log('NEW this.state.cookieQuarterly = ', this.state.cookieQuarterly);
+    }
 
     render(){
         const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
@@ -65,6 +101,8 @@ class SalesTracker extends Component{
             <p>Please select the type of forecast you'd like to generate:</p>
         <Button.Group vertical>
           <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
+          <Button fluid color='black' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
+          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Mitochondrial RNA Division' onClick={() => this.animatedRNA.show()} />
           <Button fluid color='black' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
           <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
         </Button.Group>
@@ -77,13 +115,47 @@ class SalesTracker extends Component{
           transitionDuration={500} 
         >
           <div className="chart">
-            <Bar
-            data={this.state.chartData}
+            <Line
+            data={this.state.cookieQuarterly}
             width={500}
 	        height={300}
 	        options={{
 		        maintainAspectRatio: false
 	        }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedmotors = ref} 
+          title="Quarterly Sales: Electric Motors Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.motorQuarterly}
+            width={500}
+            height={300}
+            options={{
+                maintainAspectRatio: false
+            }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedRNA = ref} 
+          title="Quarterly Sales: Mitochondrial RNA Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.rnaQuarterly}
+            width={500}
+            height={300}
+            options={{
+                maintainAspectRatio: false
+            }}
             />
             </div>
         </SkyLight>
