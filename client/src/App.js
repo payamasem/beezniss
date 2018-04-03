@@ -5,7 +5,7 @@ import SalesTracker from "./panels/SalesTracker";
 import Marketing from "./panels/Marketing";
 import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
-import Messages from "./panels/Messenger";
+import Messenger from "./panels/Messenger";
 import NoMatch from "./panels/NoMatch";
 import Header from "./components/Header";
 import {Grid, Image} from 'semantic-ui-react';
@@ -52,7 +52,7 @@ const App = () => (
         <TwitterPanel />
       </Grid.Column>
       <Grid.Column>
-        <Messages />
+        <Messenger />
       </Grid.Column>
       </Grid.Row>
     </Grid>
