@@ -4,7 +4,7 @@ import Calendar from 'react-calendar';
 class CalendarPanel extends Component {
   state = {
     date: new Date(),
-  }
+  };
  
   onChange = date => this.setState({ date })
  
@@ -18,6 +18,6 @@ class CalendarPanel extends Component {
       </div>
     );
   }
-}
+};
 
 export default CalendarPanel;
