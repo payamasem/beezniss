@@ -27,15 +27,12 @@ export default {
 
 
   //  ===================================
-  //========== SalesTracker paths ==========
+  //========== SalesTracker path ==========
   //  ===================================  
   // Gets all sales data
   getSales: function() {
     console.log('getSales function triggered in API');
     return axios.get("/api/sales");
-  },
-  createCookie: function() {
-    return axios.post("/api/sales/cookies")
   },
 
   //  ===================================
@@ -46,13 +43,5 @@ export default {
   },
   saveMessage: function() {
 
-  },
-
-
-  //  ===================================
-  //========== Twitter paths ==============
-  //  ===================================
-  getTweets: function() {
-    return axios.get("api/tweets");
   }
 };

@@ -6,21 +6,21 @@ module.exports = {
     console.log("findAll in salesController triggered");
     db.Cookie.findAll().then(cookieData => {
       console.log("db.Cookie findAll cookie data: \n", cookieData);
-      db.Motor.findAll().then(motorData => {
-        db.RNA.findAll().then(RNAdata => {
-          let salesData = {
-            cookies: cookieData,
-            motors: motorData,
-            RNA: RNAdata, 
-          };
-          console.log('salesData to be res.jsond: ', salesData);
-          res.json(salesData);
-        });
-      });
-      // let salesData = {
-        // cookies: cookieData
-      // }
-      // res.json(salesData);
+      // db.Motor.findAll().then(motorData => {
+        // db.RNA.findAll().then(RNAdata => {
+          // let salesData = {
+            // cookies: cookieData,
+            // motors: motorData,
+            // RNA: RNAdata, 
+          // };
+          // console.log('salesData to be res.jsond: ', salesData);
+          // res.json(salesData);
+        // });
+      // });
+      let salesData = {
+        cookies: cookieData
+      }
+      res.json(salesData);
     })
     .catch(err => res.status(422).json(err));
   },

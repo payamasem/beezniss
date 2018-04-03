@@ -12,13 +12,19 @@ class SalesTracker extends Component{
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: []
             },
+            motorQuarterly: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: []
+            },
+            rnaQuarterly: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: []
+            },
             chartDataQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: [{
                     label: 'Cookie Division',
                  }, {
-                   data: [65499, 62898, 69400, 65899],
-                    backgroundColor: '#ff6384',
                     label: 'Electric Motors Division',
                     data: [64600, 64800, 63900, 65450],
                     backgroundColor: '#ffce56'
@@ -26,7 +32,7 @@ class SalesTracker extends Component{
                     label: 'Mitochondrial RNA Research Division',
                     data: [64600, 64800, 73900, 64450],
                     backgroundColor: '#cc65fe'
-                }, 
+                } 
                 ]},
             chartDataAnnual: {
                 labels: ['Cookie Division', 'Electric Motors Division', 'Mitochondrial RNA Research Division'],
@@ -48,8 +54,8 @@ class SalesTracker extends Component{
           .then(res => {
             console.log('Cookies res.data = ', res.data);
             this.sortCookies(res.data);
-            this.sortMotors(res.data);
-            this.sortRNA(res.data);
+            // this.sortMotors(res.data);
+            // this.sortRNA(res.data);
           }).catch(err => console.log(err));
     }
 
@@ -95,6 +101,8 @@ class SalesTracker extends Component{
             <p>Please select the type of forecast you'd like to generate:</p>
         <Button.Group vertical>
           <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
+          <Button fluid color='black' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
+          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Mitochondrial RNA Division' onClick={() => this.animatedRNA.show()} />
           <Button fluid color='black' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
           <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
         </Button.Group>
@@ -114,6 +122,40 @@ class SalesTracker extends Component{
 	        options={{
 		        maintainAspectRatio: false
 	        }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedmotors = ref} 
+          title="Quarterly Sales: Electric Motors Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.motorQuarterly}
+            width={500}
+            height={300}
+            options={{
+                maintainAspectRatio: false
+            }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedRNA = ref} 
+          title="Quarterly Sales: Mitochondrial RNA Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.rnaQuarterly}
+            width={500}
+            height={300}
+            options={{
+                maintainAspectRatio: false
+            }}
             />
             </div>
         </SkyLight>
