@@ -49,3 +49,21 @@ VALUES ('git data to flow!', 'ASAP.. like yesterday');
 // INSERT INTO Cookies (cookie_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018)
 // VALUES ('Peanut Butter', '900', '1000', '1100', '1200', '4200'); 
 //  
+
+INSERT INTO Motors (elecMotor_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('DC High-Power Motors', '1000', '1100', '1200', '1300', '4600');
+INSERT INTO Motors (elecMotor_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('DC Stepper Motors', '1200', '1300', '1400', '1500', '5400');
+INSERT INTO Motors (elecMotor_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('AC Torque Motors', '1400', '1500', '1600', '1700', '6200');
+INSERT INTO Motors (elecMotor_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('AC Generator Motors', '900', '1000', '1100', '1200', '4100');
+
+
+INSERT INTO RNAs (mitochonProduct_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('Mitochondrial Enzymes', '1400', '1500', '1600', '1700', '6200');
+INSERT INTO RNAs (mitochonProduct_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('Photosynthetic Transport', '1000', '1100', '1200', '1300', '4600');
+INSERT INTO RNAs (mitochonProduct_name, Sales_1Q2018, Sales_2Q2018, Sales_3Q2018, Sales_4Q2018, Sales_YearTotal_2018) 
+ VALUES ('Cell Replication Simulation', '1200', '1300', '1400', '1500', '5400');
+

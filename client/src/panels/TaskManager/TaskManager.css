@@ -6,3 +6,22 @@ h2 {
 	font-family: "Oswald", sans;
 	font-size: 24px;
 }
+.box {
+	padding: 30px;
+}
+.addProjectButton {
+	margin-left: 100px;
+}
+.addProjectButtonDiv {
+	padding: 24px;
+}
+.main {
+	margin-left: 80px;
+	padding-left: 40px;
+}
+.item {
+	/*height: 90px;*/
+}
+.taskHeader {
+	font-size: 24px;
+}

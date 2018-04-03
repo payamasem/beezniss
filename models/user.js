@@ -19,15 +19,15 @@ module.exports = function (sequelize, DataTypes) {
         // The password cannot be null
         password: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         first_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         last_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
 
         // LATER:  this is where we'd add permissions boooleans
