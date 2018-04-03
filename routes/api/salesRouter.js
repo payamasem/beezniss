@@ -18,7 +18,7 @@ router.route("/cookies")
 // Matches with "/api/sales/:id"
 router
   .route("/:id")
-  .get(salesController.findById)
+  .get()
   .put(salesController.update)
   .delete(salesController.remove);
 
