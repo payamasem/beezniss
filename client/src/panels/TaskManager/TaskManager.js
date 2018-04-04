@@ -7,6 +7,7 @@ import { Col, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { FormBtn } from "../../components/Form";
 import TaskModal from "../../components/TaskModal";
+import ProjectModal from "../../components/ProjectModal";
 import _ from 'lodash';
 import { Accordion, Content, Icon, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
 import "./TaskManager.css";
@@ -15,7 +16,7 @@ class TaskManager extends Component {
   state = {
     projects: [],
     tasks: [],
-    checklistItemsGotten: [],
+    checklistitems: [],
     user: {
       first_name: "",
       last_name: ""
@@ -91,6 +92,14 @@ class TaskManager extends Component {
       }
     });
   };
+
+  formatDate = i => {
+    console.log("the due date is ", this.state.projects[i].due_date);
+    let due = new Date(this.state.projects[i].due_date);
+    let dueDate = due.toDateString();
+    console.log('the FORMATTED due date is ', dueDate);
+    return dueDate;
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -185,11 +194,22 @@ class TaskManager extends Component {
 
     const panel = _.times(this.state.projects.length, i => ({
       title: {
-        content: (<Label color='' size='big' content={this.state.projects[i].name} />),
+        content: (<Label 
+            color='' 
+            size='big' 
+            className='projectLabel'>
+            <div className='projectName'>{this.state.projects[i].name}</div>
+            {this.state.projects[i].Users.map(user => (
+              <div className='little_user'>
+                {user.first_name}
+              </div>
+              ))}
+              <div className='due_date'> | <span className='due'>due: </span>{this.formatDate(i)}</div>
+            </Label>),
         key: `title-${i}`,
       },
       content: {
-        content: (<TaskModal tasks={this.state.projects[i].Tasks} key={this.state.projects[i].id} />),
+        content: (<TaskModal tasks={this.state.projects[i].Tasks}  />),
         key: `content-${i}`,
       },
     }));
@@ -203,9 +223,7 @@ class TaskManager extends Component {
           <div>
             <Accordion panels={panel} /> 
           </div>
-          <div className='addProjectButtonDiv'>
-            <Button color='yellow' className="addProjectButton">Add Project</Button>
-          </div>
+          <ProjectModal loadtasks={() => this.loadTasks} />
         </div>
       </div>
 

@@ -16,15 +16,3 @@ a:hover {
 	background-color: darkgray;
 	color: white;
 }
-.checklistItemText {
-	color: white !important;
-}
-.taskItemElements {
-	display: inline-block !important;
-}
-.taskHeading {
-	font-size: 22px;
-}
-.taskDescription {
-	font-size: 16px;
-}

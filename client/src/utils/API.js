@@ -24,8 +24,17 @@ export default {
   editTask: function(id, taskData) {
     return axios.post("/api/tasks/" + id, taskData);
   },
-
-
+  createChecklistItem: function(listData) {
+    console.log('checklistitem to be created: ', listData);
+    return axios.post("/api/tasks/checklistitem", listData);
+  },
+  createProject: function(listData) {
+    console.log('project to be created: ', listData);
+    return axios.post("/api/tasks/project", listData);
+  },
+  editChecklistItem: function(id, checklistData) {
+    return axios.post("/api/tasks/checklistitem/" + id, checklistData);
+  },
   //  ===================================
   //========== SalesTracker path ==========
   //  ===================================  

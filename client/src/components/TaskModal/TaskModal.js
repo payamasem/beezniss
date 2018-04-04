@@ -3,18 +3,66 @@ import "./TaskModal.css";
 import _ from 'lodash';
 import Hammer from '../../images/hammer.png';
 import { Image, Button, Item, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
+import API from "../../utils/API";
 
 class TaskModal extends Component {
 
   state = {
-    modalOpen: false
-  };
+    modalOpen: false,
+    checked: false,
+    checklist_item_text: "",
+    taskIdOfChecklistItemToBeSaved: ""
+  }
 
-  handleOpen = () => this.setState({ modalOpen: true });
-  handleClose = () => this.setState({ modalOpen: false });
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
+
+  preSave = task_id => {
+    this.setState({
+      taskIdOfChecklistItemToBeSaved: task_id
+    });
+    this.saveNewChecklistItem();
+  }
+
+  saveNewChecklistItem = () => {
+    console.log('we are in the saveNewChecklistItem function!');
+
+    let list_item = {
+      task_id: this.state.taskIdOfChecklistItemToBeSaved,
+      text: this.state.checklist_item_text
+    }
+    console.log('NEW checklist list_item = ', list_item);
+    // API.createChecklistItem(list_item)
+    //   .then(res => {
+    //     console.log('res from creating checklist item = ', res.data)
+
+    //   })
+    //   .catch(err => console.log(err));
+    this.setState({
+      checklist_item_text: ""
+    });
+  }
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+        [name]: value
+    });
+  };
+  toggleCheckbox = (item_id) => {
+    this.setState({
+      checked: !this.state.checked
+    });
+    let obj = {
+      completed: this.state.checked
+    }
+    API.editChecklistItem(item_id, obj)
+      .then(res => {
+        console.log("checklist update res = ", res);
+      });
+  }
 
   render() {
-    console.log("this is modal props:", this.props.tasks.project)
+
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
 
     return (
@@ -26,9 +74,9 @@ class TaskModal extends Component {
           <List animated verticalAlign='middle'
             onClick={this.handleOpen}>
             <List.Item>
-              <Image src={Hammer} />
-              <List.Header content={task.heading} />
-              <List.Content>{task.description}</List.Content>
+              <Image src={Hammer} className='taskItemElements' />
+              <List.Header content={task.heading} className='taskItemElements taskHeading' />
+              <List.Content className='taskItemElements taskDescription' >{task.description}</List.Content>
             </List.Item>
           </List>}
 
@@ -43,25 +91,36 @@ class TaskModal extends Component {
         <Header as='h2' content="Description:" />
         <Header as='h2' content={task.description} />
         
-        {console.log("checklist items:", task.checklist_items)}
+
 
          {/* map out the checklist text */}
         {task.Checklist_Items.map(item => (
           // <CheckList lists={items} /> 
           <Modal.Content key={item.id}>
-            {console.log("Item: ", item)}
-            <Checkbox checked={item.completed} /><h3>{item.text}</h3>
+
+            <Checkbox 
+              checked={item.completed}
+              label={<label color='black' className='checklistItemText'>{item.text}</label>} 
+              onClick={() => this.toggleCheckbox(item.id)} />
           </Modal.Content>
 
         ))}
-          <Input fluid action='Add Checklist Item' placeholder='Meeting at 8AM...' />
+          <div className="ui fluid action input">
+            <input type="text" 
+                placeholder="get something done..."
+                value={this.state.checklist_item_text}
+                onChange={this.handleInputChange}
+                name='checklist_item_text' />
+            <div className="ui button" color='olive' onClick={() => this.saveNewChecklistItem}>add checklist item</div>
+          </div>
           <Modal.Actions>
-              <Button color='red' icon='undo' content='Go Back' onClick={this.handleClose} inverted />
-              <Button color='green' icon='checkmark' content='Save Task' onClick={this.handleClose} inverted />
+              <Button color='red' icon='undo' content='Go Back' onClick={() => this.handleClose} inverted />
+              <Button color='olive' icon='checkmark' content='Save Task' onClick={() => this.handleClose} inverted />
           </Modal.Actions>
 
         </Modal> 
       ))}
+      <div className="ui button">add task</div>
     </div>
        
     );

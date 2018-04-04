@@ -1,6 +1,6 @@
 h1 {
 	font-family: "Oswald", sans;
-	color: darkgray;
+	color: white;
 }
 h2 {
 	font-family: "Oswald", sans;
@@ -10,18 +10,44 @@ h2 {
 	padding: 30px;
 }
 .addProjectButton {
-	margin-left: 100px;
+	margin-left: 10px;
+	margin-top: 10px;
 }
 .addProjectButtonDiv {
 	padding: 24px;
 }
 .main {
-	margin-left: 80px;
-	padding-left: 40px;
+	margin-left: 10px;
+	padding-left: 20px;
 }
 .item {
 	/*height: 90px;*/
 }
 .taskHeader {
 	font-size: 24px;
+}
+.projectLabel {
+	display: inline-block !important;
+}
+.projectName {
+	margin-right: 8px;
+	display: inline-block !important;
+}
+.little_user {
+	background-color: #1b1c1d;
+	color: white;
+	padding: 5px;
+	border: solid lightgray 1px;
+	border-radius: 4px;
+	display: inline-block !important;
+	margin: 0 4px;
+	font-size: 16px;
+}
+.due {
+	font-style: italic;
+	color: gray;
+}
+.due_date {
+	display: inline-block !important;
+	font-size: 14px;
 }

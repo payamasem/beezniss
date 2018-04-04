@@ -6,16 +6,16 @@ module.exports = {
 
     console.log("findAll in controller triggered");
 
-    db.Task
+    db.Project
       .findAll({
         include: {
           all: true
         }
       })
-      .then(task_data => {
+      .then(Project_data => {
 
-        console.log("db.Task findAll task_data: \n", task_data);
-        console.log("db.Task findAll res data: \n", task_data[0].dataValues);
+        console.log("db.Project findAll Project_data: \n", Project_data);
+        console.log("db.Project findAll res data: \n", Project_data[0].dataValues);
 
         db.Project
           .findAll({
@@ -25,7 +25,7 @@ module.exports = {
           }).then(project_data => {
             let d_object = {
               Projects: project_data,
-              Tasks: task_data//,
+              Projects: Project_data//,
               // checklist_items: checklist_data,
               // users: user_data
             };
@@ -35,12 +35,12 @@ module.exports = {
           });
 
       })
-      .catch(err => console.log("findAll error = ", err));
+      .catch(err => console.log('THIS is the effing error: ', err));
 
       // .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
-    db.Task
+    db.Project
       .findOne({
         where: {
           id: req.params.id
@@ -50,24 +50,20 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    console.log("taskController ––> req.body to be used for creating new: ", req.body);
-    db.Task
+    console.log("projectController ––> req.body to be used for creating new: ", req.body);
+    db.Project
       .create({
-        heading: req.body.heading,
-        description: req.body.description,
-        due_date: req.body.due_date,
-        checklist_item_id: req.body.checklist_item_id,
-        project_id: req.body.project_id,
-        user_id: req.body.user_id
+        name: req.body.name,
+        due_date: req.body.due_date
       })
       .then(data => res.json(data))
       .catch(err => {
-        console.log("taskController ––> the .catch: ", err);
+        console.log("projectController ––> the .catch: ", err);
         res.status(422).json(err)
       });
   },
   update: function(req, res) {
-    db.Task
+    db.Project
       .update({
           heading: req.body.heading,
           description: req.body.description,
@@ -84,7 +80,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
-    db.Task
+    db.Project
       .destroy({ 
         where: { 
           id: req.params.id 
