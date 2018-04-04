@@ -7,56 +7,174 @@ import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
 import Messages from "./panels/Messenger";
 import NoMatch from "./panels/NoMatch";
-import Header from "./components/Header";
-import {Grid, Image} from 'semantic-ui-react';
 import ConferenceCall from "./panels/VideoChat";
+import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+    this.state = {isLoggedIn: false};
+  }
+
+  handleLoginClick() {
+    this.setState({isLoggedIn: true});
+  }
+
+  handleLogoutClick() {
+    this.setState({isLoggedIn: false});
+  }
+
+  render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    
+    let button = null;
+    if (isLoggedIn) {
+      button = <LogoutButton onClick={this.handleLogoutClick} />;
+    } else {
+      button = <LoginButton onClick={this.handleLoginClick} />;
+    }
+
+    return (
+      <div>
+        <Greeting isLoggedIn={isLoggedIn} />
+        {button}
+      </div>
+    );
+  }
+}
 
 
+function UserGreeting(props) {
+  return null;
+}
 
-const App = () => (
-    <div>
-    <Grid divided>
-    <Grid.Row color='black' columns={1}>
-    <Grid.Column>
-      <Header />
-    </Grid.Column>
-    </Grid.Row>
+function GuestGreeting(props) {
+  return null;
+}
 
-    <Grid.Row columns={2}>
-    <Grid.Column>
-      <TaskManager />
-    </Grid.Column>
-    <Grid.Column>
-      <SalesTracker />
-    </Grid.Column>
-    </Grid.Row>
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />
+  }
+  return <GuestGreeting />;
+}
 
 
-    <Grid.Row color='grey' columns={3}>
-      <Grid.Column>
-        <CalendarPanel />
+// The function below displays the login page, and clicking login will change state.
+function LoginButton(props) {
+  return (
+    <div className='login-form'>
+    <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
+    <Grid
+      textAlign='center'
+      style={{ height: '100%' }}
+      verticalAlign='middle'
+    >
+      <Grid.Column color='black' style={{ maxWidth: 450 }}>
+        <Header as='h2' color='yellow' textAlign='center'>
+        <img src={require('./logo.png')} alt='logo' />
+          Welcome to Beezniss!
+        </Header>
+        <Form size='large'>
+          <Segment stacked>
+            <Form.Input
+              fluid
+              icon='user'
+              iconPosition='left'
+              placeholder='Username'
+            />
+            <Form.Input
+              fluid
+              icon='lock'
+              iconPosition='left'
+              placeholder='Password'
+              type='password'
+            />
+  <Button color='yellow' fluid size='large' onClick={props.onClick}>Login</Button>
+          </Segment>
+        </Form>
+        <Message>
+          New to Beezniss? <a href='#'>Register Here</a>
+        </Message>
       </Grid.Column>
-      <Grid.Column>
-        <Marketing />
-      </Grid.Column>
-      <Grid.Column>
-        <ConferenceCall />
-      </Grid.Column>
-    </Grid.Row>
-
-    <Grid.Row color='black' columns={3}>
-      <Grid.Column>
-        Insert map chart for sales data here...
-      </Grid.Column>
-      <Grid.Column>
-        <TwitterPanel />
-      </Grid.Column>
-      <Grid.Column>
-        <Messages />
-      </Grid.Column>
-      </Grid.Row>
     </Grid>
-    </div>
-);
+  </div>  
+  );
+}
+
+
+// The function below displays the dashboard grid, and clicking logout will trigger a state change.
+function LogoutButton(props) {
+  return (
+    <div>
+  <Grid divided>
+  <Grid.Row color='black' columns={1}>
+  <Grid.Column>
+  <Segment inverted>
+              <Header as='h2' dividing inverted color='yellow'> <img src={require('./logo.png')} alt="logo" /> Beezniss Dashboard    
+              <Modal trigger={<Button color='yellow' icon='remove user' content='Logout' floated='right' />} basic size='small'>
+    <Header icon='remove user' content='Logout?' />
+    <Modal.Content>
+      <p>Do you wish to logout of your Beezniss Dashboard?</p>
+    </Modal.Content>
+    <Modal.Actions>
+      <Button basic color='red' inverted>
+        <Icon name='remove' /> No
+      </Button>
+      <Button color='green' inverted onClick={props.onClick}>
+        <Icon name='checkmark' /> Yes
+      </Button>
+    </Modal.Actions>
+  </Modal>
+ </Header>
+</Segment>
+  </Grid.Column>
+  </Grid.Row>
+
+  <Grid.Row columns={2}>
+  <Grid.Column>
+    <TaskManager />
+  </Grid.Column>
+  <Grid.Column>
+    <SalesTracker />
+  </Grid.Column>
+  </Grid.Row>
+
+  <Grid.Row color='grey' columns={3}>
+    <Grid.Column>
+      <CalendarPanel />
+    </Grid.Column>
+    <Grid.Column>
+      <Marketing />
+    </Grid.Column>
+    <Grid.Column>
+      <ConferenceCall />
+    </Grid.Column>
+  </Grid.Row>
+
+  <Grid.Row color='black' columns={3}>
+    <Grid.Column>
+      Insert map chart for sales data here...
+    </Grid.Column>
+    <Grid.Column>
+      <TwitterPanel />
+    </Grid.Column>
+    <Grid.Column>
+      <Messages />
+    </Grid.Column>
+    </Grid.Row>
+  </Grid>
+  </div>
+  );
+}
 
 export default App;
