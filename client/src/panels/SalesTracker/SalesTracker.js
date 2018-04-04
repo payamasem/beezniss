@@ -9,6 +9,7 @@ class SalesTracker extends Component{
     constructor(props){
         super(props);
         this.state = {
+
             cookieQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: []
@@ -20,20 +21,27 @@ class SalesTracker extends Component{
             rnaQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: []
+
             },
             chartDataQuarterly: {
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: [{
                     label: 'Cookie Division',
+
+
                  }, {
+
                     label: 'Electric Motors Division',
                     data: [64600, 64800, 63900, 65450],
-                    backgroundColor: '#ffce56'
+                    // backgroundColor: '#ffce56'
                 },{
                     label: 'Mitochondrial RNA Research Division',
                     data: [64600, 64800, 73900, 64450],
+
+
                     backgroundColor: '#cc65fe'
                 } 
+
                 ]},
             chartDataAnnual: {
                 labels: ['Cookie Division', 'Electric Motors Division', 'Mitochondrial RNA Research Division'],
@@ -159,106 +167,105 @@ class SalesTracker extends Component{
     render() {
         const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
         return (
-            <div>
-            <section>
-                <div className="well" style={wellStyles}>
-                    <h1>Sales Forecasts</h1>
-                    <p>Please select the type of forecast you'd like to generate:</p>
-                    <Button.Group vertical>
-                      <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
-                      <Button fluid color='black' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
-                      <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Mitochondrial RNA Division' onClick={() => this.animatedRNA.show()} />
-                      <Button fluid color='black' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
-                      <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
-                    </Button.Group>
-                </div>
-            </section>
-            <SkyLight 
-              hideOnOverlayClicked 
-              ref={ref => this.animated = ref} 
-              title="Quarterly Sales: Cookie Division"
-              transitionDuration={300} 
-            >
-              <div className="chart">
-                <Line
-                data={this.state.cookieQuarterly}
-                width={500}
-    	        height={300}
-    	        options={{
-    		        maintainAspectRatio: false
-    	        }}
-                />
-                </div>
-            </SkyLight>
-            <SkyLight 
-              hideOnOverlayClicked 
-              ref={ref => this.animatedmotors = ref} 
-              title="Quarterly Sales: Electric Motors Division"
-              transitionDuration={300} 
-            >
-              <div className="chart">
-                <Line
-                data={this.state.motorQuarterly}
-                width={500}
-                height={300}
-                options={{
-                    maintainAspectRatio: false
-                }}
-                />
-                </div>
-            </SkyLight>
-            <SkyLight 
-              hideOnOverlayClicked 
-              ref={ref => this.animatedRNA = ref} 
-              title="Quarterly Sales: Mitochondrial RNA Division"
-              transitionDuration={300} 
-            >
-              <div className="chart">
-                <Line
-                data={this.state.rnaQuarterly}
-                width={500}
-                height={300}
-                options={{
-                    maintainAspectRatio: false
-                }}
-                />
-                </div>
-            </SkyLight>
-            <SkyLight 
-              hideOnOverlayClicked 
-              ref={ref => this.animatedquarterly = ref} 
-              title="Quarterly Sales: All Divisions"
-              transitionDuration={300} 
-            >
-              <div className="chart">
-                <Bar
-                data={this.state.chartDataQuarterly}
-                width={500}
-    	        height={320}
-    	        options={{
-    		        maintainAspectRatio: false
-    	        }}
-                />
-                </div>
-            </SkyLight>
-            <SkyLight 
-              hideOnOverlayClicked 
-              ref={ref => this.animatedannual = ref} 
-              title="Annual Sales: All Divisions"
-              transitionDuration={300} 
-            >
-              <div className="chart">
-                <Pie
-                data={this.state.chartDataAnnual}
-                width={500}
-    	        height={315}
-    	        options={{
-    		        maintainAspectRatio: false
-    	        }}
-                />
-                </div>
-            </SkyLight>
-          </div>
+        <div>
+        <section>
+        <div className="well" style={wellStyles}>
+            <h2>Sales Forecasts</h2>
+        <Button.Group vertical>
+          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
+          <Button fluid color='grey' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
+          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Mitochondrial RNA Division' onClick={() => this.animatedRNA.show()} />
+          <Button fluid color='grey' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
+          <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
+        </Button.Group>
+        </div>
+        </section>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animated = ref} 
+        //   title="Quarterly Sales: Cookie Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.cookieQuarterly}
+            width={500}
+	        height={370}
+	        options={{
+		        maintainAspectRatio: false
+	        }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedmotors = ref} 
+        //   title="Quarterly Sales: Electric Motors Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.motorQuarterly}
+            width={500}
+            height={370}
+            options={{
+                maintainAspectRatio: false
+            }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedRNA = ref} 
+        //   title="Quarterly Sales: Mitochondrial RNA Division"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.rnaQuarterly}
+            width={500}
+            height={370}
+            options={{
+                maintainAspectRatio: false
+            }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedquarterly = ref} 
+        //   title="Quarterly Sales: All Divisions"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Line
+            data={this.state.chartDataQuarterly}
+            width={500}
+	        height={370}
+	        options={{
+		        maintainAspectRatio: false
+	        }}
+            />
+            </div>
+        </SkyLight>
+        <SkyLight 
+          hideOnOverlayClicked 
+          ref={ref => this.animatedannual = ref} 
+        //   title="Annual Sales: All Divisions"
+          transitionDuration={500} 
+        >
+          <div className="chart">
+            <Pie
+            data={this.state.chartDataAnnual}
+            width={500}
+	        height={380}
+	        options={{
+		        maintainAspectRatio: false
+	        }}
+            />
+            </div>
+        </SkyLight>
+      </div>
     )
   }
 }
