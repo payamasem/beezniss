@@ -116,7 +116,7 @@ function LoginButton(props) {
 function LogoutButton(props) {
   return (
     <div>
-  <Grid divided>
+  <Grid celled>
   <Grid.Row color='black' columns={1}>
   <Grid.Column>
   <Segment inverted>
@@ -140,38 +140,32 @@ function LogoutButton(props) {
   </Grid.Column>
   </Grid.Row>
 
-  <Grid.Row columns={2}>
-  <Grid.Column>
+  <Grid.Row color='grey' columns={3}>
+  <Grid.Column width='3'>
+    <CalendarPanel />
+  </Grid.Column>
+  <Grid.Column width='8'>
     <TaskManager />
   </Grid.Column>
-  <Grid.Column>
-    <SalesTracker />
+  <Grid.Column width='5'>
+    <Marketing />
   </Grid.Column>
   </Grid.Row>
 
-  <Grid.Row color='grey' columns={3}>
-    <Grid.Column>
-      <CalendarPanel />
+  <Grid.Row color='black' columns={4}>
+    <Grid.Column width='4'>
+      <SalesTracker />
     </Grid.Column>
-    <Grid.Column>
-      <Marketing />
+    <Grid.Column width='4'>
+      <TwitterPanel />
     </Grid.Column>
-    <Grid.Column>
+    <Grid.Column width='4'>
+      <Messenger />
+    </Grid.Column>
+    <Grid.Column width='4'>
       <ConferenceCall />
     </Grid.Column>
   </Grid.Row>
-
-  <Grid.Row color='black' columns={3}>
-    <Grid.Column>
-      Insert map chart for sales data here...
-    </Grid.Column>
-    <Grid.Column>
-      <TwitterPanel />
-    </Grid.Column>
-    <Grid.Column>
-      <Messages />
-    </Grid.Column>
-    </Grid.Row>
   </Grid>
   </div>
   );

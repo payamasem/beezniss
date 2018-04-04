@@ -7,7 +7,7 @@ class Message extends Component {
     return (
     <Comment.Group>
       <Comment>
-    	  <Comment.Avatar as='a' src="https://semantic-ui.com/images/avatar/large/daniel.jpg" />
+    	  <Comment.Avatar as='a' src="https://vignette.wikia.nocookie.net/tumblr-survivor-athena/images/7/7a/Blank_Avatar.png/revision/latest?cb=20161204161729" />
       	  <Comment.Content>
           <Comment.Author>{this.props.username}</Comment.Author>
 		        <Comment.Text> 
@@ -19,4 +19,4 @@ class Message extends Component {
     )
   }
 }
-export default Message
+export default Message;

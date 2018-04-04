@@ -106,12 +106,11 @@ class SalesTracker extends Component{
         <section>
         <div className="well" style={wellStyles}>
             <h2>Sales Forecasts</h2>
-            <p>Please select the type of forecast you'd like to generate:</p>
         <Button.Group vertical>
           <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
-          <Button fluid color='black' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
+          <Button fluid color='grey' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
           <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Mitochondrial RNA Division' onClick={() => this.animatedRNA.show()} />
-          <Button fluid color='black' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
+          <Button fluid color='grey' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
           <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
         </Button.Group>
         </div>
@@ -119,14 +118,14 @@ class SalesTracker extends Component{
         <SkyLight 
           hideOnOverlayClicked 
           ref={ref => this.animated = ref} 
-          title="Quarterly Sales: Cookie Division"
+        //   title="Quarterly Sales: Cookie Division"
           transitionDuration={500} 
         >
           <div className="chart">
             <Line
             data={this.state.cookieQuarterly}
             width={500}
-	        height={300}
+	        height={370}
 	        options={{
 		        maintainAspectRatio: false
 	        }}
@@ -136,14 +135,14 @@ class SalesTracker extends Component{
         <SkyLight 
           hideOnOverlayClicked 
           ref={ref => this.animatedmotors = ref} 
-          title="Quarterly Sales: Electric Motors Division"
+        //   title="Quarterly Sales: Electric Motors Division"
           transitionDuration={500} 
         >
           <div className="chart">
             <Line
             data={this.state.motorQuarterly}
             width={500}
-            height={300}
+            height={370}
             options={{
                 maintainAspectRatio: false
             }}
@@ -153,14 +152,14 @@ class SalesTracker extends Component{
         <SkyLight 
           hideOnOverlayClicked 
           ref={ref => this.animatedRNA = ref} 
-          title="Quarterly Sales: Mitochondrial RNA Division"
+        //   title="Quarterly Sales: Mitochondrial RNA Division"
           transitionDuration={500} 
         >
           <div className="chart">
             <Line
             data={this.state.rnaQuarterly}
             width={500}
-            height={300}
+            height={370}
             options={{
                 maintainAspectRatio: false
             }}
@@ -170,14 +169,14 @@ class SalesTracker extends Component{
         <SkyLight 
           hideOnOverlayClicked 
           ref={ref => this.animatedquarterly = ref} 
-          title="Quarterly Sales: All Divisions"
+        //   title="Quarterly Sales: All Divisions"
           transitionDuration={500} 
         >
           <div className="chart">
             <Line
             data={this.state.chartDataQuarterly}
             width={500}
-	        height={320}
+	        height={370}
 	        options={{
 		        maintainAspectRatio: false
 	        }}
@@ -187,14 +186,14 @@ class SalesTracker extends Component{
         <SkyLight 
           hideOnOverlayClicked 
           ref={ref => this.animatedannual = ref} 
-          title="Annual Sales: All Divisions"
+        //   title="Annual Sales: All Divisions"
           transitionDuration={500} 
         >
           <div className="chart">
             <Pie
             data={this.state.chartDataAnnual}
             width={500}
-	        height={315}
+	        height={380}
 	        options={{
 		        maintainAspectRatio: false
 	        }}
