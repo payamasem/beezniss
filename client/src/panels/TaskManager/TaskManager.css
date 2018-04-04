@@ -23,6 +23,10 @@ h2 {
 .item {
 	/*height: 90px;*/
 }
+div.content.active {
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
 .taskHeader {
 	font-size: 24px;
 }
@@ -40,7 +44,7 @@ h2 {
 	border: solid lightgray 1px;
 	border-radius: 4px;
 	display: inline-block !important;
-	margin: 0 4px;
+	margin: 0 3px;
 	font-size: 16px;
 }
 .due {
