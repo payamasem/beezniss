@@ -1,18 +1,22 @@
-nav {
-	background-color: gray;
-	border-radius: 2px;
+.inline {
+	display: inline-block !important;
 }
-.navbar {
-	background-color: gray;
-	border: solid gray 4px;
-	border-radius: 0;
-	box-shadow: 0 0 14px 0 lightgray;
-	color: white;
+.modal_users {
+	background-color: white;
+	color: black;
+	padding: 6px;
+	border: solid lightgray 1px;
+	border-radius: 5px;
+	display: inline-block !important;
+	margin: 0 6px;
+	font-size: 22px;
+	font-weight: 800;
 }
-.navbar-brand {
-	color: white;
-}
-a:hover {
-	background-color: darkgray;
+.collaborators {
+	margin-right: 10px;
+	margin-left: 50px;
+	font-size: 18px;
+	display: inline-block !important;
+	font-style: italic;
 	color: white;
 }

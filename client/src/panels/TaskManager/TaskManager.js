@@ -212,7 +212,12 @@ class TaskManager extends Component {
       content: {
         content: (
           <div>
-            <TaskModal tasks={this.state.projects[i].Tasks}  />
+            {this.state.projects[i].Tasks.map(tasq => (
+              <TaskModal 
+                  task={tasq} 
+                  tasks={this.state.projects[i].Tasks}
+                  onClose={() => this.loadTasks()}  />
+              ))}
             <AddTaskModal possible_users={this.state.projects[i].Users} project_id={this.state.projects[i].id} onClose={() => this.loadTasks()} />
           </div>
         ),

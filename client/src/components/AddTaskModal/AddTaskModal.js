@@ -78,7 +78,17 @@ class AddTaskModal extends Component {
                   name="description"
                   type="text"
                   value={this.state.description}
-                  onChange={event => this.setState({description: event.target.value})} />              
+                  onChange={event => this.setState({description: event.target.value})} />
+              <div className="ui fluid multiple search selection dropdown">
+                <input type="hidden" name="collaborator" />
+                <i className="dropdown icon"></i>
+                <div className="default text">Select Task Collaborators</div>
+                <div className="menu">
+                {this.props.possible_users.map(user => (
+                    <option className='item' value={user.id}>{user.first_name}</option>                  
+                  ))}
+                </div>
+              </div>
               <Form.Field>
                 <Form.Input 
                   required
