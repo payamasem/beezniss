@@ -12,7 +12,7 @@ class MessageBox extends Component {
     this.onChange = this.onChange.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
     this.state = {
-      username: "Payam",
+      username: "ehler",
       message:  ''
     };
   }

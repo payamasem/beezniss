@@ -9,6 +9,7 @@ import Messenger from "./panels/Messenger";
 import Footer from "./panels/Footer";
 import NoMatch from "./panels/NoMatch";
 import ConferenceCall from "./panels/VideoChat";
+import "./panels/TaskManager/TaskManager.css";
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
 
 class App extends React.Component {
@@ -117,8 +118,8 @@ function LoginButton(props) {
 function LogoutButton(props) {
   return (
     <div>
-  <Grid celled>
-  <Grid.Row color='black' columns={1}>
+  <Grid celled className='mt_0'>
+  <Grid.Row color='black' columns={1} className='mt_0'>
   <Grid.Column>
   <Segment inverted>
               <Header as='h2' dividing inverted color='yellow'> <img src={require('./logo.png')} alt="logo" /> Beezniss Dashboard    
