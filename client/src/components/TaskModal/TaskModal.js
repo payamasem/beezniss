@@ -87,9 +87,9 @@ class TaskModal extends Component {
         key={task.id}>
                
 
-        <Header icon='browser' as='h2' content={task.heading} />
-        <Header as='h2' content="Description:" />
-        <Header as='h2' content={task.description} />
+        <Header icon='browser' as='h2' content={task.heading} className='taskModalTitle' />
+        <Header as='h2' className='taskModalElements descriptor'>task description: </Header>
+        <Header as='h2' className='taskModalElements taskModalDescription'>{task.description}</Header>
         
 
 
@@ -120,7 +120,6 @@ class TaskModal extends Component {
 
         </Modal> 
       ))}
-      <div className="ui button">add task</div>
     </div>
        
     );

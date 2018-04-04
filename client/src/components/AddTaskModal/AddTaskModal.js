@@ -1,29 +1,34 @@
 import React, { Component } from "react";
-import "./ProjectModal.css";
+import "../ProjectModal/ProjectModal.css";
 import _ from 'lodash';
 import { Image, Button, Item, Form, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
 import API from "../../utils/API";
-import TaskManager from "../../panels/TaskManager/TaskManager.js";
 
-class ProjectModal extends Component {
+class AddTaskModal extends Component {
 
   state = {
     modalOpen: false,
-    name: "",
-    due_date: ""
+    heading: "",
+    description: "",
+    due_date: "",
+    project_id: null,
+    users: []
   };
 
   handleOpen = () => this.setState({ modalOpen: true });
   handleClose = () => this.setState({ modalOpen: false });
 
-  saveNewProject = () => {
+  saveNewTask = () => {
     let list_item = {
       due_date: this.state.due_date,
-      name: this.state.name
+      heading: this.state.heading,
+      description: this.state.description,
+      users: this.state.users,
+      project_id: this.props.project_id
     }
-    API.createProject(list_item)
+    API.createTask(list_item)
       .then(res => {
-        console.log('res from creating project = ', res.data)
+        console.log('res from creating task = ', res.data)
 
       })
       .catch(err => console.log(err));
@@ -51,27 +56,33 @@ class ProjectModal extends Component {
       <div className="well" style={wellStyles}>
         <Modal 
           trigger={
-            <Button onClick={this.handleOpen} color='yellow'>Add Project</Button>
+            <Button onClick={this.handleOpen} color='olive'>Add Task</Button>
           }
           open={this.state.modalOpen}
           onClose={this.handleClose} 
           closeIcon
           >
 
-          <Modal.Header icon='archive' as='h1'>Create a New Project</Modal.Header>
+          <Modal.Header icon='archive' as='h1'>Create a New Task</Modal.Header>
 
           <Modal.Content>          
             <Form>
               <Form.Field required control={Input} 
-                  label='What name is the Project?'
-                  name="name"
+                  placeholder='task heading'
+                  name="heading"
                   type="text"
-                  value={this.state.name}
-                  onChange={event => this.setState({name: event.target.value})} />
+                  value={this.state.heading}
+                  onChange={event => this.setState({heading: event.target.value})} />
+              <Form.Field required control={Input} 
+                  placeholder='task description'
+                  name="description"
+                  type="text"
+                  value={this.state.description}
+                  onChange={event => this.setState({description: event.target.value})} />              
               <Form.Field>
                 <Form.Input 
                   required
-                  label='Due Date for this Project' 
+                  label='Due Date for this Task' 
                   type='date' 
                   value={this.state.due_date} 
                   onChange={event => this.setState({due_date: event.target.value})}
@@ -82,7 +93,7 @@ class ProjectModal extends Component {
 
           <Modal.Actions>
             <Button color='black' onClick={this.close}>Discard</Button>
-            <Button positive icon='checkmark' labelPosition='right' content='Save' onClick={this.saveNewProject} />
+            <Button positive icon='checkmark' labelPosition='right' content='Save' onClick={this.saveNewTask} />
           </Modal.Actions>
         </Modal> 
       </div>
@@ -91,4 +102,4 @@ class ProjectModal extends Component {
 }
 
 
-export default ProjectModal;
+export default AddTaskModal;

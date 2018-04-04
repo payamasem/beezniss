@@ -21,10 +21,24 @@ a:hover {
 }
 .taskItemElements {
 	display: inline-block !important;
+	margin: 0 8px;
+}
+.taskModalTitle {
+	font-size: 32px !important;
+}
+.taskModalDescription {
+	font-size: 22px !important;
+}
+.descriptor {
+	font-size: 16px !important;
+	font-style: italic;
+}
+.taskModalElements {
+	display: inline-block !important;
 }
 .taskHeading {
-	font-size: 22px;
+	font-size: 18px;
 }
 .taskDescription {
-	font-size: 16px;
+	font-size: 14px;
 }

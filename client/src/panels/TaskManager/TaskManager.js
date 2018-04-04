@@ -8,6 +8,7 @@ import { List, ListItem } from "../../components/List";
 import { FormBtn } from "../../components/Form";
 import TaskModal from "../../components/TaskModal";
 import ProjectModal from "../../components/ProjectModal";
+import AddTaskModal from "../../components/AddTaskModal";
 import _ from 'lodash';
 import { Accordion, Content, Icon, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
 import "./TaskManager.css";
@@ -209,7 +210,12 @@ class TaskManager extends Component {
         key: `title-${i}`,
       },
       content: {
-        content: (<TaskModal tasks={this.state.projects[i].Tasks}  />),
+        content: (
+          <div>
+            <TaskModal tasks={this.state.projects[i].Tasks}  />
+            <AddTaskModal possible_users={this.state.projects[i].Users} project_id={this.state.projects[i].id} onClose={() => this.loadTasks()} />
+          </div>
+        ),
         key: `content-${i}`,
       },
     }));
@@ -223,7 +229,7 @@ class TaskManager extends Component {
           <div>
             <Accordion panels={panel} /> 
           </div>
-          <ProjectModal loadtasks={() => this.loadTasks} />
+          <ProjectModal onClose={() => this.loadTasks()} />
         </div>
       </div>
 

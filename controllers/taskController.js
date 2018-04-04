@@ -56,7 +56,6 @@ module.exports = {
         heading: req.body.heading,
         description: req.body.description,
         due_date: req.body.due_date,
-        checklist_item_id: req.body.checklist_item_id,
         project_id: req.body.project_id,
         user_id: req.body.user_id
       })
