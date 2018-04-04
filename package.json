@@ -26,11 +26,13 @@
     "chart.js": "^2.7.2",
     "express": "^4.15.4",
     "express-session": "^1.15.6",
+    "firebase": "^4.12.1",
     "mysql2": "^1.5.3",
+    "npm": "^5.8.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.2.0",
-    "react-calendar": "^2.13.5",
+    "react-calendar": "^2.14.0",
     "react-chartjs-2": "^2.7.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
@@ -38,6 +40,7 @@
     "react-skylight": "^0.5.0",
     "react-twitter-widgets": "^1.7.1",
     "semantic-ui-react": "^0.79.0",
-    "sequelize": "^4.37.4"
+    "sequelize": "^4.37.4",
+    "trim": "0.0.1"
   }
 }

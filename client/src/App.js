@@ -5,7 +5,7 @@ import SalesTracker from "./panels/SalesTracker";
 import Marketing from "./panels/Marketing";
 import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
-import Messages from "./panels/Messenger";
+import Messenger from "./panels/Messenger";
 import NoMatch from "./panels/NoMatch";
 import ConferenceCall from "./panels/VideoChat";
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
@@ -176,5 +176,6 @@ function LogoutButton(props) {
   </div>
   );
 }
+
 
 export default App;
