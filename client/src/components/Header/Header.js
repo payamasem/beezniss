@@ -4,7 +4,7 @@ import { Segment, Button, Header, Icon, Modal } from 'semantic-ui-react'
 const HeaderNav = () => (
   
             <Segment inverted>
-              <Header as='h2' inverted color='yellow'> <img src={require('../../images/logo.png')} /> Beezniss Dashboard    
+              <Header as='h2' dividing inverted color='yellow'> <img src={require('../../images/logo.png')} alt="logo" /> Beezniss Dashboard    
               <Modal trigger={<Button color='yellow' icon='remove user' content='Logout' floated='right' />} basic size='small'>
     
     <Header icon='remove user' content='Logout?' />

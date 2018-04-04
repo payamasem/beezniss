@@ -5,17 +5,24 @@ import SalesTracker from "./panels/SalesTracker";
 import Marketing from "./panels/Marketing";
 import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
-import Messages from "./panels/Messenger";
-import NewsScraper from "./panels/NewsScraper";
+import Messenger from "./panels/Messenger";
 import NoMatch from "./panels/NoMatch";
 import Header from "./components/Header";
 import {Grid, Image} from 'semantic-ui-react';
+import ConferenceCall from "./panels/VideoChat";
+
+
 
 const App = () => (
     <div>
-    <Header />
     <Grid divided>
-    <Grid.Row color='grey' columns={2}>
+    <Grid.Row color='black' columns={1}>
+    <Grid.Column>
+      <Header />
+    </Grid.Column>
+    </Grid.Row>
+
+    <Grid.Row columns={2}>
     <Grid.Column>
       <TaskManager />
     </Grid.Column>
@@ -25,27 +32,27 @@ const App = () => (
     </Grid.Row>
 
 
-    <Grid.Row columns={3}>
+    <Grid.Row color='grey' columns={3}>
       <Grid.Column>
         <CalendarPanel />
       </Grid.Column>
       <Grid.Column>
-        Insert Stock Market Widget here...
+        <Marketing />
       </Grid.Column>
       <Grid.Column>
-        <Marketing />
+        <ConferenceCall />
       </Grid.Column>
     </Grid.Row>
 
-    <Grid.Row color='grey' columns={3}>
+    <Grid.Row color='black' columns={3}>
       <Grid.Column>
-        Insert Google News Widget here...
+        Insert map chart for sales data here...
       </Grid.Column>
       <Grid.Column>
         <TwitterPanel />
       </Grid.Column>
       <Grid.Column>
-        <Messages />
+        <Messenger />
       </Grid.Column>
       </Grid.Row>
     </Grid>
