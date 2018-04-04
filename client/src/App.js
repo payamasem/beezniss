@@ -6,6 +6,7 @@ import Marketing from "./panels/Marketing";
 import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
 import Messenger from "./panels/Messenger";
+import Footer from "./panels/Footer";
 import NoMatch from "./panels/NoMatch";
 import ConferenceCall from "./panels/VideoChat";
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
@@ -165,6 +166,12 @@ function LogoutButton(props) {
     <Grid.Column width='4'>
       <ConferenceCall />
     </Grid.Column>
+  </Grid.Row>
+
+  <Grid.Row color='grey' centered columns={1}>
+  <Grid.Column textAlign='center'>
+    <Footer />
+  </Grid.Column>
   </Grid.Row>
   </Grid>
   </div>
