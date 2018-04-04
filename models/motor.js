@@ -3,7 +3,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Motor = sequelize.define("Motor", {
-    mitochonProduct_name: {
+    elecMotor_name: {
       type: DataTypes.STRING,
       allowNull: false
     },

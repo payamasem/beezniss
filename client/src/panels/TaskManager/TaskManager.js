@@ -3,16 +3,21 @@ import DeleteBtn from "../../components/DeleteBtn";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../../components/Grid";
+import { Col, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { FormBtn } from "../../components/Form";
+import TaskModal from "../../components/TaskModal";
+import ProjectModal from "../../components/ProjectModal";
+import AddTaskModal from "../../components/AddTaskModal";
+import _ from 'lodash';
+import { Accordion, Content, Icon, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
 import "./TaskManager.css";
 
 class TaskManager extends Component {
   state = {
-    projectsGotten: [],
-    tasksGotten: [],
-    checklistItemsGotten: [],
+    projects: [],
+    tasks: [],
+    checklistitems: [],
     user: {
       first_name: "",
       last_name: ""
@@ -30,20 +35,12 @@ class TaskManager extends Component {
 
   componentDidMount() {
     this.loadTasks();
-    // this.loadSales();
   }
 
   loadTasks = () => {
     API.getTasks()
       .then(res => {
-        console.log("getTasks res = ", res);
         console.log('UNSORTED getTasks res.data = ', res.data);
-        // this.setState({ 
-        //   projectsGotten: res.data.projects,
-        //   tasksGotten: res.data.tasks, 
-        //   checklistItemsGotten: res.data.checklist_items,
-        //   heading: "", 
-        //   description: "" })
         this.sortResData(res.data);
       })
       .catch(err => console.log(err));
@@ -81,18 +78,11 @@ class TaskManager extends Component {
     }
 
     this.setState({
-      projectsGotten: nest.Projects,
-      tasksGotten: nest.Tasks
+      projects: nest.Projects,
+      tasks: nest.Tasks
     });
-    console.log("POST sorting, projectsGotten: ", this.state.projectsGotten);
+    console.log("POST sorting, projects: ", this.state.projects);
   };
-
-  // loadSales = () => {
-  //   API.getSales()
-  //     .then(res => {
-  //       console.log('Cookies res.data = ', res.data);
-  //     })
-  // }
 
 
   handleInputChange = event => {
@@ -103,6 +93,14 @@ class TaskManager extends Component {
       }
     });
   };
+
+  formatDate = i => {
+    console.log("the due date is ", this.state.projects[i].due_date);
+    let due = new Date(this.state.projects[i].due_date);
+    let dueDate = due.toDateString();
+    console.log('the FORMATTED due date is ', dueDate);
+    return dueDate;
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -125,65 +123,129 @@ class TaskManager extends Component {
     }
   };
 
-  render() {
+  // render() {
+  //   return (
+  //     <Container fluid>
+  //       <Row>
+  //         <Col size="md-6">
+  //           <div>
+  //             <h1>Task Manager</h1>
+  //           </div>
+  //           <form>
+  //             <h2>create new task</h2>
+  //             <Input
+  //               value={this.state.task.heading}
+  //               onChange={this.handleInputChange}
+  //               name="heading"
+  //               placeholder="heading (required)"
+  //               type="text"
+  //             />
+  //             <Input
+  //               value={this.state.task.description}
+  //               onChange={this.handleInputChange}
+  //               name="description"
+  //               placeholder="description"
+  //               type="text"
+  //             />
+  //             <FormBtn
+  //               disabled={!(this.state.task.heading)}
+  //               onClick={this.handleFormSubmit}
+  //             >
+  //               Submit Task
+  //             </FormBtn>
+  //           </form>
+  //         </Col>
+  //         <Col size="md-6 sm-12">
+  //           <div>
+  //             <h1>tasks from the database</h1>
+  //           </div>
+  //           {this.state.tasksGotten.length ? (
+  //             <List>
+  //               {this.state.tasksGotten.map(task => (
+  //                 <ListItem key={task.id}>
+
+  //                     <strong>
+  //                       {task.heading}
+  //                     </strong><br/>
+  //                       {task.description}
+
+  //                     <DeleteBtn onClick={() => this.deleteTask(task.id)} />
+
+  //                 </ListItem>
+  //               ))}
+  //             </List>
+  //           ) : (
+  //             <h3>No Results to Display</h3>
+  //           )}
+  //         </Col>
+  //       </Row>
+  //     </Container>
+  //   );
+  // }
+
+  // ==================================
+  // ==================================
+  // ==================================
+
+
+  // handleOpen = () => this.setState({ modalOpen: true });
+  // handleClose = () => this.setState({ modalOpen: false });
+
+  render() { 
+
+    const panel = _.times(this.state.projects.length, i => ({
+      title: {
+        content: (<Label 
+            color='' 
+            size='big' 
+            className='projectLabel'>
+            <div className='projectName'>{this.state.projects[i].name}</div>
+            {this.state.projects[i].Users.map(user => (
+              <div className='little_user'>
+                {user.first_name}
+              </div>
+              ))}
+              <div className='due_date'> | <span className='due'>due: </span>{this.formatDate(i)}</div>
+            </Label>),
+        key: `title-${i}`,
+      },
+      content: {
+        content: (
+          <div>
+            {this.state.projects[i].Tasks.map(tasq => (
+              <TaskModal 
+                  task={tasq} 
+                  tasks={this.state.projects[i].Tasks}
+                  onClose={() => this.loadTasks()}  />
+              ))}
+            <AddTaskModal possible_users={this.state.projects[i].Users} project_id={this.state.projects[i].id} onClose={() => this.loadTasks()} />
+          </div>
+        ),
+        key: `content-${i}`,
+      },
+    }));
+
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <div>
-              <h1>Task Manager</h1>
-            </div>
-            <form>
-              <h2>create new task</h2>
-              <Input
-                value={this.state.task.heading}
-                onChange={this.handleInputChange}
-                name="heading"
-                placeholder="heading (required)"
-                type="text"
-              />
-              <Input
-                value={this.state.task.description}
-                onChange={this.handleInputChange}
-                name="description"
-                placeholder="description"
-                type="text"
-              />
-              <FormBtn
-                disabled={!(this.state.task.heading)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Task
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <div>
-              <h1>tasks from the database</h1>
-            </div>
-            {this.state.tasksGotten.length ? (
-              <List>
-                {this.state.tasksGotten.map(task => (
-                  <ListItem key={task.id}>
+      <div className='main'>
+        <div>
+          <div>
+            <h1>Task Manager</h1>
+          </div>
+          <div>
+            <Accordion panels={panel} /> 
+          </div>
+          <ProjectModal onClose={() => this.loadTasks()} />
+        </div>
+      </div>
 
-                      <strong>
-                        {task.heading}
-                      </strong><br/>
-                        {task.description}
+      )
 
-                      <DeleteBtn onClick={() => this.deleteTask(task.id)} />
-
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
-    );
   }
+
+
+
 }
+
+
 
 export default TaskManager;

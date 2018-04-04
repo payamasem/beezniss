@@ -35,7 +35,7 @@ module.exports = {
           });
 
       })
-      .catch(err => console.log("findAll error = ", err));
+      .catch(err => console.log('THIS is the effing error: ', err));
 
       // .catch(err => res.status(422).json(err));
   },
@@ -50,30 +50,24 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    console.log("taskController ––> req.body to be used for creating new: ", req.body);
-    db.Task
+    console.log("checklistController ––> req.body to be used for creating new: ", req.body);
+    db.Checklist_Item
       .create({
-        heading: req.body.heading,
-        description: req.body.description,
-        due_date: req.body.due_date,
-        project_id: req.body.project_id,
-        user_id: req.body.user_id
+        text: req.body.text,
+        task_id: req.body.task_id
       })
       .then(data => res.json(data))
       .catch(err => {
-        console.log("taskController ––> the .catch: ", err);
+        console.log("checklistController ––> the .catch: ", err);
         res.status(422).json(err)
       });
   },
   update: function(req, res) {
     db.Task
       .update({
-          heading: req.body.heading,
-          description: req.body.description,
+          completed: req.body.completed,
           due_date: req.body.due_date,
-          checklist_item_id: req.body.checklist_item_id,
-          project_id: req.body.project_id,
-          user_id: req.body.user_id
+          text: req.body.text
         }, { 
           where: {
             id: req.params.id
