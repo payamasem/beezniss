@@ -123,73 +123,9 @@ class TaskManager extends Component {
     }
   };
 
-  // render() {
-  //   return (
-  //     <Container fluid>
-  //       <Row>
-  //         <Col size="md-6">
-  //           <div>
-  //             <h1>Task Manager</h1>
-  //           </div>
-  //           <form>
-  //             <h2>create new task</h2>
-  //             <Input
-  //               value={this.state.task.heading}
-  //               onChange={this.handleInputChange}
-  //               name="heading"
-  //               placeholder="heading (required)"
-  //               type="text"
-  //             />
-  //             <Input
-  //               value={this.state.task.description}
-  //               onChange={this.handleInputChange}
-  //               name="description"
-  //               placeholder="description"
-  //               type="text"
-  //             />
-  //             <FormBtn
-  //               disabled={!(this.state.task.heading)}
-  //               onClick={this.handleFormSubmit}
-  //             >
-  //               Submit Task
-  //             </FormBtn>
-  //           </form>
-  //         </Col>
-  //         <Col size="md-6 sm-12">
-  //           <div>
-  //             <h1>tasks from the database</h1>
-  //           </div>
-  //           {this.state.tasksGotten.length ? (
-  //             <List>
-  //               {this.state.tasksGotten.map(task => (
-  //                 <ListItem key={task.id}>
-
-  //                     <strong>
-  //                       {task.heading}
-  //                     </strong><br/>
-  //                       {task.description}
-
-  //                     <DeleteBtn onClick={() => this.deleteTask(task.id)} />
-
-  //                 </ListItem>
-  //               ))}
-  //             </List>
-  //           ) : (
-  //             <h3>No Results to Display</h3>
-  //           )}
-  //         </Col>
-  //       </Row>
-  //     </Container>
-  //   );
-  // }
-
   // ==================================
   // ==================================
   // ==================================
-
-
-  // handleOpen = () => this.setState({ modalOpen: true });
-  // handleClose = () => this.setState({ modalOpen: false });
 
   render() { 
 
@@ -239,13 +175,7 @@ class TaskManager extends Component {
       </div>
 
       )
-
   }
-
-
-
 }
-
-
 
 export default TaskManager;
