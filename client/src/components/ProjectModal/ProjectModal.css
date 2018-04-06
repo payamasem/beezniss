@@ -1,0 +1,22 @@
+.inline {
+	display: inline-block !important;
+}
+.modal_users {
+	background-color: white;
+	color: black;
+	padding: 6px;
+	border: solid lightgray 1px;
+	border-radius: 5px;
+	display: inline-block !important;
+	margin: 0 6px;
+	font-size: 22px;
+	font-weight: 800;
+}
+.collaborators {
+	margin-right: 10px;
+	margin-left: 50px;
+	font-size: 18px;
+	display: inline-block !important;
+	font-style: italic;
+	color: white;
+}
