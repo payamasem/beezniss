@@ -22,6 +22,8 @@ class TaskModal extends Component {
     this.setState({
       formattedDate: dueDate
     });
+    console.log('TaskModal this.props = ', this.props);
+
   }
 
   handleOpen = () => this.setState({ modalOpen: true })

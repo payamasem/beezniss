@@ -27,19 +27,19 @@ class SalesTracker extends Component{
                 labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                 datasets: [{
                     label: 'Cookie Division',
-
-
+                    data: [61600, 64800, 63900, 70450],
+                    backgroundColor: 'hsla(69, 53%, 50%, 0.21)'
                  }, {
 
                     label: 'Electric Motors Division',
                     data: [64600, 64800, 63900, 65450],
-                    // backgroundColor: '#ffce56'
+                    backgroundColor: 'hsla(69, 53%, 50%, 0.21)'
                 },{
                     label: 'Mitochondrial RNA Research Division',
                     data: [64600, 64800, 73900, 64450],
 
 
-                    backgroundColor: '#cc65fe'
+                    backgroundColor: 'hsla(169, 53%, 50%, 0.21)'
                 } 
 
                 ]},
