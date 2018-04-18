@@ -1,7 +1,7 @@
 {
   "name": "mern",
   "version": "1.0.0",
-  "description": "",
+  "description": "## About This Boilerplate",
   "main": "server.js",
   "proxy": "http://localhost:3001/",
   "scripts": {
@@ -40,7 +40,16 @@
     "react-skylight": "^0.5.0",
     "react-twitter-widgets": "^1.7.1",
     "semantic-ui-react": "^0.79.0",
-    "sequelize": "^4.37.4",
-    "trim": "0.0.1"
-  }
+    "sequelize": "^4.37.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/payamasem/beezniss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/payamasem/beezniss/issues"
+  },
+  "homepage": "https://github.com/payamasem/beezniss#readme",
+  "sequelize": "^4.37.4",
+  "trim": "0.0.1"
 }
