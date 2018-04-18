@@ -40,7 +40,6 @@
     "react-skylight": "^0.5.0",
     "react-twitter-widgets": "^1.7.1",
     "semantic-ui-react": "^0.79.0",
-<<<<<<< HEAD
     "sequelize": "^4.37.4"
   },
   "repository": {
@@ -50,10 +49,7 @@
   "bugs": {
     "url": "https://github.com/payamasem/beezniss/issues"
   },
-  "homepage": "https://github.com/payamasem/beezniss#readme"
-=======
-    "sequelize": "^4.37.4",
-    "trim": "0.0.1"
-  }
->>>>>>> 3b2b0ae314b70fce149cc2ff66afdcac71e280f6
+  "homepage": "https://github.com/payamasem/beezniss#readme",
+  "sequelize": "^4.37.4",
+  "trim": "0.0.1"
 }
