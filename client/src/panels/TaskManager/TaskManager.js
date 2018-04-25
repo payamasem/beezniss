@@ -17,6 +17,7 @@ class TaskManager extends Component {
     projects: [],
     tasks: [],
     checklistitems: [],
+    users: [],
     user: {
       first_name: "",
       last_name: ""
@@ -34,6 +35,7 @@ class TaskManager extends Component {
 
   componentDidMount() {
     this.loadTasks();
+    this.loadUsers();
   }
 
   loadTasks = () => {
@@ -41,6 +43,14 @@ class TaskManager extends Component {
       .then(res => {
         console.log('UNSORTED getTasks res.data = ', res.data);
         this.sortResData(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+  loadUsers = () => {
+    API.getUsers()
+      .then(userRez => {
+        this.setState({ users: userRez.data });
+        console.log('userRez: ', userRez.data);
       })
       .catch(err => console.log(err));
   };
@@ -172,7 +182,9 @@ class TaskManager extends Component {
           <div>
             <Accordion panels={panel} /> 
           </div>
-          <ProjectModal onClose={() => this.loadTasks()} />
+          <ProjectModal 
+            users={this.state.users}
+            onClose={() => this.loadTasks()} />
         </div>
       </div>
 

@@ -44,13 +44,6 @@ class AddTaskModal extends Component {
     this.setState({ [key]: value });
   }
 
-
-  consoleUsers = event => {
-    const { value } = event.target;
-    console.log('heerz the EVENT.TARGET(??) value of the input field: ', value);
-    console.log('also here is state: ', this.state);
-  }
-
   saveNewTask = () => {
     let list_item = {
       due_date: this.state.due_date,

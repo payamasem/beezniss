@@ -20,6 +20,10 @@ router.route("/checklistitem/:id")
 router.route("/project")
 	.post(projectController.create);
 
+// Matches with "api/tasks/users"
+router.route("/users")
+  .get(projectController.getUsers);
+
 // Matches with "/api/tasks/:id"
 router.route("/:id")
   .get(taskController.findById)

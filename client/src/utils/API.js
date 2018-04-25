@@ -28,6 +28,9 @@ export default {
     console.log('checklistitem to be created: ', listData);
     return axios.post("/api/tasks/checklistitem", listData);
   },
+  getUsers: function() {
+    return axios.get("/api/tasks/users");
+  },
   createProject: function(listData) {
     console.log('project to be created: ', listData);
     return axios.post("/api/tasks/project", listData);

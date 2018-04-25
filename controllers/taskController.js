@@ -26,8 +26,6 @@ module.exports = {
             let d_object = {
               Projects: project_data,
               Tasks: task_data//,
-              // checklist_items: checklist_data,
-              // users: user_data
             };
 
             // console.log("full d_object to be sent back: ", d_object);
