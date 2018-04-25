@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Container } from "../../components/Grid";
@@ -81,7 +80,7 @@ class TaskManager extends Component {
       projects: nest.Projects,
       tasks: nest.Tasks
     });
-    console.log("POST sorting, projects: ", this.state.projects);
+    console.log("AFTER sorting, projects & tasks: ", this.state.projects);
   };
 
 
@@ -154,7 +153,10 @@ class TaskManager extends Component {
                   tasks={this.state.projects[i].Tasks}
                   onClose={() => this.loadTasks()}  />
               ))}
-            <AddTaskModal possible_users={this.state.projects[i].Users} project_id={this.state.projects[i].id} onClose={() => this.loadTasks()} />
+            <AddTaskModal 
+              possible_users={this.state.projects[i].Users} 
+              project_id={this.state.projects[i].id} 
+              onClose={() => this.loadTasks()} />
           </div>
         ),
         key: `content-${i}`,

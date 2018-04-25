@@ -7,9 +7,8 @@ import CalendarPanel from "./panels/Calendar";
 import TwitterPanel from "./panels/Twitter";
 import Messenger from "./panels/Messenger";
 import Footer from "./panels/Footer";
-import NoMatch from "./panels/NoMatch";
 import ConferenceCall from "./panels/VideoChat";
-import "./panels/TaskManager/TaskManager.css";
+import "./layoutStyle.css";
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
 
 class App extends React.Component {
@@ -101,7 +100,7 @@ function LoginButton(props) {
               placeholder='Password'
               type='password'
             />
-  <Button color='yellow' fluid size='large' onClick={props.onClick}>Login</Button>
+            <Button color='yellow' fluid size='large' onClick={props.onClick}>Login</Button>
           </Segment>
         </Form>
         <Message>
@@ -117,65 +116,77 @@ function LoginButton(props) {
 // The function below displays the dashboard grid, and clicking logout will trigger a state change.
 function LogoutButton(props) {
   return (
-    <div>
-  <Grid celled className='mt_0'>
-  <Grid.Row color='black' columns={1} className='mt_0'>
-  <Grid.Column>
-  <Segment inverted>
-              <Header as='h2' dividing inverted color='yellow'> <img src={require('./logo.png')} alt="logo" /> Beezniss Dashboard    
-              <Modal trigger={<Button color='yellow' icon='remove user' content='Logout' floated='right' />} basic size='small'>
-    <Header icon='remove user' content='Logout?' />
-    <Modal.Content>
-      <p>Do you wish to logout of your Beezniss Dashboard?</p>
-    </Modal.Content>
-    <Modal.Actions>
-      <Button basic color='red' inverted>
-        <Icon name='remove' /> No
-      </Button>
-      <Button color='green' inverted onClick={props.onClick}>
-        <Icon name='checkmark' /> Yes
-      </Button>
-    </Modal.Actions>
-  </Modal>
- </Header>
-</Segment>
-  </Grid.Column>
-  </Grid.Row>
+    <div className='entire'>
+      <Grid celled className='mt_0 mb_0'>
+        <Grid.Row color='black' columns={1} className='mt_0'>
+          <Grid.Column>
+          <Segment inverted>
+            <Header as='h2' dividing inverted color='yellow'> 
+              <img src={require('./logo.png')} alt="logo" /> 
+                      Beezniss Dashboard    
+            <Modal trigger={<Button color='yellow' icon='remove user' content='Logout' floated='right' />} basic size='small'>
+              <Header icon='remove user' content='Logout?' />
+              <Modal.Content>
+                <p>Do you wish to logout of your Beezniss Dashboard?</p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button basic color='red' inverted>
+                  <Icon name='remove' /> No
+                </Button>
+                <Button color='green' inverted onClick={props.onClick}>
+                  <Icon name='checkmark' /> Yes
+                </Button>
+              </Modal.Actions>
+            </Modal>
+           </Header>
+          </Segment>
+          </Grid.Column>
+        </Grid.Row>
 
-  <Grid.Row color='grey' columns={3}>
-  <Grid.Column width='3'>
-    <CalendarPanel />
-  </Grid.Column>
-  <Grid.Column width='8'>
-    <TaskManager />
-  </Grid.Column>
-  <Grid.Column width='5'>
-    <Marketing />
-  </Grid.Column>
-  </Grid.Row>
+        <Grid.Row stretched color='grey' columns={4} className='hugeRow'>
+        
+          <Grid.Column width='5'>
+            <Segment className='componentBox task_seg'>
+              <TaskManager />
+            </Segment>
+          </Grid.Column>
 
-  <Grid.Row color='black' columns={4}>
-    <Grid.Column width='4'>
-      <SalesTracker />
-    </Grid.Column>
-    <Grid.Column width='4'>
-      <TwitterPanel />
-    </Grid.Column>
-    <Grid.Column width='4'>
-      <Messenger />
-    </Grid.Column>
-    <Grid.Column width='4'>
-      <ConferenceCall />
-    </Grid.Column>
-  </Grid.Row>
+          <Grid.Column width='4'>
+            <Segment className='componentBox sales_seg'>
+              <SalesTracker />
+            </Segment>
+            <Segment className='componentBox messaging_seg'>
+              <Messenger />
+            </Segment>
+          </Grid.Column>
 
-  <Grid.Row color='grey' centered columns={1}>
-  <Grid.Column textAlign='center'>
-    <Footer />
-  </Grid.Column>
-  </Grid.Row>
-  </Grid>
-  </div>
+          <Grid.Column width='4'>
+            <Segment className='componentBox marketing_seg'>
+              <Marketing />
+            </Segment>
+            <Segment className='componentBox twitter_seg'>
+              <TwitterPanel />
+            </Segment>
+          </Grid.Column>
+
+          <Grid.Column width='3'>
+            <Segment className='componentBox confcall_seg'>
+              <ConferenceCall />
+            </Segment>
+            <Segment className='componentBox calendar_seg'>
+              <CalendarPanel />
+            </Segment>
+          </Grid.Column>
+
+        </Grid.Row>
+
+        <Grid.Row color='grey' centered columns={1} className='footer mt_0'>
+          <Grid.Column textAlign='center' className=''>
+            <Footer />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </div>
   );
 }
 

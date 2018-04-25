@@ -12,8 +12,7 @@ router.route("/")
 router.route("/checklistitem")
 	.post(checklistController.create);
 
-router
-  .route("/checklistitem/:id")
+router.route("/checklistitem/:id")
   .get(checklistController.findById)
   .post(checklistController.update);
 
@@ -22,8 +21,7 @@ router.route("/project")
 	.post(projectController.create);
 
 // Matches with "/api/tasks/:id"
-router
-  .route("/:id")
+router.route("/:id")
   .get(taskController.findById)
   .post(taskController.update)
   .delete(taskController.remove);

@@ -25,7 +25,7 @@
     "react-twitter-widgets": "^1.7.1",
     "semantic-ui-react": "^0.79.0",
     "sequelize": "^4.37.4",
-    "trim": "0.0.1"
+    "trim": "^0.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

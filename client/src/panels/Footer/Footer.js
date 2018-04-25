@@ -1,8 +1,9 @@
 import React from "react";
+import "./Footer.css";
 
 const Footer = () => (
-    <div>
-        <p>© Ehler Orngard, Payam Asem, Tung Tung Ouyang, Nydia Guo, Bill Windsor</p>
+    <div className='footer'>
+        <p>© Nydia Guo, Tung Tung Ouyang, Payam Asem, Ehler Orngard, & Bill Windsor</p>
     </div>
 )
 
