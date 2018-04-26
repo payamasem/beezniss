@@ -1,14 +1,25 @@
 Arguments: 
+<<<<<<< HEAD
   C:\Program Files\nodejs\node.exe C:\Users\Chicken Wang\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
 
 PATH: 
   C:\Users\Chicken Wang\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Chicken Wang\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files\MySQL\MySQL Utilities 1.6;C:\Program Files\MongoDB\Server\3.6\bin;C:\Users\Chicken Wang\AppData\Local\Programs\Python\Python35\Scripts;C:\Users\Chicken Wang\AppData\Local\Programs\Python\Python35;C:\Users\Chicken Wang\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Heroku\bin;C:\Users\Chicken Wang\AppData\Roaming\npm;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+=======
+  C:\Program Files\nodejs\node.exe C:\Users\Thor-from-Asgard\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install semantic-ui-react
+
+PATH: 
+  C:\Users\Thor-from-Asgard\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Thor-from-Asgard\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\ProgramData\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\PuTTY;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\Program Files\MongoDB\Server\3.6\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Thor-from-Asgard\AppData\Local\Microsoft\WindowsApps;C:\Users\Thor-from-Asgard\AppData\Local\atom\bin;C:\Program Files\Heroku\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\Thor-from-Asgard\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
 
 Yarn version: 
   1.5.1
 
 Node version: 
+<<<<<<< HEAD
   8.9.3
+=======
+  9.10.1
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
 
 Platform: 
   win32 x64
@@ -48,7 +59,11 @@ npm manifest:
       "passport": "^0.4.0",
       "passport-local": "^1.0.0",
       "react": "^16.2.0",
+<<<<<<< HEAD
       "react-calendar": "^2.14.0",
+=======
+      "react-calendar": "^2.13.5",
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
       "react-chartjs-2": "^2.7.0",
       "react-dom": "^16.2.0",
       "react-router-dom": "^4.2.2",
@@ -5122,10 +5137,13 @@ Lockfile:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   
+<<<<<<< HEAD
   lodash.restparam@*:
     version "3.6.1"
     resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
   
+=======
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
   lodash.template@^4.4.0:
     version "4.4.0"
     resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.4.0.tgz#e73a0385c8355591746e020b99679c690e68fba0"
@@ -6802,12 +6820,15 @@ Lockfile:
     dependencies:
       asap "~2.0.3"
   
+<<<<<<< HEAD
   promzard@^0.3.0:
     version "0.3.0"
     resolved "https://registry.yarnpkg.com/promzard/-/promzard-0.3.0.tgz#26a5d6ee8c7dee4cb12208305acfb93ba382a9ee"
     dependencies:
       read "1"
   
+=======
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
   prop-types@^15.3.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0:
     version "15.6.1"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
@@ -7016,14 +7037,23 @@ Lockfile:
       minimist "^1.2.0"
       strip-json-comments "~2.0.1"
   
+<<<<<<< HEAD
   react-calendar@^2.14.0:
     version "2.14.0"
     resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-2.14.0.tgz#03ffce0d6e64052e552aaafdd142d1764ed88b45"
+=======
+  react-calendar@^2.13.5:
+    version "2.13.5"
+    resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-2.13.5.tgz#e09475c4cb97d19e739725830cf923270cca2066"
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
     dependencies:
       lodash.once "^4.1.1"
       merge-class-names "^1.1.1"
       prop-types "^15.6.0"
+<<<<<<< HEAD
       react-lifecycles-compat "^1.1.0"
+=======
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
   
   react-chartjs-2@^2.7.0:
     version "2.7.0"
@@ -9224,10 +9254,19 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
+<<<<<<< HEAD
   SyntaxError: C:\Users\Chicken Wang\Desktop\beezniss\package.json: Unexpected token < in JSON at position 1251
       at JSON.parse (<anonymous>)
       at C:\Users\Chicken Wang\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1036:59
       at Generator.next (<anonymous>)
       at step (C:\Users\Chicken Wang\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:98:30)
       at C:\Users\Chicken Wang\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:109:13
+=======
+  Error: `install` has been replaced with `add` to add new dependencies. Run "yarn add semantic-ui-react" instead.
+      at new MessageError (C:\Users\Thor-from-Asgard\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:186:110)
+      at Object.<anonymous> (C:\Users\Thor-from-Asgard\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:21987:13)
+      at Generator.next (<anonymous>)
+      at step (C:\Users\Thor-from-Asgard\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:98:30)
+      at C:\Users\Thor-from-Asgard\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:109:13
+>>>>>>> 4e9b00b17e9cbb783e37391924eeaeb0ca790de2
       at <anonymous>
