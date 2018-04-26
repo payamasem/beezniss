@@ -6,10 +6,11 @@ import { Col, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { FormBtn } from "../../components/Form";
 import TaskModal from "../../components/TaskModal";
-import ProjectModal from "../../components/ProjectModal";
+import AddProjectModal from "../../components/AddProjectModal";
+import EditProjectModal from "../../components/EditProjectModal";
 import AddTaskModal from "../../components/AddTaskModal";
 import _ from 'lodash';
-import { Accordion, Content, Icon, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
+import { Accordion, Content, Icon, Image, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
 import "./TaskManager.css";
 
 class TaskManager extends Component {
@@ -140,23 +141,32 @@ class TaskManager extends Component {
 
     const panel = _.times(this.state.projects.length, i => ({
       title: {
-        content: (<Label 
+        content: (
+          <Label 
             color='' 
             size='big' 
             className='projectLabel'>
             <div className='projectName'>{this.state.projects[i].name}</div>
+            <div className='userLine'>
             {this.state.projects[i].Users.map(user => (
               <div className='little_user'>
                 {user.first_name}
               </div>
               ))}
-              <div className='due_date'> | <span className='due'>due: </span>{this.formatDate(i)}</div>
-            </Label>),
+            </div>
+            <div className='due-button-row'>
+              <div className='displayInline'><div className='due_date'> | <span className='due'>due: </span>{this.formatDate(i)}</div></div>
+              <EditProjectModal
+                users={this.state.users}
+                project={this.state.projects[i]}
+                onClose={() => this.loadTasks()} />
+            </div>
+          </Label>),
         key: `title-${i}`,
       },
       content: {
         content: (
-          <div>
+          <div className='accordionedTaskBox'>
             {this.state.projects[i].Tasks.map(tasq => (
               <TaskModal 
                   task={tasq} 
@@ -175,14 +185,14 @@ class TaskManager extends Component {
 
     return (
       <div className='main'>
-        <div>
+        <div className='subMain'>
           <div>
             <h1>Task Manager</h1>
           </div>
-          <div>
+          <div className='subSubMain'>
             <Accordion panels={panel} /> 
           </div>
-          <ProjectModal 
+          <AddProjectModal 
             users={this.state.users}
             onClose={() => this.loadTasks()} />
         </div>

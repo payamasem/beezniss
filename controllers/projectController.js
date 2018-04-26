@@ -54,19 +54,31 @@ module.exports = {
   update: function(req, res) {
     db.Project
       .update({
-          heading: req.body.heading,
-          description: req.body.description,
+          name: req.body.name,
           due_date: req.body.due_date,
-          checklist_item_id: req.body.checklist_item_id,
-          project_id: req.body.project_id,
-          user_id: req.body.user_id
         }, { 
           where: {
             id: req.params.id
           }
         })
-      .then(data => res.json(data))
-      .catch(err => res.status(422).json(err));
+      .then(updatedProject => {
+        for (let i = 0; i < req.body.users.length; i++) {
+          db.User.findOne({ where: {id: req.body.users[i]} }).then(user => {
+            console.log('user: ', user);
+            db.Project.findOne({ where: {id: updatedProject.id} }).then(project => {
+              console.log('project: ', project);
+              project.addUser([user]).then(data => {
+                console.log('modifiedProjUserData: ', data);
+              });
+            });
+          });
+        }
+      setTimeout(res.json(updatedProject), 300);
+      })
+      .catch(err => {
+        console.log("projectController ––> the .catch: ", err);
+        res.status(422).json(err)
+      });
   },
   remove: function(req, res) {
     db.Project

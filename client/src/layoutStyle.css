@@ -1,6 +1,59 @@
 .mt_0 {
 	margin-top: 0 !important;
 }
+.entire {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.headerBox {
+	max-height: 90px;
+	position: fixed;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.headerColumn {
+	margin: 0 !important;
+	padding: 2px 0 0 0 !important;
+	width: 100%;
+	height: 100%;
+}
+.theLogo {
+	max-height: 90px;
+	min-width: 78px;
+	margin: 12px 0 10px 10px;
+	padding: 0 !important;
+	display: inline-block !important;
+}
+.beeznissName {
+	max-height: 90px;
+	padding: 0px 0 60px 0 !important;
+	margin: 0 0 100px 0 !important;
+	max-width: 80% !important;
+	display: inline-block !important;
+	position: relative;
+}
+.headerSegment {
+	margin: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	padding: 0 !important;
+	align-content: center;
+}
+.logoutBtn {
+	margin: 20px 20px !important;
+	font-size: 18px !important;
+}
+.footer {
+	margin-top: 0px;
+	padding: 3px;
+	font-size: 15px;
+}
+.hugeRow {
+	margin: 0;
+	padding: 0 !important;
+	padding-bottom: 120px;
+	max-height: 800px;
+}
 
 h1 {
 	font-family: "Oswald", sans;
@@ -8,14 +61,12 @@ h1 {
 }
 h2 {
 	font-family: "Oswald", sans;
-	font-size: 24px;
+	font-size: 28px;
 }
-.entire {
-	margin-bottom: 0 !important;
-	padding-bottom: 0 !important;
-}
+
 .componentBox {
 	background-color: darkgray !important;
+	box-shadow: 2px 6px 14px rgba(83, 86, 101, 1) !important;
 }
 .mb_0 {
 	margin: 0 !important;
@@ -29,12 +80,26 @@ body {
 p {
 	margin-bottom: 0;
 }
-.footer {
-	margin-top: 0px;
-	padding: 10px;
+.task_seg {
+	max-height: 100%;
 }
-.hugeRow {
-	margin: 0;
-	padding: 0 !important;
-	padding-bottom: 120px;
+.sales_seg {
+	max-height: 300px !important;
+	padding: 10px 16px 4px 16px !important;
+}
+.marketing_seg {
+	max-height: 380px;
+}
+.confcall_seg {
+	max-height: 250px !important;
+}
+messaging_seg {
+	max-height: 340px;
+}
+twitter_seg {
+	max-height: 340px;
+}
+calendar_seg {
+	height: 260px !important;
+	padding: 2px 18px !important;
 }
