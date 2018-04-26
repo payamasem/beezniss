@@ -59,7 +59,9 @@ class AddTaskModal extends Component {
       })
       .catch(err => console.log(err));
     this.setState({
-      name: "",
+      heading: "",
+      description: "",
+      selectedUsers: [],
       due_date: ""
     });
     this.handleClose();
