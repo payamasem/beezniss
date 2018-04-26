@@ -115,16 +115,18 @@ function LoginButton(props) {
 
 // The function below displays the dashboard grid, and clicking logout will trigger a state change.
 function LogoutButton(props) {
+  const bgColorStyle = { backgroundColor: 'rgba(255, 189, 56, 0.89) '};
+  const textColorStyle = { color: 'rgba(255, 189, 56, 0.89 '};
   return (
     <div className='entire'>
       <Grid celled className='mt_0 mb_0'>
-        <Grid.Row color='black' columns={1} className='mt_0'>
-          <Grid.Column>
-          <Segment inverted>
-            <Header as='h2' dividing inverted color='yellow'> 
-              <img src={require('./logo.png')} alt="logo" /> 
-                      Beezniss Dashboard    
-            <Modal trigger={<Button color='yellow' icon='remove user' content='Logout' floated='right' />} basic size='small'>
+        <Grid.Row color='black' columns={1} className='mt_0 headerBox'>
+          <Grid.Column className='headerColumn'>
+          <Segment inverted className='headerSegment'>
+            <Header as='h2' inverted style={textColorStyle}> 
+                <img className='theLogo' src={require('./logo.png')} alt="logo" /> 
+                <div className='beeznissName'>Beezniss Dashboard</div>   
+            <Modal trigger={<Button style={bgColorStyle} floated='right' className='logoutBtn'><Icon name='remove user' />Logout</Button>} basic size='medium'>
               <Header icon='remove user' content='Logout?' />
               <Modal.Content>
                 <p>Do you wish to logout of your Beezniss Dashboard?</p>
@@ -165,7 +167,7 @@ function LogoutButton(props) {
               <Marketing />
             </Segment>
             <Segment className='componentBox twitter_seg'>
-              <TwitterPanel />
+              <CalendarPanel />
             </Segment>
           </Grid.Column>
 
@@ -174,7 +176,7 @@ function LogoutButton(props) {
               <ConferenceCall />
             </Segment>
             <Segment className='componentBox calendar_seg'>
-              <CalendarPanel />
+              <TwitterPanel />
             </Segment>
           </Grid.Column>
 

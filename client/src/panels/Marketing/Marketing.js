@@ -9,14 +9,14 @@ class Marketing extends Component{
                     labels: ['Instagram', 'Google Ads', 'Twitter', 'Facebook'],
                     datasets: [{
                         data: [7499, 45000, 12980, 78500],
-                        backgroundColor: ['#ff0000', '#000000', '#2f4f4f', '#ffce56']
+                        backgroundColor: ['hsla(69, 53%, 50%, 0.33)', 'hsla(179, 53%, 50%, 0.33)', 'hsla(258, 55%, 73%, 0.33)', 'hsla(332, 55%, 73%, 0.33)']
                     }
             ]}
             }
         }
     
     render(){
-        const wellStyles = { maxWidth: 400, margin: '0 auto 10px', backgroundColor: '#ffffff'};
+        const wellStyles = { padding: '5px', maxWidth: 400, margin: '0 auto 10px', backgroundColor: '#ffffff', border: 'solid rgba(83, 86, 101, 1) 3px', borderRadius: '4px' };       
         return (
         <div>
         <h2>Marketing Trends</h2>

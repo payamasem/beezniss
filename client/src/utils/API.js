@@ -35,6 +35,12 @@ export default {
     console.log('project to be created: ', listData);
     return axios.post("/api/tasks/project", listData);
   },
+  editProject: function(id, projectData) {
+    return axios.post("/api/tasks/project/" + id, projectData);
+  },
+  deleteProject: function(id) {
+    return axios.delete("/api/tasks/project/" + id);
+  },
   editChecklistItem: function(id, checklistData) {
     return axios.post("/api/tasks/checklistitem/" + id, checklistData);
   },

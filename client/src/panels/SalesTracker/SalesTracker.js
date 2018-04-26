@@ -233,17 +233,23 @@ class SalesTracker extends Component{
 
     render() {
         const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
+        const buttonStyle = [
+            { backgroundColor: 'rgba(255, 189, 56, 0.81)' },
+            { backgroundColor: 'rgba(115, 117, 135, 0.57)', color: 'white' }
+        ]
         return (
         <div>
         <section>
         <div className="well" style={wellStyles}>
             <h2>Sales Forecasts</h2>
-        <Button.Group vertical>
-          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Cookie Division' onClick={() => this.animated.show()} />
-          <Button fluid color='grey' icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
-          <Button fluid color='yellow' icon='bar chart' content='Quarterly Sales: Mitochondrial RNA Division' onClick={() => this.animatedRNA.show()} />
-          <Button fluid color='grey' icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
-          <Button fluid color='yellow' icon='pie chart' content='Annual Sales: All Divisions' onClick={() => this.animatedannual.show()} />
+        <Button.Group vertical className='btnGroups'>
+          <Button fluid className='salesBtn salesBtn1' style={buttonStyle[0]} onClick={() => this.animated.show()}><Icon name='bar chart' /><span>Quarterly Sales: <br/>Cookie Division</span></Button>
+          <Button fluid className='salesBtn salesBtn2' style={buttonStyle[1]} icon='bar chart' content='Quarterly Sales: Electric Motors Division' onClick={() => this.animatedmotors.show()} />
+          <Button fluid className='salesBtn salesBtn3' style={buttonStyle[0]} onClick={() => this.animatedRNA.show()}><Icon name='bar chart' /><span>Quarterly Sales: <br/>Mitochondrial RNA Division</span></Button>
+        </Button.Group>
+        <Button.Group vertical className='btnGroups'>
+          <Button fluid className='salesBtn salesBtnBig salesBtn4' style={buttonStyle[1]} icon='bar chart' content='Quarterly Sales: All Divisions' onClick={() => this.animatedquarterly.show()} />
+          <Button fluid className='salesBtn salesBtnBig salesBtn5' style={buttonStyle[0]} onClick={() => this.animatedannual.show()}><Icon name='pie chart' /><span>Annual Sales: <br/>All Divisions</span></Button>
         </Button.Group>
         </div>
         </section>
