@@ -24,8 +24,8 @@ class TaskModal extends Component {
     });
   }
 
-  handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
+  handleOpen = () => this.setState({ modalOpen: true });
+  handleClose = () => this.setState({ modalOpen: false });
 
   preSave = task_id => {
     this.setState({
@@ -44,14 +44,23 @@ class TaskModal extends Component {
     console.log('NEW checklist list_item = ', list_item);
     API.createChecklistItem(list_item)
       .then(res => {
-        console.log('res from creating checklist item = ', res.data)
-
+        console.log('res from creating checklist item = ', res.data);
       })
       .catch(err => console.log(err));
     this.setState({
       checklist_item_text: ""
     });
     this.props.onClose();
+  }
+
+  deleteTask = () => {
+    this.handleClose();
+    API.deleteTask(this.props.task.id)
+      .then(res => {
+        console.log('res from deleting the task: ', res);
+        this.props.onClose();
+      })
+      .catch(err => console.log(err));
   }
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -92,9 +101,9 @@ class TaskModal extends Component {
           <List animated verticalAlign='middle'
             onClick={this.handleOpen}>
             <List.Item>
-              <Image src={Hammer} className='taskItemElements' />
-              <List.Header content={this.props.task.heading} className='taskItemElements taskHeading' />
-              <List.Content className='taskItemElements taskDescription' >{this.props.task.description}</List.Content>
+              <Image src={Hammer} className='sideMargin displayInline' />
+              <List.Header content={this.props.task.heading} className='sideMargin displayInline taskHeading' />
+              <List.Content className='sideMargin displayInline taskDescription' >{this.props.task.description}</List.Content>
             </List.Item>
           </List>}
 
@@ -105,10 +114,10 @@ class TaskModal extends Component {
         key={this.props.task.id}>
                
 
-        <Header icon='browser' as='h2' content={this.props.task.heading} className='taskModalTitle taskItemElements' />
+        <Header icon='browser' as='h2' content={this.props.task.heading} className='taskModalTitle sideMargin displayInline' />
         <div className='due_date2'> | <span className='due2'>due: </span>{this.state.formattedDate}</div><br/>
-        <Header as='h2' className='taskModalElements descriptor'>task description: </Header>
-        <Header as='h2' className='taskModalElements taskModalDescription'>{this.props.task.description}</Header>
+        <Header as='h2' className='displayInline descriptor'>task description: </Header>
+        <Header as='h2' className='displayInline taskModalDescription'>{this.props.task.description}</Header>
         
         <div className='usersBox'>
           <div className="collaborators">task collaborators: </div>
@@ -129,7 +138,7 @@ class TaskModal extends Component {
           </Modal.Content>
 
         ))}
-          <div className="ui fluid action input">
+          <div className="ui fluid action input addChecklistItemBar">
             <input type="text" 
                 placeholder="get something done..."
                 value={this.state.checklist_item_text}
@@ -138,7 +147,8 @@ class TaskModal extends Component {
             <div className="ui button" color='olive' onClick={() => this.saveNewChecklistItem()}>add checklist item</div>
           </div>
           <Modal.Actions>
-              <Button color='red' icon='undo' content='Go Back' onClick={() => this.handleClose()} inverted />
+              <Button color='white' icon='undo' content='Go Back' onClick={() => this.handleClose()} inverted />
+              <Button color='red' icon='window close' content='Delete Task' onClick={() => this.deleteTask()} inverted />
               <Button color='olive' icon='checkmark' content='Save Task' onClick={() => this.handleClose()} inverted />
           </Modal.Actions>
 

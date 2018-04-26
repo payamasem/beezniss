@@ -23,8 +23,8 @@ h2 {
 .main {
 	margin-left: 10px;
 	padding-left: 10px;
-	max-height: 330px !important;
-	overflow-y: scroll;
+	min-height: 80vh;
+	overflow-y: auto;
 }
 .item {
 	/*height: 90px;*/

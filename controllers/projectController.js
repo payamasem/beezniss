@@ -3,41 +3,19 @@ const db = require("../models");
 // Defining methods for the taskController
 module.exports = {
   findAll: function(req, res) {
-
-    console.log("findAll in controller triggered");
-
     db.Project
       .findAll({
         include: {
           all: true
         }
       })
-      .then(Project_data => {
-
-        console.log("db.Project findAll Project_data: \n", Project_data);
-        console.log("db.Project findAll res data: \n", Project_data[0].dataValues);
-
-        db.Project
-          .findAll({
-            include: {
-              all: true
-            }
-          }).then(project_data => {
-            let d_object = {
-              Projects: project_data,
-              Projects: Project_data//,
-              // checklist_items: checklist_data,
-              // users: user_data
-            };
-
-            console.log("full d_object to be sent back: ", d_object);
-            res.json(d_object);
-          });
-
+      .then(project_data => {
+        let d_object = {
+          Projects: project_data,
+        };
+        res.json(d_object);
       })
-      .catch(err => console.log('THIS is the effing error: ', err));
-
-      // .catch(err => res.status(422).json(err));
+      .catch(err => console.log(err));
   },
   findById: function(req, res) {
     db.Project
@@ -56,7 +34,18 @@ module.exports = {
         name: req.body.name,
         due_date: req.body.due_date
       })
-      .then(data => res.json(data))
+      .then(newProjectData => {
+        for (let i = 0; i < req.body.users.length; i++) {
+          db.User.findOne({ where: {id: req.body.users[i]} }).then(user => {
+            db.Project.findOne({ where: {id: newProjectData.id} }).then(project => {
+              project.addUser([user]).then(data => {
+                console.log('newProjUserData: ', data);
+                res.json(newProjectData);
+              });
+            });
+          });
+        }
+      })
       .catch(err => {
         console.log("projectController ––> the .catch: ", err);
         res.status(422).json(err)
@@ -88,5 +77,11 @@ module.exports = {
       })
       .then(data => res.json(data))
       .catch(err => res.status(422).json(err));
+  },
+  getUsers: function(req, res) {
+    db.User
+      .findAll({})
+      .then(user_data => res.json(user_data))
+      .catch(err => console.log(err));
   }
 };

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Container } from "../../components/Grid";
@@ -18,6 +17,7 @@ class TaskManager extends Component {
     projects: [],
     tasks: [],
     checklistitems: [],
+    users: [],
     user: {
       first_name: "",
       last_name: ""
@@ -35,6 +35,7 @@ class TaskManager extends Component {
 
   componentDidMount() {
     this.loadTasks();
+    this.loadUsers();
   }
 
   loadTasks = () => {
@@ -42,6 +43,14 @@ class TaskManager extends Component {
       .then(res => {
         console.log('UNSORTED getTasks res.data = ', res.data);
         this.sortResData(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+  loadUsers = () => {
+    API.getUsers()
+      .then(userRez => {
+        this.setState({ users: userRez.data });
+        console.log('userRez: ', userRez.data);
       })
       .catch(err => console.log(err));
   };
@@ -81,7 +90,7 @@ class TaskManager extends Component {
       projects: nest.Projects,
       tasks: nest.Tasks
     });
-    console.log("POST sorting, projects: ", this.state.projects);
+    console.log("AFTER sorting, projects & tasks: ", this.state.projects);
   };
 
 
@@ -154,7 +163,10 @@ class TaskManager extends Component {
                   tasks={this.state.projects[i].Tasks}
                   onClose={() => this.loadTasks()}  />
               ))}
-            <AddTaskModal possible_users={this.state.projects[i].Users} project_id={this.state.projects[i].id} onClose={() => this.loadTasks()} />
+            <AddTaskModal 
+              possible_users={this.state.projects[i].Users} 
+              project_id={this.state.projects[i].id} 
+              onClose={() => this.loadTasks()} />
           </div>
         ),
         key: `content-${i}`,
@@ -170,7 +182,9 @@ class TaskManager extends Component {
           <div>
             <Accordion panels={panel} /> 
           </div>
-          <ProjectModal onClose={() => this.loadTasks()} />
+          <ProjectModal 
+            users={this.state.users}
+            onClose={() => this.loadTasks()} />
         </div>
       </div>
 

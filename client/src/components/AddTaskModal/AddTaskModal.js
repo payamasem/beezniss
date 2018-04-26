@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import "../ProjectModal/ProjectModal.css";
 import _ from 'lodash';
-import { Image, Button, Item, Form, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
+import { Image, Button, Item, Form, List, Header, Icon, Modal, Input, Checkbox, Dropdown } from 'semantic-ui-react';
 import API from "../../utils/API";
+
+
 
 class AddTaskModal extends Component {
 
@@ -12,24 +14,48 @@ class AddTaskModal extends Component {
     description: "",
     due_date: "",
     project_id: null,
-    users: []
+    users: [],
+    selectedUsers: [], 
+  };
+
+  componentWillMount() {
+    this.loadUsers();
+  }
+
+  loadUsers = () => {
+    const possUsers = [];
+    this.props.possible_users.map(user => {
+      let uzer = {
+        key: user.id,
+        value: user.id,
+        text: user.first_name
+      }
+      possUsers.push(uzer);
+    });
+    this.setState({
+      users: possUsers
+    });
   };
 
   handleOpen = () => this.setState({ modalOpen: true });
   handleClose = () => this.setState({ modalOpen: false });
+
+  updateUsers = (value, key) => {
+    this.setState({ [key]: value });
+  }
 
   saveNewTask = () => {
     let list_item = {
       due_date: this.state.due_date,
       heading: this.state.heading,
       description: this.state.description,
-      users: this.state.users,
+      users: this.state.selectedUsers,
       project_id: this.props.project_id
     }
     API.createTask(list_item)
       .then(res => {
         console.log('res from creating task = ', res.data)
-
+        this.props.onClose();
       })
       .catch(err => console.log(err));
     this.setState({
@@ -38,18 +64,27 @@ class AddTaskModal extends Component {
     });
     this.handleClose();
     console.log('this.props = ', this.props);
-    this.props.onClose();
+  
   }
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
         [name]: value
     });
+
+    console.log('possible_users: ', this.props.possible_users);
+
   };
+              
 
   render() {
     // console.log("this is modal props:", this.props.tasks.project)
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
+
+    const opzioni = [
+      { value: 1, text: "YESS" },
+      { value: 2, text: "that is so clutch"}
+    ]
 
     return (
 
@@ -72,29 +107,42 @@ class AddTaskModal extends Component {
                   name="heading"
                   type="text"
                   value={this.state.heading}
-                  onChange={event => this.setState({heading: event.target.value})} />
+                  onChange={this.handleInputChange} />
               <Form.Field required control={Input} 
                   placeholder='task description'
                   name="description"
                   type="text"
                   value={this.state.description}
-                  onChange={event => this.setState({description: event.target.value})} />
-              <div className="ui fluid multiple search selection dropdown">
-                <input type="hidden" name="collaborator" />
+                  onChange={this.handleInputChange} />
+              <Form.Input className="ui fluid search dropdown">
+                <input type="hidden" />
                 <i className="dropdown icon"></i>
                 <div className="default text">Select Task Collaborators</div>
                 <div className="menu">
                 {this.props.possible_users.map(user => (
-                    <option className='item' value={user.id}>{user.first_name}</option>                  
+                    <div className='item' value={user.id}>{user.first_name}</div>                  
                   ))}
                 </div>
-              </div>
+              </Form.Input>
+
+              <Dropdown 
+                className='userDropdown'
+                placeholder='Select...' 
+                selection
+                search
+                multiple
+                value={this.state.selectedUsers}
+                options={this.state.users}
+                onChange={(event,{value}) => this.updateUsers(value, 'selectedUsers')}
+                >
+              </Dropdown>
+
               <Form.Field>
                 <Form.Input 
                   required
                   label='Due Date for this Task' 
                   type='date' 
-                  value={this.state.due_date} 
+                  value={this.state.due_date}
                   onChange={event => this.setState({due_date: event.target.value})}
                 />
               </Form.Field>
@@ -102,7 +150,7 @@ class AddTaskModal extends Component {
           </Modal.Content>
 
           <Modal.Actions>
-            <Button color='black' onClick={this.close}>Discard</Button>
+            <Button color='black' onClick={this.handleClose}>Discard</Button>
             <Button positive icon='checkmark' labelPosition='right' content='Save' onClick={this.saveNewTask} />
           </Modal.Actions>
         </Modal> 

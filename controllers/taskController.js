@@ -14,8 +14,8 @@ module.exports = {
       })
       .then(task_data => {
 
-        console.log("db.Task findAll task_data: \n", task_data);
-        console.log("db.Task findAll res data: \n", task_data[0].dataValues);
+        // console.log("db.Task findAll task_data: \n", task_data);
+        // console.log("db.Task findAll res data: \n", task_data[0].dataValues);
 
         db.Project
           .findAll({
@@ -26,11 +26,9 @@ module.exports = {
             let d_object = {
               Projects: project_data,
               Tasks: task_data//,
-              // checklist_items: checklist_data,
-              // users: user_data
             };
 
-            console.log("full d_object to be sent back: ", d_object);
+            // console.log("full d_object to be sent back: ", d_object);
             res.json(d_object);
           });
 
@@ -57,9 +55,24 @@ module.exports = {
         description: req.body.description,
         due_date: req.body.due_date,
         project_id: req.body.project_id,
-        user_id: req.body.user_id
       })
-      .then(data => res.json(data))
+      .then(newTaskData => {
+
+        console.log('>>><<<>>><<< req.body.users: ', req.body.users);
+
+        for (let i = 0; i < req.body.users.length; i++) {
+          db.User.findOne({ where: { id: req.body.users[i] } }).then(user => {
+            db.Task.findOne({where: {id: newTaskData.id}}).then(task => {
+              user.addTask([task]).then(data => {
+                console.log('the REZ DATA: ', data);
+                res.json(newTaskData);
+              });
+            });      
+          });
+        }
+        console.log('>>>>>>>><<<<<<<<<<<>>>>>>>><<<<<<<<<>>>>>>> check your MySQL workbench to see if the associations were created ......')
+        
+      })
       .catch(err => {
         console.log("taskController ––> the .catch: ", err);
         res.status(422).json(err)

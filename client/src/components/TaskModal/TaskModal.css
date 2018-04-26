@@ -1,8 +1,7 @@
 .checklistItemText {
 	color: white !important;
 }
-.taskItemElements {
-	display: inline-block !important;
+.sideMargin {
 	margin: 0 8px;
 }
 .taskModalTitle {
@@ -15,7 +14,7 @@
 	font-size: 16px !important;
 	font-style: italic;
 }
-.taskModalElements {
+.displayInline {
 	display: inline-block !important;
 }
 .taskHeading {
@@ -35,4 +34,8 @@
 	font-size: 22px !important;
 	margin-left: 8px !important;
 	padding-left: 8px;
+}
+.addChecklistItemBar {
+	margin-top: 20px;
+	padding-top: 10px;
 }
