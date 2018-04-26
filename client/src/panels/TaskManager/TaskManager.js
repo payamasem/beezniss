@@ -175,11 +175,11 @@ class TaskManager extends Component {
 
     return (
       <div className='main'>
-        <div>
+        <div className='subMain'>
           <div>
             <h1>Task Manager</h1>
           </div>
-          <div>
+          <div className='subSubMain'>
             <Accordion panels={panel} /> 
           </div>
           <ProjectModal 

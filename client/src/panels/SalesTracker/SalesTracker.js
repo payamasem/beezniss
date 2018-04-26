@@ -29,19 +29,16 @@ class SalesTracker extends Component{
                     data: []
                  }, {
                     label: 'Electric Motors Division',
-                    data: [64600, 64800, 63900, 65450],
-                    // backgroundColor: '#ffce56'
+                    data: [],
                 },{
                     label: 'Mitochondrial RNA Research Division',
-                    data: [64600, 64800, 73900, 64450],
-                    backgroundColor: '#cc65fe'
+                    data: [],
                 } 
                 ]},
             chartDataAnnual: {
                 labels: ['Cookie Division', 'Electric Motors Division', 'Mitochondrial RNA Research Division'],
                 datasets: [{
-                    data: [65499, 45000, 32980],
-                    backgroundColor: ['#ff6384', '#ffce56', '#cc65fe']
+                    data: [],
                 }
             ]}
         }

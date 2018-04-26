@@ -37,4 +37,26 @@ p {
 	margin: 0;
 	padding: 0 !important;
 	padding-bottom: 120px;
+	max-height: 1000px;
+}
+.task_seg {
+	max-height: 100%;
+}
+.sales_seg {
+	max-height: 370px;
+}
+.marketing_seg {
+	max-height: 380px;
+}
+.confcall_seg {
+	max-height: 390px;
+}
+messaging_seg {
+	max-height: 470px;
+}
+twitter_seg {
+	max-height: 460px;
+}
+calendar_seg {
+	max-height: 450px;
 }
