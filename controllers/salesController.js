@@ -3,32 +3,20 @@ const db = require("../models");
 // Defining methods for the booksController
 module.exports = {
   findAll: function(req, res) {
-    console.log("findAll in salesController triggered");
     db.Cookie.findAll().then(cookieData => {
-      console.log("db.Cookie findAll cookie data: \n", cookieData);
       db.Motor.findAll().then(motorData => {
-        console.log('db.Motor data = ', motorData);
         db.RNA.findAll().then(RNAdata => {
-          console.log('db.RNA.findAll data = ', RNAdata);
           let salesData = {
             cookies: cookieData,
             motors: motorData,
             RNA: RNAdata, 
           };
-          console.log('salesData to be res.jsond: ', salesData);
           res.json(salesData);
         });
       });
-      // let salesData = {
-        // cookies: cookieData
-      // }
-      // res.json(salesData);
     })
-    .catch(err => res.status(422).json(err));
+    .catch(err => res.status(422).json(err).console.log(err));
   },
-
-
-
 
   createCookie: function(req, res) {
     console.log("salesController ––> req.body to be used for creating new: ", req.body);
