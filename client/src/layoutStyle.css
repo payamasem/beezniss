@@ -1,0 +1,40 @@
+.mt_0 {
+	margin-top: 0 !important;
+}
+
+h1 {
+	font-family: "Oswald", sans;
+	color: white;
+}
+h2 {
+	font-family: "Oswald", sans;
+	font-size: 24px;
+}
+.entire {
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+.componentBox {
+	background-color: darkgray !important;
+}
+.mb_0 {
+	margin: 0 !important;
+	padding: 0 !important;
+
+}
+body {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+p {
+	margin-bottom: 0;
+}
+.footer {
+	margin-top: 0px;
+	padding: 10px;
+}
+.hugeRow {
+	margin: 0;
+	padding: 0 !important;
+	padding-bottom: 120px;
+}
