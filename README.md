@@ -1,6 +1,6 @@
 # Beezniss
 
-Beezniss is a single-page buisness dashboard built with React, incorporating many components of potentially great utility to businesses, including a task manager, a sales forecaster, live messaging and video conferencing.  
+Beezniss is a single-page business dashboard built with React, incorporating many components of utility to businesses, including a task manager, a sales forecaster, live messaging and video conferencing.  
 
 
 ## Running the app locally
