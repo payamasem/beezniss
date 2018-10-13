@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-    this.state = {isLoggedIn: false};
+    this.state = {isLoggedIn: true};
   }
 
   handleLoginClick() {

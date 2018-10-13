@@ -37,8 +37,11 @@ class MessageList extends Component {
     let messageNodes = this.state.messages.map((message) => {
       console.log('the message = ', message);
       return (
-           <Message message={message.message} username={message.username} />
-              )
+           <Message 
+              message={message.message} 
+              username={message.username}
+              key={message.key} /> 
+      )
     });
     return (
       <div className="messageBox">

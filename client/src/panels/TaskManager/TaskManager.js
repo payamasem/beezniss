@@ -105,10 +105,14 @@ class TaskManager extends Component {
   };
 
   formatDate = i => {
-    console.log("the due date is ", this.state.projects[i].due_date);
     let due = new Date(this.state.projects[i].due_date);
+    // console.log(`new Date(due_date) BEFORE ${due}`);
+    if (due.getHours() !== 0) due.setHours(24);
     let dueDate = due.toDateString();
-    console.log('the FORMATTED due date is ', dueDate);
+    // console.log("due_date ", this.state.projects[i].due_date);
+    // console.log(`new Date(due_date) AFTER ${due}`);
+    // console.log(`due_date.getTimezoneOffset() ${due.getTimezoneOffset()} `);  
+    // console.log(`due_date.toString() ${dueDate}`);
     return dueDate;
   }
 
@@ -143,13 +147,12 @@ class TaskManager extends Component {
       title: {
         content: (
           <Label 
-            color='' 
             size='big' 
             className='projectLabel'>
             <div className='projectName'>{this.state.projects[i].name}</div>
             <div className='userLine'>
             {this.state.projects[i].Users.map(user => (
-              <div className='little_user'>
+              <div className='little_user' key={user.id}>
                 {user.first_name}
               </div>
               ))}
@@ -171,6 +174,7 @@ class TaskManager extends Component {
               <TaskModal 
                   task={tasq} 
                   tasks={this.state.projects[i].Tasks}
+                  key={tasq.id}
                   onClose={() => this.loadTasks()}  />
               ))}
             <AddTaskModal 
