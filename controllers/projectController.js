@@ -52,6 +52,16 @@ module.exports = {
       });
   },
   update: function(req, res) {
+    console.log('  ∆ ∆ ∆ ∆ ∆ ∆');
+    console.log(' ∆ ∆ ∆ ∆ ∆ ∆ ∆');
+    console.log('∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆');
+    console.log('>>> E D I T <<<');
+    console.log('>> P R O J E C T <<');
+    console.log('∆ ∆ ∆ ∆ ∆ ∆ ∆');
+    console.log(' ∆ ∆ ∆ ∆ ∆ ∆');
+    console.log('∆ ∆ ∆ ∆ ∆ ∆');
+    console.log('>>> req.body.users : \n', req.body.users);
+
     db.Project
       .update({
           name: req.body.name,
@@ -64,16 +74,19 @@ module.exports = {
       .then(updatedProject => {
         for (let i = 0; i < req.body.users.length; i++) {
           db.User.findOne({ where: {id: req.body.users[i]} }).then(user => {
-            console.log('user: ', user);
-            db.Project.findOne({ where: {id: updatedProject.id} }).then(project => {
-              console.log('project: ', project);
+            console.log('∂ ∂ ∂ ∂ ∂ ∂ ∂ USER found: ', user);
+            db.Project.findOne({ where: {id: req.params.id} }).then(project => {
+              console.log('∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ PROJECT found: ', project);
               project.addUser([user]).then(data => {
-                console.log('modifiedProjUserData: ', data);
+                console.log('§§§§§§§§§§§§§§§§ modifiedProjUserData: ', data);
+                res.json(data);
               });
             });
           });
         }
-      setTimeout(res.json(updatedProject), 300);
+      setTimeout(function() {
+        console.log("the setTimeout")
+      }, 300);
       })
       .catch(err => {
         console.log("projectController ––> the .catch: ", err);

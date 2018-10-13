@@ -122,7 +122,10 @@ class AddTaskModal extends Component {
                 <div className="default text">Select Task Collaborators</div>
                 <div className="menu">
                 {this.props.possible_users.map(user => (
-                    <div className='item' value={user.id}>{user.first_name}</div>                  
+                    <div 
+                      className='item' 
+                      value={user.id}
+                      key={user.id}>{user.first_name}</div>                  
                   ))}
                 </div>
               </Form.Input>

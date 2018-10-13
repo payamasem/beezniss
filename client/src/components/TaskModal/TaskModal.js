@@ -122,7 +122,7 @@ class TaskModal extends Component {
         <div className='usersBox'>
           <div className="collaborators">task collaborators: </div>
         {this.props.task.Users.map(user => (
-          <div className='modal_users inline'>{user.first_name}</div>
+          <div className='modal_users inline' key={user.id} >{user.first_name}</div>
           ))}
         </div>
          {/* map out the checklist text */}
@@ -147,7 +147,7 @@ class TaskModal extends Component {
             <div className="ui button" color='olive' onClick={() => this.saveNewChecklistItem()}>add checklist item</div>
           </div>
           <Modal.Actions>
-              <Button color='white' icon='undo' content='Go Back' onClick={() => this.handleClose()} inverted />
+              <Button color='grey' icon='undo' content='Go Back' onClick={() => this.handleClose()} inverted />
               <Button color='red' icon='window close' content='Delete Task' onClick={() => this.deleteTask()} inverted />
               <Button color='olive' icon='checkmark' content='Save Task' onClick={() => this.handleClose()} inverted />
           </Modal.Actions>
