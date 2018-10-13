@@ -34,6 +34,7 @@ class EditProjectModal extends Component {
   handleClose = () => this.setState({ modalOpen: false })
 
   loadUsers = () => {
+    console.log('££££££££££££££ \n this.props.users : \n', this.props.users);
     this.setState({
       name: this.props.project.name,
       due_date: this.props.project.due_date,

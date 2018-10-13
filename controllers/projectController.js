@@ -72,21 +72,26 @@ module.exports = {
           }
         })
       .then(updatedProject => {
-        for (let i = 0; i < req.body.users.length; i++) {
-          db.User.findOne({ where: {id: req.body.users[i]} }).then(user => {
-            console.log('∂ ∂ ∂ ∂ ∂ ∂ ∂ USER found: ', user);
-            db.Project.findOne({ where: {id: req.params.id} }).then(project => {
-              console.log('∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ PROJECT found: ', project);
-              project.addUser([user]).then(data => {
-                console.log('§§§§§§§§§§§§§§§§ modifiedProjUserData: ', data);
-                res.json(data);
-              });
-            });
+        db.Project.findOne({ where: {id: req.params.id} }).then(project => {
+          console.log('∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ PROJECT found: ', project.dataValues);
+          project.setUsers(req.body.users).then(usersRemoved => {
+            // console.log('••••••••• users should have been set to NONE');
+            // for (let i = 0; i < req.body.users.length; i++) {
+            //   db.User.findOne({ where: {id: req.body.users[i]} }).then(user => {
+            //     console.log('∂ ∂ ∂ ∂ ∂ ∂ ∂ USER found: ', user);
+            //     project.addUser([user]).then(data => {
+            //       console.log('§§§§§§§§§§§§§§§§ modifiedProjUserData: ', data);
+            //       res.json(data);
+            //     });
+
+            //   });
+            // }
+            res.json(usersRemoved);
+            setTimeout(function() {
+              console.log("the setTimeout")
+            }, 300);
           });
-        }
-      setTimeout(function() {
-        console.log("the setTimeout")
-      }, 300);
+        });
       })
       .catch(err => {
         console.log("projectController ––> the .catch: ", err);
