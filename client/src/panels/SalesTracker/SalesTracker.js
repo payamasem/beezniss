@@ -49,10 +49,8 @@ class SalesTracker extends Component{
     }
 
     loadSales = () => {
-        console.log('loadSales function triggered');
         API.getSales()
           .then(res => {
-            console.log('All divisions res.data = ', res.data);
             this.sortCookies(res.data);
             this.sortMotors(res.data);
             this.sortRNA(res.data);
@@ -89,7 +87,6 @@ class SalesTracker extends Component{
                 datasets: newCookieDatasets
             }
         });
-        console.log('NEW this.state.cookieQuarterly = ', this.state.cookieQuarterly);
     }
 
     sortMotors = obj => {
@@ -113,15 +110,12 @@ class SalesTracker extends Component{
             theMotor.data.push(obj.motors[i].Sales_4Q2018);
 
             newMotorDatasets.push(theMotor);
-
-            console.log('motor '+i+', for the chart = ', theMotor);
         }
         this.setState({
             motorQuarterly: {
                 datasets: newMotorDatasets
             }
         });
-        console.log('NEW this.state.motorQuarterly = ', this.state.motorQuarterly);
     }
 
     sortRNA = obj => {
@@ -145,15 +139,12 @@ class SalesTracker extends Component{
             theStrand.data.push(obj.RNA[i].Sales_4Q2018);
 
             newRNAdatasets.push(theStrand);
-
-            console.log('motor '+i+', for the chart = ', theStrand);
         }
         this.setState({
             rnaQuarterly: {
                 datasets: newRNAdatasets
             }
         });
-        console.log('NEW this.state.rnaQuarterly = ', this.state.rnaQuarterly);
     }
 
     sortQuarterly = obj => {

@@ -35,7 +35,7 @@ class MessageList extends Component {
 
   render() {
     let messageNodes = this.state.messages.map((message) => {
-      console.log('the message = ', message);
+      // console.log('the message = ', message);
       return (
            <Message 
               message={message.message} 

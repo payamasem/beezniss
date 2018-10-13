@@ -18,7 +18,6 @@ class TaskModal extends Component {
   componentDidMount() {
     let due = new Date(this.props.task.due_date);
     let dueDate = due.toDateString();
-    console.log('the FORMATTED due date is ', dueDate);
     this.setState({
       formattedDate: dueDate
     });
