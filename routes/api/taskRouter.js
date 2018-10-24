@@ -14,7 +14,8 @@ router.route("/checklistitem")
 
 router.route("/checklistitem/:id")
   .get(checklistController.findById)
-  .post(checklistController.update);
+  .post(checklistController.update)
+  .delete(checklistController.remove);
 
 // Matches with "api/tasks/project"
 router.route("/project")

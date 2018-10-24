@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../AddProjectModal/AddProjectModal.css";
 import _ from 'lodash';
-import { Image, Button, Item, Form, List, Header, Icon, Modal, Input, Checkbox, Dropdown } from 'semantic-ui-react';
+import { Image, Button, Item, Form, Label, List, Header, Icon, Modal, Input, Checkbox, Dropdown } from 'semantic-ui-react';
 import API from "../../utils/API";
 
 
@@ -14,8 +14,10 @@ class AddTaskModal extends Component {
     description: "",
     due_date: "",
     project_id: null,
-    users: [],
+    invalidDate: -1,
+    invalidHeading: -1,
     selectedUsers: [], 
+    possibleUsers: [],
   };
 
   componentWillMount() {
@@ -24,6 +26,7 @@ class AddTaskModal extends Component {
 
   loadUsers = () => {
     const possUsers = [];
+    console.log('props.possibleUsers : ', this.props.possible_users);
     this.props.possible_users.map(user => {
       let uzer = {
         key: user.id,
@@ -33,41 +36,73 @@ class AddTaskModal extends Component {
       possUsers.push(uzer);
     });
     this.setState({
-      users: possUsers
+      possibleUsers: possUsers
     });
-  };
+  }
 
-  handleOpen = () => this.setState({ modalOpen: true });
-  handleClose = () => this.setState({ modalOpen: false });
+  handleOpen = () => {
+    this.loadUsers();
+    this.setState({ modalOpen: true });
+  }
+  handleClose = () => {
+    this.setState({ 
+      modalOpen: false, 
+      invalidHeading: -1, 
+      invalidDate: -1,
+      heading: "",
+      description: "",
+      selectedUsers: [],
+      due_date: "",
+    });
+  }
 
   updateUsers = (value, key) => {
     this.setState({ [key]: value });
   }
 
-  saveNewTask = () => {
-    let list_item = {
-      due_date: this.state.due_date,
-      heading: this.state.heading,
-      description: this.state.description,
-      users: this.state.selectedUsers,
-      project_id: this.props.project_id
-    }
-    API.createTask(list_item)
-      .then(res => {
-        console.log('res from creating task = ', res.data)
-        this.props.onClose();
-      })
-      .catch(err => console.log(err));
-    this.setState({
-      heading: "",
-      description: "",
-      selectedUsers: [],
-      due_date: ""
+  validateDate = () => {
+    let dateArray = this.state.due_date.split("-");
+    if (dateArray.length !== 3) return false;
+    console.log("dateArray: ", dateArray);
+    dateArray.forEach((el, i) => {
+      console.log('typeof parseInt(el) ', typeof parseInt(el));
+      dateArray[i] = parseInt(el);
+      if (typeof parseInt(el) !== "number") return false;
     });
-    this.handleClose();
-    console.log('this.props = ', this.props);
-  
+    if (dateArray[0] > 2099 || dateArray[0] < 2018) return false;
+    return true;
   }
+
+  saveNewTask = () => {
+    if (this.state.heading.trim() === "") this.setState({ invalidHeading: 5, invalidDate: -1 });
+    else if (this.validateDate() == false) this.setState({ invalidDate: 5, invalidHeading: -1 });    
+    else {
+      console.log('about to be saved, selectedUsers : ', this.state.selectedUsers);
+      let list_item = {
+        due_date: this.state.due_date,
+        heading: this.state.heading.trim(),
+        description: this.state.description.trim(),
+        users: this.state.selectedUsers,
+        project_id: this.props.project_id
+      }
+      API.createTask(list_item)
+        .then(res => {
+          console.log('res from creating task = ', res.data)
+          this.props.onClose();
+        })
+        .catch(err => console.log(err));
+      this.setState({
+        heading: "",
+        description: "",
+        selectedUsers: [],
+        due_date: ""
+      });
+
+      this.handleClose();
+      console.log('this.props = ', this.props);
+    }
+  }
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -82,11 +117,8 @@ class AddTaskModal extends Component {
   render() {
     // console.log("this is modal props:", this.props.tasks.project)
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
-
-    const opzioni = [
-      { value: 1, text: "YESS" },
-      { value: 2, text: "that is so clutch"}
-    ]
+    const headingValidation = { zIndex: this.state.invalidHeading };
+    const dateValidation = { zIndex: this.state.invalidDate };
 
     return (
 
@@ -96,7 +128,6 @@ class AddTaskModal extends Component {
             <Button onClick={this.handleOpen} color='olive'>Add Task</Button>
           }
           open={this.state.modalOpen}
-          onClose={this.handleClose} 
           closeIcon
           >
 
@@ -104,13 +135,21 @@ class AddTaskModal extends Component {
 
           <Modal.Content>          
             <Form>
-              <Form.Field required control={Input} 
-                  placeholder='task heading'
-                  name="heading"
-                  type="text"
-                  value={this.state.heading}
-                  onChange={this.handleInputChange} />
-              <Form.Field required control={Input} 
+              <div>
+                <Form.Field 
+                    required 
+                    control={Input} 
+                    placeholder='task heading'
+                    name="heading"
+                    type="text"
+                    value={this.state.heading}
+                    onChange={this.handleInputChange} 
+                />
+                <Label pointing color='orange' style={headingValidation}>Task must seek to accomplish something...</Label>
+              </div>
+              <Form.Field 
+                  required 
+                  control={Input} 
                   placeholder='task description'
                   name="description"
                   type="text"
@@ -137,20 +176,22 @@ class AddTaskModal extends Component {
                 search
                 multiple
                 value={this.state.selectedUsers}
-                options={this.state.users}
+                options={this.state.possibleUsers}
                 onChange={(event,{value}) => this.updateUsers(value, 'selectedUsers')}
                 >
               </Dropdown>
-
-              <Form.Field>
-                <Form.Input 
-                  required
-                  label='Due Date for this Task' 
-                  type='date' 
-                  value={this.state.due_date}
-                  onChange={event => this.setState({due_date: event.target.value})}
-                />
-              </Form.Field>
+              <div>
+                <Form.Field>
+                  <Form.Input 
+                    required
+                    label='Due Date for this Task' 
+                    type='date' 
+                    value={this.state.due_date}
+                    onChange={event => this.setState({due_date: event.target.value})}
+                  />
+                </Form.Field>
+                <Label pointing color='orange' style={dateValidation}>Task must have a valid due date</Label>
+              </div>
             </Form> 
           </Modal.Content>
 

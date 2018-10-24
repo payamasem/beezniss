@@ -42,6 +42,9 @@ module.exports = {
       .findOne({
         where: {
           id: req.params.id
+        },
+        include: {
+          all: true
         }
       })
       .then(data => res.json(data))
@@ -84,15 +87,20 @@ module.exports = {
           heading: req.body.heading,
           description: req.body.description,
           due_date: req.body.due_date,
-          checklist_item_id: req.body.checklist_item_id,
-          project_id: req.body.project_id,
-          user_id: req.body.user_id
         }, { 
           where: {
             id: req.params.id
           }
         })
-      .then(data => res.json(data))
+      .then(halfUpdatedTask => {
+        db.Task.findOne({where: {id: req.params.id}})
+        .then(task => {
+          task.setUsers(req.body.users)
+          .then(fullyUpdatedTask => {
+            res.json(fullyUpdatedTask);
+          });
+        });
+      })
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
