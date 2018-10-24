@@ -24,10 +24,6 @@ export default {
   editTask: function(id, taskData) {
     return axios.post("/api/tasks/" + id, taskData);
   },
-  createChecklistItem: function(listData) {
-    console.log('checklistitem to be created: ', listData);
-    return axios.post("/api/tasks/checklistitem", listData);
-  },
   getUsers: function() {
     return axios.get("/api/tasks/users");
   },
@@ -41,8 +37,15 @@ export default {
   deleteProject: function(id) {
     return axios.delete("/api/tasks/project/" + id);
   },
+  createChecklistItem: function(listData) {
+    console.log('checklistitem to be created: ', listData);
+    return axios.post("/api/tasks/checklistitem", listData);
+  },
   editChecklistItem: function(id, checklistData) {
     return axios.post("/api/tasks/checklistitem/" + id, checklistData);
+  },
+  deleteChecklistItem: function(id) {
+    return axios.delete("/api/tasks/checklistitem/" + id);
   },
   //  ===================================
   //========== SalesTracker path ==========

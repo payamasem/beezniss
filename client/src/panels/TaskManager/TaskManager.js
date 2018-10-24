@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import { Col, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { FormBtn } from "../../components/Form";
-import TaskModal from "../../components/TaskModal";
+import AddTaskModal from "../../components/AddTaskModal";
+import EditTaskModal from "../../components/EditTaskModal";
 import AddProjectModal from "../../components/AddProjectModal";
 import EditProjectModal from "../../components/EditProjectModal";
-import AddTaskModal from "../../components/AddTaskModal";
 import _ from 'lodash';
 import { Accordion, Content, Icon, Image, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
 import "./TaskManager.css";
@@ -42,7 +42,6 @@ class TaskManager extends Component {
   loadTasks = () => {
     API.getTasks()
       .then(res => {
-        console.log('UNSORTED getTasks res.data = ', res.data);
         this.sortResData(res.data);
       })
       .catch(err => console.log(err));
@@ -74,15 +73,12 @@ class TaskManager extends Component {
     //== and put them in the array of that project's tasks
 
     for (let i = 0; i < obj.Projects.length; i++) {
-          //  for ex., Project[1] has an id === 7
-      let tasksPerProject = 0;
-
+      //  for ex., Projects[1] has an id === 6
       for (let j = 0; j < obj.Tasks.length; j++) {
-        // for ex., Tasks[3] has an id == 9, project_id == 7
+        // for ex., Projects[3] has an id == 9, Tasks[2].project_id == 7
         if (obj.Projects[i].id === obj.Tasks[j].project_id) {
           nest.Projects[i].Tasks.unshift(obj.Tasks[j]);
           nest.Projects[i].Tasks.pop();
-          tasksPerProject++;
         }
       }
     }
@@ -162,6 +158,8 @@ class TaskManager extends Component {
               <EditProjectModal
                 users={this.state.users}
                 project={this.state.projects[i]}
+                key={this.state.projects[i].id}
+                onOpen={() => this.loadTasks()}
                 onClose={() => this.loadTasks()} />
             </div>
           </Label>),
@@ -171,8 +169,9 @@ class TaskManager extends Component {
         content: (
           <div className='accordionedTaskBox'>
             {this.state.projects[i].Tasks.map(tasq => (
-              <TaskModal 
-                  task={tasq} 
+              <EditTaskModal 
+                  task={tasq}
+                  project={this.state.projects[i]}
                   tasks={this.state.projects[i].Tasks}
                   key={tasq.id}
                   onClose={() => this.loadTasks()}  />

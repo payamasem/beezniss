@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./AddProjectModal.css";
 import _ from 'lodash';
-import { Image, Dropdown, Button, Item, Form, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
+import { Image, Dropdown, Button, Label, Item, Form, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
 import API from "../../utils/API";
 import TaskManager from "../../panels/TaskManager/TaskManager.js";
 
@@ -12,7 +12,9 @@ class AddProjectModal extends Component {
     name: "",
     due_date: "",
     selectedUsers: [],
-    possible_users: []
+    possible_users: [],
+    invalidName: -1,
+    invalidDate: -1,
   };
 
   componentWillMount() {
@@ -20,7 +22,14 @@ class AddProjectModal extends Component {
   }
 
   handleOpen = () => this.setState({ modalOpen: true });
-  handleClose = () => this.setState({ modalOpen: false });
+  handleClose = () => this.setState({ 
+    modalOpen: false, 
+    invalidName: -1, 
+    invalidDate: -1, 
+    name: "",
+    due_date: "",
+    selectedUsers: [],
+  });
 
   loadUsers = () => {
     let userray = [];
@@ -40,25 +49,42 @@ class AddProjectModal extends Component {
     this.setState({ [key]: value });
   }
 
-  saveNewProject = () => {
-    let list_item = {
-      due_date: this.state.due_date,
-      name: this.state.name,
-      users: this.state.selectedUsers
-    }
-    API.createProject(list_item)
-      .then(res => {
-        console.log('res from creating project = ', res.data)
-        this.props.onClose();
-      })
-      .catch(err => console.log(err));
-    this.setState({
-      name: "",
-      due_date: "",
-      selectedUsers: []
+  validateDate = () => {
+    let dateArray = this.state.due_date.split("-");
+    if (dateArray.length !== 3) return false;
+    console.log("dateArray: ", dateArray);
+    dateArray.forEach((el, i) => {
+      console.log('typeof parseInt(el) ', typeof parseInt(el));
+      dateArray[i] = parseInt(el);
+      if (typeof parseInt(el) !== "number") return false;
     });
-    this.handleClose();
-    console.log('this.props = ', this.props);
+    if (dateArray[0] > 2099 || dateArray[0] < 2018) return false;
+    return true;
+  }
+
+  saveNewProject = () => {
+    if (this.state.name.trim() === "") this.setState({ invalidName: 5 });
+    else if (this.validateDate() == false) this.setState({ invalidDate: 5, invalidName: -1 });
+    else {
+      let list_item = {
+        due_date: this.state.due_date,
+        name: this.state.name,
+        users: this.state.selectedUsers
+      }
+      API.createProject(list_item)
+        .then(res => {
+          console.log('res from creating project = ', res.data)
+          this.props.onClose();
+        })
+        .catch(err => console.log(err));
+      this.setState({
+        name: "",
+        due_date: "",
+        selectedUsers: []
+      });
+      this.handleClose();
+      this.setState({ invalidDate: -1, invalidName: -1 })
+    }
   }
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -68,8 +94,9 @@ class AddProjectModal extends Component {
   };
 
   render() {
-    // console.log("this is modal props:", this.props.tasks.project)
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
+    const nameValidation = { zIndex: this.state.invalidName };
+    const dateValidation = { zIndex: this.state.invalidDate };
 
     return (
 
@@ -86,12 +113,33 @@ class AddProjectModal extends Component {
 
           <Modal.Content>          
             <Form>
-              <Form.Field required control={Input} 
-                  label='Name of the project'
-                  name="name"
-                  type="text"
-                  value={this.state.name}
-                  onChange={event => this.setState({name: event.target.value})} />
+              <Form.Group>
+                <div >
+                  <Form.Field 
+                      required 
+                      control={Input}
+                      label='Name of the project'
+                      name="name"
+                      type="text"
+                      value={this.state.name}
+                      onChange={event => this.setState({name: event.target.value})} 
+                  />
+                  <Label pointing color='orange' style={nameValidation}>Project must have a name</Label>
+                </div>
+                <div>
+                  <Form.Field>
+                    <Form.Input 
+                      required
+                      label='Due date for this project' 
+                      type='date'
+                      value={this.state.due_date}
+                      onChange={event => this.setState({due_date: event.target.value})}
+                    />
+                  </Form.Field>
+                  <Label pointing color='orange' style={dateValidation}>Project must have a valid date</Label>
+                </div>
+              </Form.Group>
+
               <Dropdown 
                 className='userDropdown'
                 placeholder='Select...' 
@@ -103,15 +151,6 @@ class AddProjectModal extends Component {
                 onChange={(event,{value}) => this.updateUsers(value, 'selectedUsers')}
                 >
               </Dropdown>
-              <Form.Field>
-                <Form.Input 
-                  required
-                  label='Due date for this project' 
-                  type='date' 
-                  value={this.state.due_date} 
-                  onChange={event => this.setState({due_date: event.target.value})}
-                />
-              </Form.Field>
             </Form> 
           </Modal.Content>
 

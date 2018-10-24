@@ -71,30 +71,17 @@ module.exports = {
             id: req.params.id
           }
         })
-      .then(updatedProject => {
+      .then(halfUpdatedProject => {
         db.Project.findOne({ where: {id: req.params.id} }).then(project => {
           console.log('∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ ∆ PROJECT found: ', project.dataValues);
-          project.setUsers(req.body.users).then(usersRemoved => {
-            // console.log('••••••••• users should have been set to NONE');
-            // for (let i = 0; i < req.body.users.length; i++) {
-            //   db.User.findOne({ where: {id: req.body.users[i]} }).then(user => {
-            //     console.log('∂ ∂ ∂ ∂ ∂ ∂ ∂ USER found: ', user);
-            //     project.addUser([user]).then(data => {
-            //       console.log('§§§§§§§§§§§§§§§§ modifiedProjUserData: ', data);
-            //       res.json(data);
-            //     });
-
-            //   });
-            // }
-            res.json(usersRemoved);
-            setTimeout(function() {
-              console.log("the setTimeout")
-            }, 300);
+          project.setUsers(req.body.users).then(fullyUpdatedProject => {
+            console.log('# # # # # # # # fullyUpdatedProject : ', fullyUpdatedProject);
+            res.json(fullyUpdatedProject);
           });
         });
       })
       .catch(err => {
-        console.log("projectController ––> the .catch: ", err);
+        console.log("∞ ∞ ∞ ∞ ∞ ∞ ∞ ∞ ∞ ERROR ∞ ∞ ∞ ∞ ∞ ∞ ∞ : ", err);
         res.status(422).json(err)
       });
   },

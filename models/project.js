@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     due_date: {
-      type: DataTypes.DATE, //<––– ???????
+      type: DataTypes.DATE, //<––– should be DATEONLY
       allowNull: true
     }
   }, {underscored: true, timestamps: false});
