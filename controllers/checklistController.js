@@ -83,13 +83,23 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
-    db.Checklist_Item
-      .destroy({ 
-        where: { 
-          id: req.params.id 
-        }
+    db.Checklist_Item.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: {
+        all: true
+      }
+    }).then(item => {
+        item.destroy()
+          .then(deleted => {
+            db.Task.findOne({ where: {id: item.task_id}, include: {all: true}})
+              .then(updatedTask => {
+                console.log('after deletion, the task: ', updatedTask);
+                res.json(updatedTask);
+              });
+          });
       })
-      .then(data => res.json(data))
       .catch(err => res.status(422).json(err));
   }
 };

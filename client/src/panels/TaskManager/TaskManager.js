@@ -67,6 +67,8 @@ class TaskManager extends Component {
       Tasks: obj.Tasks
     };
 
+    console.log('BEFORE sorting: ', obj);
+
     //====================
     //== for each project, 
     //== find any tasks with a matching project id

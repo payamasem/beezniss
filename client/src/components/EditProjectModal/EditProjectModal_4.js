@@ -243,7 +243,7 @@ class EditProjectModal extends Component {
             >
               <Modal.Content >
                 <div className="projectNameBar">{this.props.project.name}</div>
-                <div>Are you sure you want to delete this project?</div> 
+                <div className="confirmText">Are you sure you want to delete this project?</div> 
               </Modal.Content>
               <Modal.Actions>
                 <Button 

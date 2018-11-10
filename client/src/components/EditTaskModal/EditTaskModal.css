@@ -2,9 +2,23 @@
 	font-size: 42px;
 	color: white;
 }
-
+.checklistItemInline {
+	display: inline-block;
+}
 .checklistItemText {
 	color: white !important;
+}
+.checklistItemDelete {
+	width: 20px;
+	height: 20px;
+	background-color: darkred;
+	color: white;
+	font-size: 18px;
+	padding: 0px 5px 5px 5px;
+	border-radius: 3px;
+}
+.checklistItemDelete:hover {
+	cursor: pointer;
 }
 .sideMargin {
 	margin: 0 8px;
@@ -43,4 +57,27 @@
 .addChecklistItemBar {
 	margin-top: 20px;
 	padding-top: 10px;
+}
+.projectNameBar {
+	background-color: darkgray;
+	color: white;
+	font-size: 48px;
+	display: block;
+	padding: 5px;
+	border-radius: 3px;
+}
+.taskHeadingBar {
+	font-size: 40px;
+	color: darkgray;
+}
+.confirmText {
+	font-size: 22px;
+}
+.descriptionAsText {
+	font-size: 20px;
+	margin: 18px 0 10px 2px;
+}
+.descriptionAsInput {
+	margin: 3px 0px 4px 0px;
+	min-width: 160px;
 }
