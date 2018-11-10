@@ -89,6 +89,9 @@ div.content.active {
 	width: 22vw;
 	margin: -18px 0 12px 2px;
 }
+.ui.animated.list>.item:hover {
+	cursor: pointer;
+}
 .btnGroups {
 	display: inline-block !important;
 	max-width: 46% !important;

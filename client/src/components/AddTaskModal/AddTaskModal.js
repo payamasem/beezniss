@@ -20,13 +20,13 @@ class AddTaskModal extends Component {
     possibleUsers: [],
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadUsers();
   }
 
   loadUsers = () => {
     const possUsers = [];
-    console.log('props.possibleUsers : ', this.props.possible_users);
+    // console.log('props.possibleUsers : ', this.props.possible_users);
     this.props.possible_users.map(user => {
       let uzer = {
         key: user.id,

@@ -73,12 +73,10 @@ module.exports = {
             });      
           });
         }
-        console.log('>>>>>>>><<<<<<<<<<<>>>>>>>><<<<<<<<<>>>>>>> check your MySQL workbench to see if the associations were created ......')
-        
       })
       .catch(err => {
         console.log("taskController ––> the .catch: ", err);
-        res.status(422).json(err)
+        res.json(err);
       });
   },
   update: function(req, res) {
