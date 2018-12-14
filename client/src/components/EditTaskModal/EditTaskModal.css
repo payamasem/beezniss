@@ -1,24 +1,21 @@
+.theModal {
+	padding: 28px;
+}
+.modalRow {
+	padding: 2px 0px 2px 0px !important;
+}
 .projectHeader {
-	font-size: 42px;
-	color: white;
+	font-size: 28px !important;
+	color: rgba(172, 118, 32, 1) !important;
 }
-.checklistItemInline {
-	display: inline-block;
-}
-.checklistItemText {
-	color: white !important;
-}
-.checklistItemDelete {
-	width: 20px;
-	height: 20px;
-	background-color: darkred;
-	color: white;
-	font-size: 18px;
-	padding: 0px 5px 5px 5px;
+.labels {
+	border: 2px solid gray;
 	border-radius: 3px;
-}
-.checklistItemDelete:hover {
-	cursor: pointer;
+	font-size: 16px;
+	color: white;
+	background-color: darkgray;
+	font-weight: 800;
+	padding-top: 3px !important;
 }
 .sideMargin {
 	margin: 0 8px;
@@ -54,30 +51,137 @@
 	margin-left: 8px !important;
 	padding-left: 8px;
 }
-.addChecklistItemBar {
-	margin-top: 20px;
-	padding-top: 10px;
-}
+
 .projectNameBar {
 	background-color: darkgray;
-	color: white;
 	font-size: 48px;
 	display: block;
 	padding: 5px;
 	border-radius: 3px;
 }
 .taskHeadingBar {
-	font-size: 40px;
+	font-size: 28px;
 	color: darkgray;
+	margin: 6px 0px 24px;
 }
 .confirmText {
 	font-size: 22px;
 }
+.headingAsText {
+	font-size: 20px;
+	padding: 3px 0 3px 5px;
+}
+.dateAsText {
+	font-size: 20px;
+	padding: 6px 0 3px 5px;
+}
 .descriptionAsText {
 	font-size: 20px;
-	margin: 18px 0 10px 2px;
+	margin: 6px 0 7px 5px;
 }
 .descriptionAsInput {
 	margin: 3px 0px 4px 0px;
 	min-width: 160px;
+}
+
+.usersBox {
+	width: 100%;
+	border: none !important;
+}
+.userChipsBox {
+	padding: 4px !important;
+	width: 340px;
+	height: 64px;
+	display: inline-block;
+	overflow: auto;
+}
+.modal_users {
+	float: left;
+	min-width: 80px;
+	height: 46px;
+	border: solid gray 2px;
+	border-radius: 14px;
+	box-shadow: 1 5 5 3;
+}
+.openOptionUsers {
+	padding: 8px !important;
+}
+.userChipText {
+	display: inline;
+	margin: 3px 3px 5px 3px;
+	font-size: 18px;
+}
+.x-box {
+	width: 60px;
+	max-height: 50%;
+	min-height: 12px;
+	border: 1px solid black;
+	border-radius: 5px;
+/*	box-shadow: 1px 0px 30px 1px black;
+*/	
+	background-color: lightgray;
+	padding: 0px 5px 3px 5px;
+	margin: 2px 5px 12px 5px;
+	color: black;
+	display: inline;
+	cursor: pointer;
+}
+.x-box:hover {
+	background-color: darkgray;
+}
+.selectionsBox {
+	overflow-x: scroll;
+	margin: 4px 0 0 180px;
+}
+
+.scrollboxForChecklistItems {
+	padding: 0;
+	width: 600px;
+	height: 150px !important;
+	overflow-y: auto;
+}
+.itemBox {
+	width: 100%;
+	padding: 4px;
+	min-height: 40px;
+}
+.ChecklistItemInline {
+	display: inline-block;
+
+	color: black;
+}
+.checkbox {
+	width: 30px;
+}
+.textDiv {
+	min-width: 300px;
+	padding: 0px;
+	color: yellow;
+}
+.checklistItemText {
+	font-size: 20px;
+	margin: 3px 4px 3px 2px;
+	padding-left: 5px;
+	color: darkgray !important;
+	background-color: rgba(67, 77, 56, 1);
+	border-radius: 3px;
+}
+.checklistItemInput {
+	padding: 0;
+	margin: 0;
+}
+.checklistItemDelete {
+	width: 20px;
+	height: 20px;
+	background-color: darkred;
+	font-size: 18px;
+	padding: -4px 0px 0px 3px;
+	border-radius: 3px;
+}
+.checklistItemDelete:hover {
+	cursor: pointer;
+}
+.addChecklistItemBar {
+	margin-top: 20px;
+	padding-top: 10px;
 }
