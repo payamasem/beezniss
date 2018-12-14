@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import "./EditTaskModal.css";
 import _ from 'lodash';
 import Hammer from '../../images/hammer.png';
-import { Segment, Image, Button, Form, Label, Item, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
+import DeleteLight from '../../images/deleteLite.png';
+import DeleteCharcoal from '../../images/deleteCharcoal.png';
+import { Grid, Segment, Image, Button, Form, Label, Item, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
 import API from "../../utils/API";
 
 class EditTaskModal extends Component {
@@ -26,6 +28,8 @@ class EditTaskModal extends Component {
     checklist_items: [],
     confirmOpen: false,
     checklist_item_text: "",
+    addChecklistMostRecent: false,
+    altered: [],
   }
 
   componentDidMount() {
@@ -36,6 +40,7 @@ class EditTaskModal extends Component {
     this.loadUsers();
     this.setState({ modalOpen: true });
     document.addEventListener('mousedown', this.handleClick, false);
+    document.addEventListener("keyup", this.handleStrike, false);
   }
   handleEditTaskModalClose = () => {
     this.props.onClose();
@@ -46,8 +51,10 @@ class EditTaskModal extends Component {
       headingAsInput: false,
       descriptionAsInput: false,
       invalidHeading: -3,
+      altered: [],
     });
     document.removeEventListener('mousedown', this.handleClick, false);
+    document.removeEventListener("keyup", this.handleStrike, false);
   }
   openConfirm = () => this.setState({ confirmOpen: true })
   closeConfirm = () => this.setState({ confirmOpen: false })
@@ -136,7 +143,6 @@ class EditTaskModal extends Component {
         <Form.Field 
             required 
             control={Input}
-            label='Task heading'
             name="heading"
             type="text"
             value={this.state.heading}
@@ -148,12 +154,10 @@ class EditTaskModal extends Component {
       // console.log('should be returning the heading text div... ');
       return (
         <Form.Field 
-          label="Task heading"
           control={Form.Field}
           className="headingAsText"
           name="heading"
           size="big"
-          // onClick={this.toggleHeading}
         >{this.state.heading}
         </Form.Field>
       )
@@ -166,7 +170,6 @@ class EditTaskModal extends Component {
       return (
         <Form.Input 
           required
-          label='Due date for this task'
           name='date' 
           type='date'
           value={this.state.due_date}
@@ -177,7 +180,6 @@ class EditTaskModal extends Component {
       return (
         <Form.Field 
           name='date'
-          label="Due date for this task"
           control={Form.Field}
           className='dateAsText'
           size="big"
@@ -225,6 +227,21 @@ class EditTaskModal extends Component {
       this.textify(name);
     }
     else this.textify(null);
+
+    if (name === "checklist_item_text") {
+       this.setState({ addChecklistMostRecent: true });
+    }
+    else this.setState({ addChecklistMostRecent: false });
+  }
+
+  handleStrike = event => {
+    if (event.keyCode === 13) {
+      this.textify(null);
+      if (this.state.confirmOpen === true) this.saveAll();
+      else if (this.state.addChecklistMostRecent === true && this.state.checklist_item_text.trim() !== "") {
+        this.saveNewChecklistItem();
+      }
+    }
   }
 
   textify = (exception) => {
@@ -236,6 +253,13 @@ class EditTaskModal extends Component {
         this.setState({ [item.id + "AsInput"]: false });
       }
     });
+  }
+
+  saveAll = () => {
+    this.state.altered.forEach(item_id => {
+      this.editChecklistItem(item_id);
+    });
+    this.saveTaskEdits();
   }
 
   saveTaskEdits = () => {
@@ -318,6 +342,12 @@ class EditTaskModal extends Component {
       .catch(err => console.log("error during attempted deletion: ", err));
   }
 
+  updateAltered = item_id => {
+    if (this.state.altered.indexOf(item_id) === -1) {
+      this.setState({ altered: [...this.state.altered, item_id] });
+    }
+  }
+
   toggleCheckbox = (item_id) => {
     console.log('TOGGLE item_id :', item_id);
     console.log('TOGGLE this.state[item_id] : ', this.state[item_id]);
@@ -369,132 +399,172 @@ class EditTaskModal extends Component {
               <List.Content className='sideMargin displayInline taskDescription' >{this.props.task.description}</List.Content>
             </List.Item>
           </List>}
+        centered={false}
         open={this.state.modalOpen}
-        onClose={this.handleEditTaskModalClose}
-        basic
-        size='small'
+        onClose={this.checkForChanges}
+        className="theModal"
+        size='large'
         key={this.props.task.id}
       >
         <Modal.Content >
-          <Header inverted className="projectHeader">{this.props.project.name}</Header>
-          <Form>
-            <Form.Group>
-              <div >
+          <Grid divided="vertically">
+            <Grid.Row className="modalRow">
+              <Grid.Column width={3} className="labels">
+                <div >Project:</div>
+              </Grid.Column>
+              <Grid.Column width={9}>
+                <Header className="projectHeader">{this.props.project.name}</Header>
+              </Grid.Column>
+            </Grid.Row>
+
+            <Grid.Row className="modalRow">
+              <Grid.Column width={3} className="labels">
+                Task:
+              </Grid.Column>
+              <Grid.Column width={7}>
                 {this.renderHeading()}
                 <Label pointing color='orange' style={headingValidation}>Task must have a heading</Label>
-              </div>
-              <div>
+              </Grid.Column>
+              <Grid.Column width={2} className="labels">
+                Due date:
+              </Grid.Column>
+              <Grid.Column width={4}>
                 {this.renderDate()}
-              </div>
-            </Form.Group>
+              </Grid.Column>
+            </Grid.Row>
 
-            <div 
-            >{ (this.state.descriptionAsInput === true) ?
-                  <Input 
-                    fluid
-                    className="descriptionAsInput"
-                    ref={reference => this.reference = reference}
-                    name="description"
-                    value={this.state.description}
-                    onChange={event => this.setState({ description: event.target.value, changesMade: true })}
-                  />
-                  :
+            <Grid.Row className="modalRow">
+              <Grid.Column width={3} className="labels">Description:</Grid.Column>
+              <Grid.Column width={11}>
+                { (this.state.descriptionAsInput === true) ?
+                      <Input 
+                        fluid
+                        className="descriptionAsInput"
+                        name="description"
+                        value={this.state.description}
+                        onChange={event => this.setState({ description: event.target.value, changesMade: true })}
+                      />
+                      :
+                      <div 
+                        className="descriptionAsText"
+                        name="description"
+                      >{this.state.description}
+                      </div>
+                }
+              </Grid.Column>
+            </Grid.Row>
+
+            <Grid.Row className='usersBox modalRow'>
+              <Grid.Column 
+                width={3}
+                className="labels">
+                Current task collaborators: 
+              </Grid.Column>
+              <Grid.Column width={9} className='userChipsBox'>
+                {this.state.task_users.map(userid => (
                   <div 
-                    className="descriptionAsText"
-                    ref={reference => this.reference = reference}
-                    name="description"
-                    // onClick={this.toggleDescription}
-                  >{this.state.description}
+                    key={userid}
+                    value={userid}
+                    className='modal_users inline'>
+                      <div className='userChipText'>{this.state.userMap[userid]}</div>
+                      <div 
+                        className='x-box'
+                        onClick={() => this.removeCollaborator(userid)}
+                        ><div><Image src={DeleteCharcoal} size="mini" /></div></div>
                   </div>
-            }</div>
-
-          </Form>
-
-          <div className='usersBox'>
-            <div className="collaborators">current task collaborators: </div>
-            <div className='userChipsBox'>
-            {this.state.task_users.map(userid => (
-              <div 
-                key={userid}
-                value={userid}
-                className='modal_users inline'>
-                  <div className='userChipText'>{this.state.userMap[userid]}</div>
-                  <div 
-                    className='x-box'
-                    onClick={() => this.removeCollaborator(userid)}
-                    >x</div>
-              </div>
-              ))}
-            </div>
-            <div className='selectionsBox'>
-              <div className="collaborators">add collaborators to task: </div>
-              {this.state.openOptions.map(userid => (
-                <div
-                  key={`${userid}two`}
-                  value={userid}
-                  className="inline openOptionUsers"
-                  onClick={(event) => this.addCollaborator(userid)}
-                  ><div className="optionChipText">{this.state.userMap[userid]}</div>
-                </div>
                 ))}
-            </div>
-          </div>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row className='usersBox modalRow'>
+              <Grid.Column 
+                width={3}
+                className="labels">
+                Add collaborators: 
+              </Grid.Column>
+              <Grid.Column width={9} className="userChipsBox">
+                {this.state.openOptions.map(userid => (
+                  <div
+                    key={`${userid}two`}
+                    value={userid}
+                    className="inline openOptionUsers"
+                    onClick={(event) => this.addCollaborator(userid)}
+                    ><div className="optionChipText">{this.state.userMap[userid]}</div>
+                  </div>
+                  ))}
+              </Grid.Column>
+            </Grid.Row>
 
+            <Grid.Row className="modalRow">
+              <Grid.Column width={3} className="labels">
+                Checklist:
+              </Grid.Column>
+              <Grid.Column width={9}>
+                <div className="scrollboxForChecklistItems">
+                {this.state.checklist_items.map(item => (
+                  <div key={item.id} className="itemBox">
+                    <Checkbox 
+                      label={null}
+                      className="ChecklistItemInline checkbox"
+                      checked={this.state[item.id].completed}
+                      name={item.id}
+                      onChange={() => this.toggleCheckbox(item.id)}
+                      // onClick={() => this.toggleCheckbox(item.id)} }
+                    />
+                    <div className="ChecklistItemInline textDiv">
+                      { this.state[item.id + "AsInput"] === false ?
+                        <div className='checklistItemText'>
+                          <label 
 
-        {this.state.checklist_items.map(item => (
-          <div key={item.id} ref={node => {
-                this["node" + item.id] = node 
-              }}>
-            <Checkbox 
-              label={null}
-              className="ChecklistItemInline"
-              checked={this.state[item.id].completed}
-              name={item.id}
-              onChange={() => this.toggleCheckbox(item.id)}
-              // onClick={() => this.toggleCheckbox(item.id)} }
-            />
-            <div className="ChecklistItemInline">
-              { this.state[item.id + "AsInput"] === false ?
-                <label 
-                  color='black' 
-                  className='checklistItemText'
-                  name={item.id}>{this.state[item.id].text}
-                </label>
-                :
-                <Input 
-                  className="checklistItemText" 
-                  name={item.id} 
-                  value={this.state[item.id].text} 
-                  onChange={event => this.setState({ [item.id]: {
-                      text: event.target.value,
-                      completed: this.state[item.id].completed,
-                    }
-                  })}
-                />
-              } 
-              </div>
-              <div 
-                className="ChecklistItemInline checklistItemDelete"
-                onClick={() => this.deleteChecklistItem(item.id)}
-              >x</div>
-          </div>
+                            name={item.id}>{this.state[item.id].text}
+                          </label>
+                        </div>
+                        :
+                        <Input 
+                          className="checklistItemInput" 
+                          name={item.id} 
+                          value={this.state[item.id].text} 
+                          onChange={event => {
+                            this.setState({ [item.id]: {
+                                text: event.target.value,
+                                completed: this.state[item.id].completed,
+                              }, 
+                              changesMade: true,
+                            });
+                            this.updateAltered(item.id);
+                            }
+                          }
+                        />
+                      } 
+                    </div>
+                    <div 
+                      className="ChecklistItemInline checklistItemDelete"
+                      onClick={() => this.deleteChecklistItem(item.id)}
+                    ><Image src={DeleteLight} /></div>
+                  </div>
 
-        ))}
-          <div className="ui action input addChecklistItemBar">
-            <input type="text"
-                placeholder="get something done..."
-                value={this.state.checklist_item_text}
-                onChange={event => this.setState({ checklist_item_text: event.target.value })}
-                name='checklist_item_text' 
-            />
-            <div className="ui button" color='olive' onClick={() => this.saveNewChecklistItem()}>add checklist item</div>
-          </div>
-
+                ))}
+                </div>
+                <div className="ui action input addChecklistItemBar">
+                  <input type="text"
+                      placeholder="get something done..."
+                      value={this.state.checklist_item_text}
+                      onChange={event => this.setState({ checklist_item_text: event.target.value, changesMade: true })}
+                      name='checklist_item_text' 
+                  />
+                  <div className="ui button" color='olive' onClick={() => this.saveNewChecklistItem()}>add checklist item</div>
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Modal.Content>
 
         <Modal.Actions>       
             <Modal 
-              trigger={<Button color='grey' icon='undo' content='Go Back' onClick={() => this.checkForChanges()} inverted />}
+              trigger={<Button 
+                color='grey' 
+                icon='undo' 
+                content='Go Back' 
+                onClick={() => this.checkForChanges()} />}
               open={this.state.confirmOpen}
             >
               <Modal.Content >
@@ -505,7 +575,7 @@ class EditTaskModal extends Component {
               <Modal.Actions>
                 <Button 
                   color="green"
-                  onClick={() => this.saveTaskEdits()}
+                  onClick={() => this.saveAll()}
                 >Yes, save the changes
                 </Button>
                 <Button 
@@ -515,8 +585,8 @@ class EditTaskModal extends Component {
                 </Button>
               </Modal.Actions>
             </Modal>
-            <Button color='red' icon='window close' content='Delete Task' onClick={() => this.deleteTask()} inverted />
-            <Button color='olive' icon='checkmark' content='Save Task' onClick={() => this.saveTaskEdits()} inverted />
+            <Button color='red' icon='window close' content='Delete Task' onClick={() => this.deleteTask()} />
+            <Button color='olive' icon='checkmark' content='Save Task' onClick={() => this.saveAll()} />
         </Modal.Actions>
       </Modal> 
     </div>
