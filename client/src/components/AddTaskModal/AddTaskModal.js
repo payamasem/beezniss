@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import "../AddProjectModal/AddProjectModal.css";
+import "../CSS/Modal.css";
 import _ from 'lodash';
 import { Image, Button, Item, Form, Label, List, Header, Icon, Modal, Input, Checkbox, Dropdown } from 'semantic-ui-react';
 import API from "../../utils/API";
-
 
 
 class AddTaskModal extends Component {

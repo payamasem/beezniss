@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./EditTaskModal.css";
+import "../CSS/Modal.css";
 import _ from 'lodash';
 import Hammer from '../../images/hammer.png';
 import DeleteLight from '../../images/deleteLite.png';
@@ -28,7 +28,7 @@ class EditTaskModal extends Component {
     checklist_items: [],
     confirmOpen: false,
     checklist_item_text: "",
-    addChecklistMostRecent: false,
+    isAddChecklistMostRecent: false,
     altered: [],
   }
 
@@ -229,16 +229,16 @@ class EditTaskModal extends Component {
     else this.textify(null);
 
     if (name === "checklist_item_text") {
-       this.setState({ addChecklistMostRecent: true });
+       this.setState({ isAddChecklistMostRecent: true });
     }
-    else this.setState({ addChecklistMostRecent: false });
+    else this.setState({ isAddChecklistMostRecent: false });
   }
 
   handleStrike = event => {
     if (event.keyCode === 13) {
       this.textify(null);
       if (this.state.confirmOpen === true) this.saveAll();
-      else if (this.state.addChecklistMostRecent === true && this.state.checklist_item_text.trim() !== "") {
+      else if (this.state.isAddChecklistMostRecent === true && this.state.checklist_item_text.trim() !== "") {
         this.saveNewChecklistItem();
       }
     }
@@ -466,11 +466,11 @@ class EditTaskModal extends Component {
                     key={userid}
                     value={userid}
                     className='modal_users inline'>
-                      <div className='userChipText'>{this.state.userMap[userid]}</div>
+                      <div className='userChipText'><div>{this.state.userMap[userid]}</div></div>
                       <div 
                         className='x-box'
                         onClick={() => this.removeCollaborator(userid)}
-                        ><div><Image src={DeleteCharcoal} size="mini" /></div></div>
+                        ><div><Image src={DeleteCharcoal} className="theX" /></div></div>
                   </div>
                 ))}
               </Grid.Column>
@@ -488,7 +488,7 @@ class EditTaskModal extends Component {
                     value={userid}
                     className="inline openOptionUsers"
                     onClick={(event) => this.addCollaborator(userid)}
-                    ><div className="optionChipText">{this.state.userMap[userid]}</div>
+                    ><div className="userChipText optionChipText">{this.state.userMap[userid]}</div>
                   </div>
                   ))}
               </Grid.Column>
