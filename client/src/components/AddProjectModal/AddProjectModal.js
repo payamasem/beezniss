@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./AddProjectModal.css";
+import "../CSS/Modal.css";
 import _ from 'lodash';
 import { Image, Dropdown, Button, Label, Item, Form, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
 import API from "../../utils/API";
