@@ -156,7 +156,10 @@ class TaskManager extends Component {
               ))}
             </div>
             <div className='due-button-row'>
-              <div className='displayInline'><div className='due_date'> | <span className='due'>due: </span>{this.formatDate(i)}</div></div>
+              <div className='displayInline'>
+                <div className='due_date'> | <span className='due'>due: </span>{this.formatDate(i)}
+                </div>
+              </div>
               <EditProjectModal
                 users={this.state.users}
                 project={this.state.projects[i]}

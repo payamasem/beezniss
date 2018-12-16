@@ -126,94 +126,6 @@ class EditTaskModal extends Component {
     });
   }
 
-  toggleHeading = () => {
-    this.setState({ headingAsInput: !this.state.headingAsInput });
-  }
-  toggleDescription = () => {
-    this.setState({ descriptionAsInput: !this.state.descriptionAsInput });
-  }
-  toggleInput = field => {
-    const key = field + "AsInput";
-    this.setState({ [key]: !this.state[key] });
-  }
-
-  renderHeading = () => {
-    if (this.state.headingAsInput === true) {
-      return (
-        <Form.Field 
-            required 
-            control={Input}
-            name="heading"
-            type="text"
-            value={this.state.heading}
-            onChange={event => this.setState({ heading: event.target.value, changesMade: true })} 
-        />
-      )
-    }
-    else {
-      // console.log('should be returning the heading text div... ');
-      return (
-        <Form.Field 
-          control={Form.Field}
-          className="headingAsText"
-          name="heading"
-          size="big"
-        >{this.state.heading}
-        </Form.Field>
-      )
-    }
-  }
-
-  renderDate = () => {
-    const date = this.state.due_date;
-    if (this.state.dateAsInput) {
-      return (
-        <Form.Input 
-          required
-          name='date' 
-          type='date'
-          value={this.state.due_date}
-          onChange={event => this.setState({ due_date: event.target.value, changesMade: true })}
-        /> )
-    }
-    else {
-      return (
-        <Form.Field 
-          name='date'
-          control={Form.Field}
-          className='dateAsText'
-          size="big"
-        >{date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4)}
-        </Form.Field> )
-    }
-  }
-
-  // renderDescription = () => {
-  //   if (this.state.descriptionAsInput === true) {
-  //     return (
-  //       <Input 
-  //         fluid
-  //         className="descriptionAsInput"
-  //         ref={nodedescription => this.nodedescription = nodedescription}
-  //         name="description"
-  //         value={this.state.description}
-  //         onChange={event => this.setState({ description: event.target.value, changesMade: true })}
-  //       />
-  //     )
-  //   }
-  //   else {
-  //     return (
-  //       <div 
-  //         className="descriptionAsText"
-  //         ref={nodedescription => this.nodedescription = nodedescription}
-  //         name="description"
-  //         // onClick={this.toggleDescription}
-  //       >{this.state.description}
-  //       </div>
-  //     )
-  //   }
-  // }
-
   handleClick = event => {
     console.log('event', event );
 
@@ -253,6 +165,9 @@ class EditTaskModal extends Component {
         this.setState({ [item.id + "AsInput"]: false });
       }
     });
+    if (exception !== "description" && this.state.changesMade === true && this.state.description.trim() === "") {
+      this.setState({ description: this.state.description.trim() });
+    }
   }
 
   saveAll = () => {
@@ -348,6 +263,11 @@ class EditTaskModal extends Component {
     }
   }
 
+
+  toggleInput = field => {
+    const key = field + "AsInput";
+    this.setState({ [key]: !this.state[key] });
+  }
   toggleCheckbox = (item_id) => {
     console.log('TOGGLE item_id :', item_id);
     console.log('TOGGLE this.state[item_id] : ', this.state[item_id]);
@@ -356,6 +276,103 @@ class EditTaskModal extends Component {
     }), 
     () => this.editChecklistItem(item_id));
   }
+  toggleHeading = () => {
+    this.setState({ headingAsInput: !this.state.headingAsInput });
+  }
+  toggleDescription = () => {
+    this.setState({ descriptionAsInput: !this.state.descriptionAsInput });
+  }
+
+
+  renderHeading = () => {
+    if (this.state.headingAsInput === true) {
+      return (
+        <Form.Field 
+            required 
+            control={Input}
+            name="heading"
+            className="headingAsInput"
+            type="text"
+            value={this.state.heading}
+            onChange={event => this.setState({ heading: event.target.value, changesMade: true })} 
+        />
+      )
+    }
+    else {
+      // console.log('should be returning the heading text div... ');
+      return (
+        <Form.Field 
+          control={Form.Field}
+          className="headingAsText"
+          name="heading"
+          size="big"
+        >{this.state.heading}
+        </Form.Field>
+      )
+    }
+  }
+
+  renderDate = () => {
+    const date = this.state.due_date;
+    if (this.state.dateAsInput) {
+      return (
+        <Form.Input 
+          required
+          name='date' 
+          type='date'
+          className="dateAsInput"
+          value={this.state.due_date}
+          onChange={event => this.setState({ due_date: event.target.value, changesMade: true })}
+        /> )
+    }
+    else {
+      return (
+        <Form.Field 
+          name='date'
+          control={Form.Field}
+          className='dateAsText'
+          size="big"
+        >{date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4)}
+        </Form.Field> )
+    }
+  }
+
+  isThereEllipsis = (which) => {
+    if (which === "heading") {
+      if (this.props.task.heading.length < 14) return null;
+      else return "...";
+    }
+    else if (which === "description") {
+      if (this.props.task.heading.length < 18) return null;
+      else return "...";
+    }
+  }
+
+  // renderDescription = () => {
+  //   if (this.state.descriptionAsInput === true) {
+  //     return (
+  //       <Input 
+  //         fluid
+  //         className="descriptionAsInput"
+  //         ref={nodedescription => this.nodedescription = nodedescription}
+  //         name="description"
+  //         value={this.state.description}
+  //         onChange={event => this.setState({ description: event.target.value, changesMade: true })}
+  //       />
+  //     )
+  //   }
+  //   else {
+  //     return (
+  //       <div 
+  //         className="descriptionAsText"
+  //         ref={nodedescription => this.nodedescription = nodedescription}
+  //         name="description"
+  //         // onClick={this.toggleDescription}
+  //       >{this.state.description}
+  //       </div>
+  //     )
+  //   }
+  // }
 
   // "toggle heading in the render"
   //               { this.state.headingAsInput ?
@@ -379,6 +396,8 @@ class EditTaskModal extends Component {
   //               }
 
 
+  // <Image src={Hammer} className='sideMargin' />
+
 
   render() {
 
@@ -393,10 +412,14 @@ class EditTaskModal extends Component {
         trigger={
           <List animated verticalAlign='middle'
             onClick={this.handleEditTaskModalOpen}>
-            <List.Item>
-              <Image src={Hammer} className='sideMargin displayInline' />
-              <List.Header content={this.props.task.heading} className='sideMargin displayInline taskHeading' />
-              <List.Content className='sideMargin displayInline taskDescription' >{this.props.task.description}</List.Content>
+            <List.Item className="projectTaskListItem">
+              <div className="topRow">
+                <div className="arrows">>></div>
+                <List.Header content={this.props.task.heading} className='sideMargin taskHeading' />
+                <div className="ellipsis">{this.isThereEllipsis("heading")}</div>
+              </div>
+              <List.Content className='sideMargin taskDescription' >{this.props.task.description}</List.Content>
+              <div className="ellipsis2">{this.isThereEllipsis("description")}</div>
             </List.Item>
           </List>}
         centered={false}
@@ -448,7 +471,13 @@ class EditTaskModal extends Component {
                       <div 
                         className="descriptionAsText"
                         name="description"
-                      >{this.state.description}
+                      >
+                      { (this.state.description !== "") ?
+                        this.state.description
+                        :
+                        <div className="italicized descriptionAsText"
+                          name="description">add a description...</div>
+                      }
                       </div>
                 }
               </Grid.Column>
@@ -467,10 +496,12 @@ class EditTaskModal extends Component {
                     value={userid}
                     className='modal_users inline'>
                       <div className='userChipText'><div>{this.state.userMap[userid]}</div></div>
-                      <div 
-                        className='x-box'
-                        onClick={() => this.removeCollaborator(userid)}
+                      <div className="xboxMargin">
+                        <div 
+                          className='x-box'
+                          onClick={() => this.removeCollaborator(userid)}
                         ><div><Image src={DeleteCharcoal} className="theX" /></div></div>
+                      </div>
                   </div>
                 ))}
               </Grid.Column>
@@ -504,13 +535,13 @@ class EditTaskModal extends Component {
                   <div key={item.id} className="itemBox">
                     <Checkbox 
                       label={null}
-                      className="ChecklistItemInline checkbox"
+                      className="checklistItemInline checkbox"
                       checked={this.state[item.id].completed}
                       name={item.id}
                       onChange={() => this.toggleCheckbox(item.id)}
                       // onClick={() => this.toggleCheckbox(item.id)} }
                     />
-                    <div className="ChecklistItemInline textDiv">
+                    <div className="checklistItemInline textDiv">
                       { this.state[item.id + "AsInput"] === false ?
                         <div className='checklistItemText'>
                           <label 
@@ -536,10 +567,12 @@ class EditTaskModal extends Component {
                         />
                       } 
                     </div>
+                    <div className="deleteMargin checklistItemInline">
                     <div 
-                      className="ChecklistItemInline checklistItemDelete"
+                      className="checklistItemDelete"
                       onClick={() => this.deleteChecklistItem(item.id)}
                     ><Image src={DeleteLight} /></div>
+                    </div>
                   </div>
 
                 ))}
@@ -585,6 +618,7 @@ class EditTaskModal extends Component {
                 </Button>
               </Modal.Actions>
             </Modal>
+
             <Button color='red' icon='window close' content='Delete Task' onClick={() => this.deleteTask()} />
             <Button color='olive' icon='checkmark' content='Save Task' onClick={() => this.saveAll()} />
         </Modal.Actions>
