@@ -5,17 +5,19 @@
 	padding: 2px 0px 2px 0px !important;
 }
 .projectHeader {
-	font-size: 28px !important;
+	font-family: "Oswald", sans !important;
+	font-size: 32px !important;
 	color: rgba(172, 118, 32, 1) !important;
 }
 .labels {
 	border: 2px solid gray;
 	border-radius: 3px;
-	font-size: 16px;
+	font-family: "Oswald", sans !important;
+	font-size: 18px;
 	color: white;
-	background-color: darkgray;
+	background-color: rgba(65, 47, 76, 1);
 	font-weight: 800;
-	padding-top: 3px !important;
+	padding: 8px 10px !important;
 }
 .sideMargin {
 	margin: 0 8px;
@@ -31,13 +33,55 @@
 	font-style: italic;
 }
 .displayInline {
-	display: inline-block !important;
+	display: inline !important;
+}
+.projectTaskListItem {
+	max-width: 90% !important;
+	max-height: 58px !important;
+	overflow: hidden;
+}
+.topRow {
+	width: 100% !important;
+	height: 18px !important;
+	overflow: hidden;
+}
+.arrows {
+	font-family: "Oswald", sans !important;
+	display: inline;
+	font-size: 22px;
+	margin-right: 4px;
+	float: left;
 }
 .taskHeading {
 	font-size: 18px;
+	max-width: 78% !important;
+	height: 18px;
+	overflow: hidden;
+	float: left;
+}
+.ellipsis {
+	display: inline;
+
+	height: 18px;
+	font-size: 18px;
+	color: black;
+	overflow: hidden;
+	float: left;
 }
 .taskDescription {
 	font-size: 14px;
+	max-width: 82% !important;
+	height: 18px;
+	overflow: hidden;
+	float: left;
+}
+.ellipsis2 {
+	display: inline;
+	width: 10px;
+	height: 14px;
+	font-size: 16px;
+	overflow: hidden;
+	float: left;
 }
 .due2 {
 	font-style: italic;
@@ -59,6 +103,14 @@
 	padding: 5px;
 	border-radius: 3px;
 }
+.projectNameAsText {
+	font-size: 24px;
+	padding: 2px 3px 3px 4px;
+}
+.projectNameAsInput {
+	font-size: 24px;
+}
+
 .taskHeadingBar {
 	font-size: 28px;
 	color: darkgray;
@@ -67,30 +119,43 @@
 .confirmText {
 	font-size: 22px;
 }
+.headingAsInput {
+	font-size: 22px !important;
+	width: 100% !important;
+}
 .headingAsText {
-	font-size: 20px;
-	padding: 3px 0 3px 5px;
+	font-size: 22px;
+	font-weight: 800;
+	padding: 2px 0 2px 4px;
+	margin: 0;
 }
 .dateAsText {
 	font-size: 20px;
-	padding: 6px 0 3px 5px;
+	padding: 5px 0 3px 5px;
+}
+.dateAsInput {
+	font-size: 20px;
 }
 .descriptionAsText {
-	font-size: 20px;
-	margin: 6px 0 7px 5px;
+	font-size: 18px;
+	padding: 2px 3px 4px 3px;
+	margin: 0px 0px 2px 1px;
 }
 .descriptionAsInput {
-	margin: 3px 0px 4px 0px;
+	margin: 0px 0px 4px 0px;
 	min-width: 160px;
+	font-size: 18px !important;
 }
-
+.italicized {
+	font-style: italic;
+	color: gray;
+}
 .usersBox {
 	width: 100%;
 	border: none !important;
 }
 .userChipsBox {
 	padding: 4px !important;
-	width: 340px;
 	height: 64px;
 	display: inline-block;
 	overflow: auto;
@@ -105,7 +170,7 @@
 	background-color: white;
 	color: black;
 	padding: 6px;
-	margin: 0 6px;
+	margin: 0 6px 6px 6px;
 	font-size: 22px;
 	font-weight: 800;
 }
@@ -131,9 +196,14 @@
 	font-size: 18px;
 	font-weight: 800;
 }
+.xboxMargin {
+	padding: 0;
+	margin: 4px;
+	float: right;
+}
 .x-box {
-	width: 24px !important;
-	height: 24px !important;
+	width: 23px !important;
+	height: 23px !important;
 	border: 1px solid black;
 	border-radius: 4px;
 /*	box-shadow: 1px 0px 30px 1px black;
@@ -161,7 +231,7 @@
 .scrollboxForChecklistItems {
 	padding: 0;
 	width: 600px;
-	height: 150px !important;
+	height: 140px;
 	overflow-y: auto;
 }
 .itemBox {
@@ -169,7 +239,7 @@
 	padding: 4px;
 	min-height: 40px;
 }
-.ChecklistItemInline {
+.checklistItemInline {
 	display: inline-block;
 
 	color: black;
@@ -183,27 +253,35 @@
 	color: yellow;
 }
 .checklistItemText {
-	font-size: 20px;
-	margin: 3px 4px 3px 2px;
-	padding-left: 5px;
-	color: darkgray !important;
-	background-color: rgba(67, 77, 56, 1);
+	font-size: 16px;
+	margin: 0px 4px 3px 2px;
+	padding: 3px 3px 3px 4px;
+	min-width: 80%;
+	color: white;
+	background-color: rgba(39, 49, 63, 1);
 	border-radius: 3px;
 }
 .checklistItemInput {
-	padding: 0;
-	margin: 0;
+	margin: 0 !important;
+	font-size: 16px !important;
+	width: 98%;
+}
+.deleteMargin {
+	padding: 0px;
+	margin: -3px 0 -3px 4px;
 }
 .checklistItemDelete {
 	width: 20px;
 	height: 20px;
-	background-color: darkred;
+	background-color: black;
 	font-size: 18px;
-	padding: -4px 0px 0px 3px;
+	padding: -2px 0px 0px 3px;
 	border-radius: 3px;
+	margin: 0;
 }
 .checklistItemDelete:hover {
 	cursor: pointer;
+	background-color: darkred;
 }
 .addChecklistItemBar {
 	margin-top: 20px;
@@ -256,8 +334,7 @@
 	font-size: 18px;
 }
 input {
-	font-size: 20px !important;
-	padding: 4px !important;
+	padding: 3px !important;
 }
 label {
 	margin-bottom: 10px !important;
