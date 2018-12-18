@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {init as firebaseInit} from 'javascripts/firebase'
+import {firebaseInit} from 'javascripts/firebase'
 import {browserHistory} from 'react-router'
 import Routes from './routes'
 export default class Root extends Component {

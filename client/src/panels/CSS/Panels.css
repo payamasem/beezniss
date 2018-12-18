@@ -20,18 +20,21 @@ h2 {
 	padding: 24px;
 }
 .main {
-	margin-left: 10px;
-	padding-left: 10px;
+	margin-left: 0px;
+	padding-left: 4px;
 	min-height: 80vh;
 	max-height: 100% !important;
-	overflow-y: auto;
 }
 .subMain {
-	max-height: 112vh;
+	max-height: 106vh;
+	overflow-y: auto;
 }
 .subSubMain {
 	max-height: 100%;
 	overflow-y: auto;
+}
+.panelHeaderRow {
+	padding: 6px !important;
 }
 .item {
 	/*height: 90px;*/
@@ -46,9 +49,20 @@ div.content.active {
 .dropdown.icon {
 	display: none !important;
 }
+.title {
+	padding-right: 8px !important;
+}
 .projectLabel {
 	display: inline-block !important;
-	width: 22vw;
+	width: 98%;
+	margin: 0px;
+}
+.accordionedTaskBox {
+	padding: 14px 0px 7px 12px;
+	background-color: rgba(116, 124, 154, 1);
+	border-radius: 6px;
+	width: 96%;
+	margin: -18px 0 12px 2px;
 }
 .projectName {
 	margin: 0 8px 4px 0;
@@ -82,34 +96,56 @@ div.content.active {
 	font-size: 14px;
 	margin: 4px 2px 6px 0 !important;
 }
-.accordionedTaskBox {
-	padding: 14px 12px 7px 12px;
-	background-color: rgba(116, 124, 154, 1);
-	border-radius: 6px;
-	width: 22vw;
-	margin: -18px 0 12px 2px;
-}
 .ui.animated.list>.item:hover {
 	cursor: pointer;
 }
+
+.inputsColumn {
+	padding-left: 0px !important;
+}
+
+
+.salesHeading {
+	padding: 4px 0 0 4px;
+}
 .btnGroups {
 	display: inline-block !important;
-	max-width: 46% !important;
+	max-width: 44% !important;
+	max-height: 80px !important;
 	margin: 4px !important;
-}
-.salesBtnBig {
-	min-height: 86px !important;
 }
 .salesBtn {
 	border: 1px solid lightgray !important;
+	margin: 2px;
+	padding: 8px !important;
 }
 .salesBtn3 {
 	background-color: rgba(125, 232, 191, 0.34) !important;
 }
 .salesBtn4 {
 	background-color: rgba(125, 212, 232, 0.33) !important;
+	min-height: 60% !important;
 }
 .salesBtn5 {
 	border: solid lightgray 1px !important;
 	background-color: rgba(200, 125, 232, 0.33) !important;
+}
+.salesBtnBig {
+	min-height: 36px !important;
+	overflow: hidden;
+}
+.marketingBox {
+	max-height: 96% !important;
+	padding-bottom: 8px;
+}
+.messengerBox {
+	max-height: 100%;
+}
+.messageBox {
+  overflow-y: scroll;
+  min-height: 180px;
+  max-height: 340px;
+  background-color: white;
+  margin-bottom: 20px;
+  border: 1px solid black;
 }

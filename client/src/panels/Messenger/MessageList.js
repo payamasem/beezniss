@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import Message from './Message';
 import _ from 'lodash';
-import "./list.css";
-
-
-
+import "../CSS/Panels.css";
 
 class MessageList extends Component {
   constructor(props){
@@ -28,19 +25,20 @@ class MessageList extends Component {
                           return cloned;
                       })
                       .value();
-      this.setState({
-        messages: messages
-      });
+    this.setState({
+      messages: messages
+    });
   }
 
   render() {
     let messageNodes = this.state.messages.map((message) => {
       // console.log('the message = ', message);
       return (
-           <Message 
-              message={message.message} 
-              username={message.username}
-              key={message.key} /> 
+         <Message 
+            message={message.message} 
+            username={message.username}
+            key={message.key} 
+        /> 
       )
     });
     return (

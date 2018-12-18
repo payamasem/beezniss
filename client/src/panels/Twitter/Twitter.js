@@ -3,18 +3,18 @@ import { Timeline } from 'react-twitter-widgets';
 
 const TwitterPanel = () => (
   <div>
-  <h2>Social Media</h2>
-  <Timeline
-    dataSource={{
-      sourceType: 'profile',
-      screenName: 'Bayer'
-    }}
-    options={{
-      username: 'Bayer',
-      height: '400'
-    }}
-    onLoad={() => console.log('Timeline is loaded!')}
-  />
+    <h1>Social Media</h1>
+    <Timeline
+      dataSource={{
+        sourceType: 'profile',
+        screenName: 'Bayer'
+      }}
+      options={{
+        username: 'Bayer',
+        height: '440',
+      }}
+      onLoad={() => console.log('Timeline is loaded!')}
+    />
   </div>
 )
 

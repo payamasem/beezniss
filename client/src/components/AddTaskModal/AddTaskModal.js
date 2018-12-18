@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../CSS/Modal.css";
-import _ from 'lodash';
-import { Image, Button, Item, Form, Label, List, Header, Icon, Modal, Input, Checkbox, Dropdown } from 'semantic-ui-react';
+import { Grid, Button, Form, Label, Modal, Input, Dropdown } from 'semantic-ui-react';
 import API from "../../utils/API";
 
 
@@ -13,8 +12,8 @@ class AddTaskModal extends Component {
     description: "",
     due_date: "",
     project_id: null,
-    invalidDate: -1,
-    invalidHeading: -1,
+    invalidDate: 0,
+    invalidHeading: 0,
     selectedUsers: [], 
     possibleUsers: [],
   };
@@ -46,8 +45,8 @@ class AddTaskModal extends Component {
   handleClose = () => {
     this.setState({ 
       modalOpen: false, 
-      invalidHeading: -1, 
-      invalidDate: -1,
+      invalidHeading: 0, 
+      invalidDate: 0,
       heading: "",
       description: "",
       selectedUsers: [],
@@ -73,8 +72,8 @@ class AddTaskModal extends Component {
   }
 
   saveNewTask = () => {
-    if (this.state.heading.trim() === "") this.setState({ invalidHeading: 5, invalidDate: -1 });
-    else if (this.validateDate() == false) this.setState({ invalidDate: 5, invalidHeading: -1 });    
+    if (this.state.heading.trim() === "") this.setState({ invalidHeading: 1, invalidDate: 0 });
+    else if (this.validateDate() === false) this.setState({ invalidDate: 1, invalidHeading: 0 });    
     else {
       console.log('about to be saved, selectedUsers : ', this.state.selectedUsers);
       let list_item = {
@@ -116,82 +115,102 @@ class AddTaskModal extends Component {
   render() {
     // console.log("this is modal props:", this.props.tasks.project)
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
-    const headingValidation = { zIndex: this.state.invalidHeading };
-    const dateValidation = { zIndex: this.state.invalidDate };
+    const headingValidation = { opacity: this.state.invalidHeading, transition: "opacity 1.8s" };
+    const dateValidation = { opacity: this.state.invalidDate, transition: "opacity 1.8s" };
 
     return (
 
       <div className="well" style={wellStyles}>
         <Modal 
-          trigger={
-            <Button onClick={this.handleOpen} color='olive'>Add Task</Button>
-          }
+          trigger={<Button 
+            onClick={this.handleOpen} 
+            className='addProjectButton'>Add Task</Button>}
           open={this.state.modalOpen}
-          closeIcon
+          onClose={this.handleClose} 
+          className="theModal"
           >
 
-          <Modal.Header icon='archive' as='h1'>Create a New Task</Modal.Header>
+          <Modal.Header icon='archive' as='h1' className="createanewproject">Add a New Task</Modal.Header>
 
           <Modal.Content>          
-            <Form>
-              <div>
-                <Form.Field 
-                    required 
-                    control={Input} 
-                    placeholder='task heading'
-                    name="heading"
-                    type="text"
-                    value={this.state.heading}
-                    onChange={this.handleInputChange} 
-                />
-                <Label pointing color='orange' style={headingValidation}>Task must seek to accomplish something...</Label>
-              </div>
-              <Form.Field 
-                  required 
-                  control={Input} 
-                  placeholder='task description'
-                  name="description"
-                  type="text"
-                  value={this.state.description}
-                  onChange={this.handleInputChange} />
-              <Form.Input className="ui fluid search dropdown">
-                <input type="hidden" />
-                <i className="dropdown icon"></i>
-                <div className="default text">Select Task Collaborators</div>
-                <div className="menu">
-                {this.props.possible_users.map(user => (
-                    <div 
-                      className='item' 
-                      value={user.id}
-                      key={user.id}>{user.first_name}</div>                  
-                  ))}
-                </div>
-              </Form.Input>
+            <Grid divided="vertically" >
+              <Grid.Row className="modalRow">
+                <Grid.Column width={3}>
+                  <div className="labels">Task heading</div>
+                </Grid.Column>
+                <Grid.Column width={5} className="inputsColumn">
+                  <div>
+                    <Form.Field 
+                        required 
+                        control={Input}
+                        name="heading"
+                        type="text"
+                        className="headingAsInput"
+                        value={this.state.heading}
+                        onChange={this.handleInputChange} 
+                    />
+                    <Label pointing color='orange' style={headingValidation}>Task must seek to accomplish something</Label>
+                  </div>
+                </Grid.Column>
+                <Grid.Column width={3}>
+                  <div className="labels">Due date for this project</div>
+                </Grid.Column>
+                <Grid.Column width={5} className="inputsColumn">
+                  <div>
+                    <Form.Field>
+                      <Form.Input 
+                        required
+                        className="dateAsInput"
+                        type='date'
+                        value={this.state.due_date}
+                        onChange={event => this.setState({due_date: event.target.value})}
+                      />
+                    </Form.Field>
+                    <Label pointing color='orange' style={dateValidation}>Project must have a valid date</Label>
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row className="modalRow">
+                <Grid.Column width={3}>
+                  <div className="labels">Task description</div>
+                </Grid.Column>
+                <Grid.Column width={13} className="inputsColumn">
+                  <div>
+                    <Form.Field 
+                        required 
+                        control={Input}
+                        name="description"
+                        type="text"
+                        className="descriptionAsInput"
+                        value={this.state.description}
+                        onChange={this.handleInputChange} 
+                    />
+                  </div>
+                  <div className="finePrint italicized">
+                    * If you'd like to add checklist items to the task, click on the task in the list to edit after creating it.
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
 
-              <Dropdown 
-                className='userDropdown'
-                placeholder='Select...' 
-                selection
-                search
-                multiple
-                value={this.state.selectedUsers}
-                options={this.state.possibleUsers}
-                onChange={(event,{value}) => this.updateUsers(value, 'selectedUsers')}
-                >
-              </Dropdown>
-              <div>
-                <Form.Field>
-                  <Form.Input 
-                    required
-                    label='Due Date for this Task' 
-                    type='date' 
-                    value={this.state.due_date}
-                    onChange={event => this.setState({due_date: event.target.value})}
-                  />
-                </Form.Field>
-                <Label pointing color='orange' style={dateValidation}>Task must have a valid due date</Label>
-              </div>
-            </Form> 
+              <Grid.Row className="modalRow">
+                <Grid.Column width={3}>
+                  <div className="labels">Project collaborators</div>
+                </Grid.Column>
+                <Grid.Column width={13} className="inputsColumn">
+                  <Dropdown 
+                    className='userDropdown'
+                    placeholder='Select...' 
+                    selection
+                    search
+                    multiple
+                    value={this.state.selectedUsers}
+                    options={this.state.possibleUsers}
+                    onChange={(event,{value}) => this.updateUsers(value, 'selectedUsers')}
+                    >
+                  </Dropdown>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Modal.Content>
 
           <Modal.Actions>
@@ -200,6 +219,7 @@ class AddTaskModal extends Component {
           </Modal.Actions>
         </Modal> 
       </div>
+
     );
   }
 }

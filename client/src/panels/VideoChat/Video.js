@@ -12,11 +12,11 @@ const buttonStyle = {
 };
 const ConferenceCall = () => (
 	<div>
-	   <h2>Conference Room</h2>
+	   <h1>Conference Room</h1>
 		<Container textAlign='center'>
 			<img src={require('../../images/webcam.png')} width='120' style={imgStyle} alt="videochat" />
 			<br />
-			<Button style={buttonStyle} icon='video camera' content={<a href='http://payamasem.github.io/beeznissvideo/#beezniss' target='_blank'>Launch Video Call</a>} />
+			<Button style={buttonStyle} icon='video camera' content={<a href='http://payamasem.github.io/beeznissvideo/#beezniss' target='_blank' rel="noopener noreferrer">Launch Video Call</a>} />
 		</Container>
 	</div>
 )
