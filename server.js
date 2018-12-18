@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === "production") {
 	// app.use(express.static("client/build"));
-	app.use(express.static(path.join(__dirname, 'client/build')));
+	app.use(express.static('client/build'));
 }
 else {
 	app.use(express.static("client/public"));
