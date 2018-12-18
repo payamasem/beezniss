@@ -14,9 +14,13 @@ app.use(bodyParser.json());
 // ======================
 // Serve up static assets
 
-// app.use(express.static("client/build"));
-// app.use(express.static("client/public"));
-app.use(express.static("public"));
+if (process.env.NODE_ENV === "production") {
+	// app.use(express.static("client/build"));
+	app.use(express.static(path.join(__dirname, 'client/build')));
+}
+else {
+	app.use(express.static("client/public"));
+}
 
 // Add routes, both API and view
 app.use(routes);
@@ -28,6 +32,9 @@ app.use(routes);
 app.use(passport.initialize());
 app.use(passport.session());
 
+//  |================|
+//  |sequelize, MySQL|
+//  |================|
 db.sequelize.sync({ force: false }).then(function() {
 	app.listen(PORT, function() {
 	  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
