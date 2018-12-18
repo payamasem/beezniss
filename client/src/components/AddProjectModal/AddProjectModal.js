@@ -19,15 +19,19 @@ class AddProjectModal extends Component {
     this.loadUsers();
   }
 
-  handleOpen = () => this.setState({ modalOpen: true });
-  handleClose = () => this.setState({ 
-    modalOpen: false, 
-    invalidName: 0, 
-    invalidDate: 0, 
-    name: "",
-    due_date: "",
-    selectedUsers: [],
-  });
+  handleOpen = () => this.setState({ modalOpen: true })
+
+  handleClose = () => {
+    this.props.onClose();
+    this.setState({ 
+      modalOpen: false, 
+      invalidName: 0, 
+      invalidDate: 0, 
+      name: "",
+      due_date: "",
+      selectedUsers: [],
+    });
+  }
 
   loadUsers = () => {
     let userray = [];
@@ -39,7 +43,6 @@ class AddProjectModal extends Component {
       }
       userray.push(newUser);
       this.setState({ possible_users: userray });
-      console.log('possible_users: ', this.state.possible_users);
     });
   }
 
@@ -50,9 +53,7 @@ class AddProjectModal extends Component {
   validateDate = () => {
     let dateArray = this.state.due_date.split("-");
     if (dateArray.length !== 3) return false;
-    console.log("dateArray: ", dateArray);
     dateArray.forEach((el, i) => {
-      console.log('typeof parseInt(el) ', typeof parseInt(el));
       dateArray[i] = parseInt(el);
       if (typeof parseInt(el) !== "number") return false;
     });
@@ -71,7 +72,6 @@ class AddProjectModal extends Component {
       }
       API.createProject(list_item)
         .then(res => {
-          console.log('res from creating project = ', res.data)
           this.props.onClose();
         })
         .catch(err => console.log(err));
@@ -102,7 +102,9 @@ class AddProjectModal extends Component {
         <Modal 
           trigger={<Button 
             onClick={this.handleOpen} 
-            className='addProjectButton'>Add Project</Button>}
+            icon="plus"
+            content="Add Project"
+            className='addProjectButton'/>}
           open={this.state.modalOpen}
           onOpen={this.loadUsers}
           onClose={this.handleClose} 

@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT
     },
     due_date: {
-      type: DataTypes.DATE,  //<–– ????
+      type: DataTypes.DATEONLY,
       allowNull: true
     }
   }, {underscored: true, timestamps: false});

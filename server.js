@@ -7,22 +7,24 @@ var passport = require("./config/passport");
 
 const PORT = process.env.PORT || 3001;
 
-// Configure body parser for AJAX requests
+// Configure body parser for AJAX(axios) requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ======================
-// Serve up static assets
 
+// |======================|
+// |Serve up static assets|
+// |======================|
 if (process.env.NODE_ENV === "production") {
-	// app.use(express.static("client/build"));
 	app.use(express.static('client/build'));
 }
 else {
 	app.use(express.static("client/public"));
 }
 
-// Add routes, both API and view
+//  |======|
+//  |routes|
+//  |======|
 app.use(routes);
 
 //  |========|

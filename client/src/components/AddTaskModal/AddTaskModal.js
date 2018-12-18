@@ -22,9 +22,25 @@ class AddTaskModal extends Component {
     this.loadUsers();
   }
 
+  handleOpen = () => {
+    this.loadUsers();
+    this.setState({ modalOpen: true });
+  }
+  handleClose = () => {
+    this.props.onClose();
+    this.setState({ 
+      modalOpen: false, 
+      invalidHeading: 0, 
+      invalidDate: 0,
+      heading: "",
+      description: "",
+      selectedUsers: [],
+      due_date: "",
+    });
+  }
+
   loadUsers = () => {
     const possUsers = [];
-    // console.log('props.possibleUsers : ', this.props.possible_users);
     this.props.possible_users.map(user => {
       let uzer = {
         key: user.id,
@@ -38,22 +54,6 @@ class AddTaskModal extends Component {
     });
   }
 
-  handleOpen = () => {
-    this.loadUsers();
-    this.setState({ modalOpen: true });
-  }
-  handleClose = () => {
-    this.setState({ 
-      modalOpen: false, 
-      invalidHeading: 0, 
-      invalidDate: 0,
-      heading: "",
-      description: "",
-      selectedUsers: [],
-      due_date: "",
-    });
-  }
-
   updateUsers = (value, key) => {
     this.setState({ [key]: value });
   }
@@ -61,9 +61,7 @@ class AddTaskModal extends Component {
   validateDate = () => {
     let dateArray = this.state.due_date.split("-");
     if (dateArray.length !== 3) return false;
-    console.log("dateArray: ", dateArray);
     dateArray.forEach((el, i) => {
-      console.log('typeof parseInt(el) ', typeof parseInt(el));
       dateArray[i] = parseInt(el);
       if (typeof parseInt(el) !== "number") return false;
     });
@@ -75,7 +73,6 @@ class AddTaskModal extends Component {
     if (this.state.heading.trim() === "") this.setState({ invalidHeading: 1, invalidDate: 0 });
     else if (this.validateDate() === false) this.setState({ invalidDate: 1, invalidHeading: 0 });    
     else {
-      console.log('about to be saved, selectedUsers : ', this.state.selectedUsers);
       let list_item = {
         due_date: this.state.due_date,
         heading: this.state.heading.trim(),
@@ -85,7 +82,6 @@ class AddTaskModal extends Component {
       }
       API.createTask(list_item)
         .then(res => {
-          console.log('res from creating task = ', res.data)
           this.props.onClose();
         })
         .catch(err => console.log(err));
@@ -97,7 +93,6 @@ class AddTaskModal extends Component {
       });
 
       this.handleClose();
-      console.log('this.props = ', this.props);
     }
   }
 
@@ -106,9 +101,6 @@ class AddTaskModal extends Component {
     this.setState({
         [name]: value
     });
-
-    console.log('possible_users: ', this.props.possible_users);
-
   };
               
 
@@ -123,8 +115,10 @@ class AddTaskModal extends Component {
       <div className="well" style={wellStyles}>
         <Modal 
           trigger={<Button 
+            icon="plus"
             onClick={this.handleOpen} 
-            className='addProjectButton'>Add Task</Button>}
+            className='addTaskButton'
+            content="Add Task" />}
           open={this.state.modalOpen}
           onClose={this.handleClose} 
           className="theModal"

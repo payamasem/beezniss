@@ -34,13 +34,13 @@ class TaskManager extends Component {
   componentDidMount() {
     this.loadTasks();
     this.loadUsers();
-    const duh = document.getElementsByClassName("subMain");
-    duh[0].addEventListener("onmouseover", this.handleScroll);
   }
 
   loadTasks = () => {
     API.getTasks()
       .then(res => {
+        console.log("REZ DATA", res.data);
+        // this.setState({ projects: res.data.Projects, tasks: res.data.Tasks });
         this.sortResData(res.data);
       })
       .catch(err => console.log(err));
@@ -49,7 +49,6 @@ class TaskManager extends Component {
     API.getUsers()
       .then(userRez => {
         this.setState({ users: userRez.data });
-        console.log('userRez: ', userRez.data);
       })
       .catch(err => console.log(err));
   }
@@ -61,12 +60,7 @@ class TaskManager extends Component {
   }
 
   sortResData = obj => {
-    const nest = {
-      Projects: obj.Projects,
-      Tasks: obj.Tasks
-    }
-
-    console.log('BEFORE sorting: ', obj);
+    const nest = { Projects: obj.Projects };
 
     //====================
     //== for each project, 
@@ -86,64 +80,35 @@ class TaskManager extends Component {
 
     this.setState({
       projects: nest.Projects,
-      tasks: nest.Tasks
+      tasks: obj.Tasks,
     });
-    console.log("AFTER sorting, projects & tasks: ", this.state.projects);
+
+    // this.sortByDate(nest.Projects);
   }
 
+  sortByDate = (progetti) => {
+    let progettiNuovi = [];
+    progettiNuovi[0] = progetti[0];
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      task: {
-        [name]: value
+    for (let i = 0; i < progetti.length; i++) {
+      for (let j = 0; j < progettiNuovi.length; j++) {
+        if (progetti[i].due_date > progettiNuovi[j].due_date) {
+          progettiNuovi.splice(j + 1, 0, progetti[i]);
+        }
+        else if (j === progettiNuovi.length - 1) {
+          progettiNuovi.splice(j, 0, progetti[i]);
+        }
       }
-    });
-  }
-
-  handleScroll = (element) => {
-    console.log("we scrollin ", element);
-    const theScrollBox = document.getElementsByClassName("subMain");
-    if (element.scrollTop > 0) {
-      this.setState({ shadow: `0 22 56 -6 #000000`, borderBottom: "1px solid black" });
-      console.log("GREATER THAN ZERO!!", theScrollBox.scrollTop);
-      console.log("GREATER THAN ZERO!!", element.scrollTop);
     }
-    else this.setState({ shadow: "0", borderBottom: "none"});
+    this.setState({ projects: progettiNuovi });
   }
 
   formatDate = i => {
     let due = new Date(this.state.projects[i].due_date);
-    // console.log(`new Date(due_date) BEFORE ${due}`);
     if (due.getHours() !== 0) due.setHours(24);
     let dueDate = due.toDateString();
-    // console.log("due_date ", this.state.projects[i].due_date);
-    // console.log(`new Date(due_date) AFTER ${due}`);
-    // console.log(`due_date.getTimezoneOffset() ${due.getTimezoneOffset()} `);  
-    // console.log(`due_date.toString() ${dueDate}`);
     return dueDate;
   }
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.task.heading) {
-      API.createTask({
-        heading: this.state.task.heading,
-        description: this.state.task.description
-      })
-      .then(res => {
-        console.log('task created!! -- ', res.data);
-        this.loadTasks();
-        this.setState({
-          task: {
-            heading: "",
-            description: ""
-          }
-        });
-      })      
-      .catch(err => console.log(err));
-    }
-  };
 
   // ==================================
   // ==================================

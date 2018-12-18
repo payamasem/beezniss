@@ -63,6 +63,7 @@
 	height: 18px;
 	overflow: hidden;
 	float: left;
+	color: rgba(20, 35, 42, 1) !important;
 }
 .ellipsis {
 	display: inline;
@@ -380,10 +381,22 @@ label {
 }
 .addProjectButton {
 	margin: 12px 0 0 6px;
-	background-color: rgba(255, 189, 56, 0.85) !important;
+	background-color: rgba(177, 153, 47, 1) !important;
+	color: rgba(222, 213, 171, 1) !important;
+}
+.addProjectButton:hover {
+	background-color: rgba(189, 164, 50, 1) !important;
+	color: rgba(245, 242, 229, 1) !important;
+
 }
 .createanewproject {
 	font-family: "Oswald", sans !important;
 	color: darkgray !important;
 	font-size: 36px !important;	
+}
+.addTaskButton {
+	background-color: rgba(135, 205, 238, 1) !important;
+}
+.addTaskButton:hover {
+	background-color: rgba(157, 214, 241, 1) !important;
 }
