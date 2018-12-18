@@ -22,6 +22,10 @@
 .sideMargin {
 	margin: 0 8px;
 }
+.spacer {
+	height: 30px;
+	min-width: 20px;
+}
 .taskModalTitle {
 	font-size: 32px !important;
 }
@@ -51,6 +55,7 @@
 	font-size: 22px;
 	margin-right: 4px;
 	float: left;
+	color: white;
 }
 .taskHeading {
 	font-size: 18px;
@@ -61,7 +66,6 @@
 }
 .ellipsis {
 	display: inline;
-
 	height: 18px;
 	font-size: 18px;
 	color: black;
@@ -69,17 +73,19 @@
 	float: left;
 }
 .taskDescription {
-	font-size: 14px;
+	font-size: 13px;
 	max-width: 82% !important;
-	height: 18px;
+	height: 16px;
 	overflow: hidden;
 	float: left;
+	color: white;
 }
 .ellipsis2 {
 	display: inline;
 	width: 10px;
 	height: 14px;
-	font-size: 16px;
+	font-size: 14px;
+	color: white;
 	overflow: hidden;
 	float: left;
 }
@@ -119,6 +125,12 @@
 .confirmText {
 	font-size: 22px;
 }
+.addAHeading {
+	font-size: 22px;
+	padding: 0px 2px;
+	font-style: italic;
+	color: lightgray;
+}
 .headingAsInput {
 	font-size: 22px !important;
 	width: 100% !important;
@@ -144,7 +156,18 @@
 .descriptionAsInput {
 	margin: 0px 0px 4px 0px;
 	min-width: 160px;
+	width: 100%;
 	font-size: 18px !important;
+}
+.ui.input {
+	width: 100%;
+}
+.description {
+	width: 100%;
+}
+.finePrint {
+	font-size: 14px;
+	padding: 12px 0 0 8px;
 }
 .italicized {
 	font-style: italic;
@@ -326,7 +349,7 @@
 	color: darkgray;
 }
 .userDropdown {
-	margin: 6px 2px 6px 240px !important;
+	margin: 6px 2px 6px 0px !important;
 }
 .optionChipText {
 	display: inline;
@@ -358,4 +381,9 @@ label {
 .addProjectButton {
 	margin: 12px 0 0 6px;
 	background-color: rgba(255, 189, 56, 0.85) !important;
+}
+.createanewproject {
+	font-family: "Oswald", sans !important;
+	color: darkgray !important;
+	font-size: 36px !important;	
 }

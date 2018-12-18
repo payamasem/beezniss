@@ -1,17 +1,12 @@
 import React, { Component } from "react";
-import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
-import { Col, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { FormBtn } from "../../components/Form";
 import AddTaskModal from "../../components/AddTaskModal";
 import EditTaskModal from "../../components/EditTaskModal";
 import AddProjectModal from "../../components/AddProjectModal";
 import EditProjectModal from "../../components/EditProjectModal";
 import _ from 'lodash';
-import { Accordion, Content, Icon, Image, Label, Button, Form, Field, Group, TextArea, Input, Grid, Column, Row } from 'semantic-ui-react';
-import "./TaskManager.css";
+import { Accordion, Label } from 'semantic-ui-react';
+import "../CSS/Panels.css";
 
 class TaskManager extends Component {
   state = {
@@ -31,12 +26,16 @@ class TaskManager extends Component {
       heading: "",
       description: "",
       due_date: ""
-    }
+    },
+    shadow: "0",
+    borderBottom: "none",
   };
 
   componentDidMount() {
     this.loadTasks();
     this.loadUsers();
+    const duh = document.getElementsByClassName("subMain");
+    duh[0].addEventListener("onmouseover", this.handleScroll);
   }
 
   loadTasks = () => {
@@ -45,7 +44,7 @@ class TaskManager extends Component {
         this.sortResData(res.data);
       })
       .catch(err => console.log(err));
-  };
+  }
   loadUsers = () => {
     API.getUsers()
       .then(userRez => {
@@ -53,19 +52,19 @@ class TaskManager extends Component {
         console.log('userRez: ', userRez.data);
       })
       .catch(err => console.log(err));
-  };
+  }
 
   deleteTask = id => {
     API.deleteTask(id)
       .then(res => this.loadTasks())
       .catch(err => console.log(err));
-  };
+  }
 
   sortResData = obj => {
     const nest = {
       Projects: obj.Projects,
       Tasks: obj.Tasks
-    };
+    }
 
     console.log('BEFORE sorting: ', obj);
 
@@ -90,7 +89,7 @@ class TaskManager extends Component {
       tasks: nest.Tasks
     });
     console.log("AFTER sorting, projects & tasks: ", this.state.projects);
-  };
+  }
 
 
   handleInputChange = event => {
@@ -100,7 +99,18 @@ class TaskManager extends Component {
         [name]: value
       }
     });
-  };
+  }
+
+  handleScroll = (element) => {
+    console.log("we scrollin ", element);
+    const theScrollBox = document.getElementsByClassName("subMain");
+    if (element.scrollTop > 0) {
+      this.setState({ shadow: `0 22 56 -6 #000000`, borderBottom: "1px solid black" });
+      console.log("GREATER THAN ZERO!!", theScrollBox.scrollTop);
+      console.log("GREATER THAN ZERO!!", element.scrollTop);
+    }
+    else this.setState({ shadow: "0", borderBottom: "none"});
+  }
 
   formatDate = i => {
     let due = new Date(this.state.projects[i].due_date);
@@ -140,7 +150,7 @@ class TaskManager extends Component {
   // ==================================
 
   render() { 
-
+    const scrollStyle = { boxShadow: this.state.shadow, transition: "box-shadow 1.5s", borderBottom: this.state.borderBottom };
     const panel = _.times(this.state.projects.length, i => ({
       title: {
         content: (
@@ -193,10 +203,10 @@ class TaskManager extends Component {
 
     return (
       <div className='main'>
+        <div className="panelHeaderRow" style={scrollStyle}>
+          <h1>Task Manager</h1>
+        </div>
         <div className='subMain'>
-          <div>
-            <h1>Task Manager</h1>
-          </div>
           <div className='subSubMain'>
             <Accordion panels={panel} /> 
           </div>

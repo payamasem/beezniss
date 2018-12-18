@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import "../CSS/Modal.css";
-import _ from 'lodash';
-import { Grid, Form, Label, Image, Button, Dropdown, Header, Modal, Input, Checkbox } from 'semantic-ui-react';
+import { Grid, Form, Label, Image, Button, Modal, Input } from 'semantic-ui-react';
 import API from "../../utils/API";
 import Edit from '../../images/edit.png';
 import DeleteCharcoal from '../../images/deleteCharcoal.png';
-import { dateData } from "../../data/dateData.js";
+
 
 class EditProjectModal extends Component {
 
   state = {
     modalOpen: false,
-    invalidName: -1,
+    invalidName: 0,
     name: "",
     due_date: "",
     slim_due_date: "",
@@ -47,7 +46,7 @@ class EditProjectModal extends Component {
     this.props.onClose();
     this.setState({ 
       modalOpen: false, 
-      invalidName: -1,
+      invalidName: 0,
       changesMade: false,
       confirmOpen: false,
       wannaSaveOpen: false,
@@ -123,6 +122,10 @@ class EditProjectModal extends Component {
   textify = (exception) => {
     if (exception !== "projectName") this.setState({ projectNameAsInput: false });
     if (exception !== "date") this.setState({ dateAsInput: false });
+
+    if (exception !== "projectName" && this.state.changesMade === true && this.state.projectName.trim() === "") {
+      this.setState({ projectName: this.state.projectName.trim() });
+    }
   }
 
   addCollaborator = id => {
@@ -151,7 +154,7 @@ class EditProjectModal extends Component {
 
   saveProjectEdits = () => {
     console.log('this.state.slim_due_date: ', this.state.slim_due_date);
-    if (this.state.projectName.trim() === "") this.setState({ invalidName: 5 });
+    if (this.state.projectName.trim() === "") this.setState({ invalidName: 1 });
     else {
       let project_object = {
         due_date: this.state.slim_due_date,
@@ -185,11 +188,12 @@ class EditProjectModal extends Component {
         users: [],
       };
       tasc.Users.forEach(tu => {
-        // if each user assigned to the task is still assigned to the task's project, push
+        // Check each user assigned to the task; if still assigned to the task's project, push
         if (this.state.project_users.indexOf(tu.id) !== -1) {
           tasqueNouveau.users.push(tu.id);
         }
       });
+        // Update the database:
       API.editTask(tasc.id, tasqueNouveau)
         .then(res => console.log('updated task ', res.data))
         .catch(err => console.log(err));  
@@ -210,7 +214,7 @@ class EditProjectModal extends Component {
 
   render() {
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
-    const nameValidation = { zIndex: this.state.invalidName };
+    const nameValidation = { opacity: this.state.invalidName, transition: "opacity 1.9s" };
 
     return (
 
@@ -244,13 +248,21 @@ class EditProjectModal extends Component {
                       <Label pointing color='orange' style={nameValidation}>Project must have a name</Label>
                     </div>
                     :
-                    <Form.Field 
-                      control={Form.Field}
-                      className="projectNameAsText"
-                      name="projectName"
-                      size="big"
-                    >{this.state.projectName}
-                    </Form.Field>
+                    <div>
+                      <Form.Field 
+                        control={Form.Field}
+                        className="projectNameAsText"
+                        name="projectName"
+                        size="big"
+                      >{ (this.state.projectName !== "") ?
+                        this.state.projectName
+                        :
+                        <div className="addAHeading"
+                          name="projectName">add a project name...</div>
+                      }
+                      </Form.Field>
+                      <Label pointing color='orange' style={nameValidation}>Project must have a name</Label>
+                    </div>
                   }
                 </Grid.Column>
 

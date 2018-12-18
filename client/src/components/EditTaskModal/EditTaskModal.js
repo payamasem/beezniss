@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import "../CSS/Modal.css";
-import _ from 'lodash';
-import Hammer from '../../images/hammer.png';
 import DeleteLight from '../../images/deleteLite.png';
 import DeleteCharcoal from '../../images/deleteCharcoal.png';
-import { Grid, Segment, Image, Button, Form, Label, Item, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
+import { Grid, Image, Button, Form, Label, List, Header, Modal, Input, Checkbox } from 'semantic-ui-react';
 import API from "../../utils/API";
 
 class EditTaskModal extends Component {
@@ -19,7 +17,7 @@ class EditTaskModal extends Component {
     task_users: [],
     openOptions: [],
     userMap: {},
-    invalidHeading: -3,
+    invalidHeading: 0,
     headingAsInput: false,
     descriptionAsInput: false,
     dateAsInput: false,
@@ -50,7 +48,7 @@ class EditTaskModal extends Component {
       confirmOpen: false,
       headingAsInput: false,
       descriptionAsInput: false,
-      invalidHeading: -3,
+      invalidHeading: 0,
       altered: [],
     });
     document.removeEventListener('mousedown', this.handleClick, false);
@@ -165,6 +163,9 @@ class EditTaskModal extends Component {
         this.setState({ [item.id + "AsInput"]: false });
       }
     });
+    if (exception !== "heading" && this.state.changesMade === true && this.state.heading.trim() === "") {
+      this.setState({ heading: this.state.heading.trim() });
+    }
     if (exception !== "description" && this.state.changesMade === true && this.state.description.trim() === "") {
       this.setState({ description: this.state.description.trim() });
     }
@@ -180,7 +181,18 @@ class EditTaskModal extends Component {
   saveTaskEdits = () => {
     console.log('this.state.slim_due_date: ', this.state.slim_due_date);
     this.closeConfirm();
-    if (this.state.heading.trim() === "") this.setState({ invalidHeading: 5 });
+    if (this.state.heading.trim() === "") {
+      this.setState({ invalidHeading: 1 });
+
+      const modals = document.getElementsByClassName("theModal");
+
+      console.log("MODALS", modals);
+
+      for (let i = 0; i < modals.length; i++) {
+        modals[i].parentElement.scrollTop = 0;
+      }
+      // modals.forEach(modal => modal.scrollTop = 0);
+    }
     else {
       const task_object = {
         due_date: this.state.due_date,
@@ -198,7 +210,7 @@ class EditTaskModal extends Component {
         .catch(err => console.log(err));
 
       this.handleEditTaskModalClose();
-      this.setState({ invalidHeading: -3 });
+      this.setState({ invalidHeading: 0 });
       console.log('this.props = ', this.props);
     }
   }
@@ -293,7 +305,12 @@ class EditTaskModal extends Component {
             name="heading"
             className="headingAsInput"
             type="text"
-            value={this.state.heading}
+            value={ (this.state.heading !== "") ?
+                        this.state.heading
+                        :
+                        <div className="italicized descriptionAsText"
+                          name="heading">add a heading...</div>
+                      }
             onChange={event => this.setState({ heading: event.target.value, changesMade: true })} 
         />
       )
@@ -402,7 +419,7 @@ class EditTaskModal extends Component {
   render() {
 
     const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
-    const headingValidation = { zIndex: this.state.invalidHeading };
+    const headingValidation = { opacity: this.state.invalidHeading, transition: "opacity 1.8s" };
 
     return (
 
@@ -445,8 +462,33 @@ class EditTaskModal extends Component {
                 Task:
               </Grid.Column>
               <Grid.Column width={7}>
-                {this.renderHeading()}
-                <Label pointing color='orange' style={headingValidation}>Task must have a heading</Label>
+                { (this.state.headingAsInput === true) ?
+                    <Input 
+                      fluid
+                      className="headingAsInput"
+                      name="heading"
+                      value={this.state.heading}
+                      onChange={event => this.setState({ heading: event.target.value, changesMade: true })}
+                    />
+                    :
+                    <div 
+                      className="headingAsText"
+                      name="heading"
+                    >
+                    { (this.state.heading !== "") ?
+                      this.state.heading
+                      :
+                      <div className="addAHeading"
+                        name="heading">add a task heading...</div>
+                    }
+                    </div>
+                }
+                <Label 
+                  pointing 
+                  color='orange' 
+                  className="validationTag"
+                  style={headingValidation}>Task must have a heading
+                </Label>
               </Grid.Column>
               <Grid.Column width={2} className="labels">
                 Due date:
@@ -581,7 +623,7 @@ class EditTaskModal extends Component {
                   <input type="text"
                       placeholder="get something done..."
                       value={this.state.checklist_item_text}
-                      onChange={event => this.setState({ checklist_item_text: event.target.value, changesMade: true })}
+                      onChange={event => this.setState({ checklist_item_text: event.target.value, changesMade: true, isAddChecklistMostRecent: true })}
                       name='checklist_item_text' 
                   />
                   <div className="ui button" color='olive' onClick={() => this.saveNewChecklistItem()}>add checklist item</div>

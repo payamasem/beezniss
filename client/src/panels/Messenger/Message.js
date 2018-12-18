@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Comment, Form } from 'semantic-ui-react'
+import { Comment } from 'semantic-ui-react'
 
 
 class Message extends Component {
