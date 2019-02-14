@@ -500,16 +500,14 @@ class EditTaskModal extends Component {
                       label={null}
                       className="checklistItemInline checkbox"
                       checked={this.state[item.id].completed}
-                      name={item.id}
                       onChange={() => this.toggleCheckbox(item.id)}
                       // onClick={() => this.toggleCheckbox(item.id)} }
                     />
                     <div className="checklistItemInline textDiv">
                       { this.state[item.id + "AsInput"] === false ?
                         <div className='checklistItemText'>
-                          <label 
-
-                            name={item.id}>{this.state[item.id].text}
+                          <label className={"completed" + this.state[item.id].completed}>
+                            {this.state[item.id].text}
                           </label>
                         </div>
                         :

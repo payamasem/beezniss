@@ -311,6 +311,9 @@
 	margin-top: 20px;
 	padding-top: 10px;
 }
+.completetrue {
+	text-decoration: line-through;
+}
 .editButton {
 	width: 36px;
 	height: 36px;

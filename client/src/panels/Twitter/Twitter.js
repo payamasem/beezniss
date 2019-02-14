@@ -13,7 +13,6 @@ const TwitterPanel = () => (
         username: 'Bayer',
         height: '440',
       }}
-      onLoad={() => console.log('Timeline is loaded!')}
     />
   </div>
 )

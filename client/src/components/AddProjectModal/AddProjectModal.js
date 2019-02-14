@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../CSS/Modal.css";
-import { Grid, Dropdown, Button, Label, Form, Header, Modal, Input } from 'semantic-ui-react';
+import { Grid, Dropdown, Button, Label, Form, Modal, Input } from 'semantic-ui-react';
 import API from "../../utils/API";
 
 class AddProjectModal extends Component {

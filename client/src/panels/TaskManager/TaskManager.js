@@ -40,7 +40,6 @@ class TaskManager extends Component {
     API.getTasks()
       .then(res => {
         console.log("REZ DATA", res.data);
-        // this.setState({ projects: res.data.Projects, tasks: res.data.Tasks });
         this.sortResData(res.data);
       })
       .catch(err => console.log(err));
@@ -53,24 +52,23 @@ class TaskManager extends Component {
       .catch(err => console.log(err));
   }
 
-  deleteTask = id => {
-    API.deleteTask(id)
-      .then(res => this.loadTasks())
-      .catch(err => console.log(err));
-  }
-
   sortResData = obj => {
     const nest = { Projects: obj.Projects };
 
     //====================
-    //== for each project, 
+    //== Sequelize returns an array of Projects with their associated Users nested,
+    //== as well as associated Tasks;  HOWEVER, those nested 
+    //== Tasks do NOT include their OWN nested associated Users, so from the back
+    //== I've returned both Projects and Tasks (which DO include their Users)...
+    //====================
+    //== ... and for each project, 
     //== find any tasks with a matching project id
     //== and put them in the array of that project's tasks
 
     for (let i = 0; i < obj.Projects.length; i++) {
       //  for ex., Projects[1] has an id === 6
       for (let j = 0; j < obj.Tasks.length; j++) {
-        // for ex., Projects[3] has an id == 9, Tasks[2].project_id == 7
+        // for ex., Projects[3] has an id === 9, Tasks[2].project_id === 9
         if (obj.Projects[i].id === obj.Tasks[j].project_id) {
           nest.Projects[i].Tasks.unshift(obj.Tasks[j]);
           nest.Projects[i].Tasks.pop();
@@ -82,25 +80,6 @@ class TaskManager extends Component {
       projects: nest.Projects,
       tasks: obj.Tasks,
     });
-
-    // this.sortByDate(nest.Projects);
-  }
-
-  sortByDate = (progetti) => {
-    let progettiNuovi = [];
-    progettiNuovi[0] = progetti[0];
-
-    for (let i = 0; i < progetti.length; i++) {
-      for (let j = 0; j < progettiNuovi.length; j++) {
-        if (progetti[i].due_date > progettiNuovi[j].due_date) {
-          progettiNuovi.splice(j + 1, 0, progetti[i]);
-        }
-        else if (j === progettiNuovi.length - 1) {
-          progettiNuovi.splice(j, 0, progetti[i]);
-        }
-      }
-    }
-    this.setState({ projects: progettiNuovi });
   }
 
   formatDate = i => {
