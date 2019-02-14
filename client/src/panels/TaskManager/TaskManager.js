@@ -34,13 +34,12 @@ class TaskManager extends Component {
   componentDidMount() {
     this.loadTasks();
     this.loadUsers();
-    const duh = document.getElementsByClassName("subMain");
-    duh[0].addEventListener("onmouseover", this.handleScroll);
   }
 
   loadTasks = () => {
     API.getTasks()
       .then(res => {
+        console.log("REZ DATA", res.data);
         this.sortResData(res.data);
       })
       .catch(err => console.log(err));
@@ -49,34 +48,27 @@ class TaskManager extends Component {
     API.getUsers()
       .then(userRez => {
         this.setState({ users: userRez.data });
-        console.log('userRez: ', userRez.data);
       })
       .catch(err => console.log(err));
   }
 
-  deleteTask = id => {
-    API.deleteTask(id)
-      .then(res => this.loadTasks())
-      .catch(err => console.log(err));
-  }
-
   sortResData = obj => {
-    const nest = {
-      Projects: obj.Projects,
-      Tasks: obj.Tasks
-    }
-
-    console.log('BEFORE sorting: ', obj);
+    const nest = { Projects: obj.Projects };
 
     //====================
-    //== for each project, 
+    //== Sequelize returns an array of Projects with their associated Users nested,
+    //== as well as associated Tasks;  HOWEVER, those nested 
+    //== Tasks do NOT include their OWN nested associated Users, so from the back
+    //== I've returned both Projects and Tasks (which DO include their Users)...
+    //====================
+    //== ... and for each project, 
     //== find any tasks with a matching project id
     //== and put them in the array of that project's tasks
 
     for (let i = 0; i < obj.Projects.length; i++) {
       //  for ex., Projects[1] has an id === 6
       for (let j = 0; j < obj.Tasks.length; j++) {
-        // for ex., Projects[3] has an id == 9, Tasks[2].project_id == 7
+        // for ex., Projects[3] has an id === 9, Tasks[2].project_id === 9
         if (obj.Projects[i].id === obj.Tasks[j].project_id) {
           nest.Projects[i].Tasks.unshift(obj.Tasks[j]);
           nest.Projects[i].Tasks.pop();
@@ -86,64 +78,16 @@ class TaskManager extends Component {
 
     this.setState({
       projects: nest.Projects,
-      tasks: nest.Tasks
+      tasks: obj.Tasks,
     });
-    console.log("AFTER sorting, projects & tasks: ", this.state.projects);
-  }
-
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      task: {
-        [name]: value
-      }
-    });
-  }
-
-  handleScroll = (element) => {
-    console.log("we scrollin ", element);
-    const theScrollBox = document.getElementsByClassName("subMain");
-    if (element.scrollTop > 0) {
-      this.setState({ shadow: `0 22 56 -6 #000000`, borderBottom: "1px solid black" });
-      console.log("GREATER THAN ZERO!!", theScrollBox.scrollTop);
-      console.log("GREATER THAN ZERO!!", element.scrollTop);
-    }
-    else this.setState({ shadow: "0", borderBottom: "none"});
   }
 
   formatDate = i => {
     let due = new Date(this.state.projects[i].due_date);
-    // console.log(`new Date(due_date) BEFORE ${due}`);
     if (due.getHours() !== 0) due.setHours(24);
     let dueDate = due.toDateString();
-    // console.log("due_date ", this.state.projects[i].due_date);
-    // console.log(`new Date(due_date) AFTER ${due}`);
-    // console.log(`due_date.getTimezoneOffset() ${due.getTimezoneOffset()} `);  
-    // console.log(`due_date.toString() ${dueDate}`);
     return dueDate;
   }
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.task.heading) {
-      API.createTask({
-        heading: this.state.task.heading,
-        description: this.state.task.description
-      })
-      .then(res => {
-        console.log('task created!! -- ', res.data);
-        this.loadTasks();
-        this.setState({
-          task: {
-            heading: "",
-            description: ""
-          }
-        });
-      })      
-      .catch(err => console.log(err));
-    }
-  };
 
   // ==================================
   // ==================================

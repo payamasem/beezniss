@@ -125,12 +125,7 @@ class EditTaskModal extends Component {
   }
 
   handleClick = event => {
-    console.log('event', event );
-
     const name = event.target.attributes.name ? event.target.attributes.name.nodeValue : null;
-
-    console.log('event.target.attributes.name.nodeValue = ', name); 
-    console.log('this.state ', this.state);
 
     if (name) {
       this.setState({ [name + "AsInput"]: true });
@@ -179,20 +174,19 @@ class EditTaskModal extends Component {
   }
 
   saveTaskEdits = () => {
-    console.log('this.state.slim_due_date: ', this.state.slim_due_date);
     this.closeConfirm();
+
+    // make sure the task heading is more than just spaces, otherwise show flag:
     if (this.state.heading.trim() === "") {
       this.setState({ invalidHeading: 1 });
 
       const modals = document.getElementsByClassName("theModal");
 
-      console.log("MODALS", modals);
-
       for (let i = 0; i < modals.length; i++) {
         modals[i].parentElement.scrollTop = 0;
       }
-      // modals.forEach(modal => modal.scrollTop = 0);
     }
+    // Else heading valid, save edits to the database
     else {
       const task_object = {
         due_date: this.state.due_date,
@@ -200,18 +194,15 @@ class EditTaskModal extends Component {
         description: this.state.description,
         users: this.state.task_users  // <–––– [5, 3, 4, ...]
       };
-      console.log('||^||___ task obj to be sent to database: ', task_object);
 
       API.editTask(this.props.task.id, task_object)
         .then(res => {
-          console.log('res from editing task = ', res.data)
           this.props.onClose();
         })
         .catch(err => console.log(err));
 
       this.handleEditTaskModalClose();
       this.setState({ invalidHeading: 0 });
-      console.log('this.props = ', this.props);
     }
   }
 
@@ -219,7 +210,6 @@ class EditTaskModal extends Component {
     this.handleEditTaskModalClose();
     API.deleteTask(this.props.task.id)
       .then(res => {
-        console.log('res from deleting the task: ', res);
         this.props.onClose();
       })
       .catch(err => console.log(err));
@@ -233,7 +223,6 @@ class EditTaskModal extends Component {
     // console.log('NEW checklist list_item = ', list_item);
     API.createChecklistItem(list_item)
       .then(res => {
-        console.log('res from creating checklist item = ', res.data);
         res.data.Checklist_Items.map(item => {
           this.setState({
             [item.id]: item,
@@ -244,8 +233,6 @@ class EditTaskModal extends Component {
           checklist_items: res.data.Checklist_Items,
           checklist_item_text: "" 
         }, () => this.props.onClose());
-
-        console.log('STATE : ', this.state);
       })
       .catch(err => console.log(err));
   }
@@ -253,7 +240,7 @@ class EditTaskModal extends Component {
   editChecklistItem = (item_id) => {
     API.editChecklistItem(item_id, this.state[item_id])
       .then(res => {
-        console.log("checklist update res = ", res);
+        this.props.onClose();
       })
       .catch(err => console.log('error during attempted item update: ', err));
   }
@@ -261,7 +248,6 @@ class EditTaskModal extends Component {
   deleteChecklistItem = (item_id) => {
     API.deleteChecklistItem(item_id)
       .then(res => {
-          console.log('after deletion, updated task: ', res.data);
           this.setState(state => ({ checklist_items: res.data.Checklist_Items }), 
             () => console.log('updated state: ', this.state)
           );
@@ -275,26 +261,12 @@ class EditTaskModal extends Component {
     }
   }
 
-
-  toggleInput = field => {
-    const key = field + "AsInput";
-    this.setState({ [key]: !this.state[key] });
-  }
   toggleCheckbox = (item_id) => {
-    console.log('TOGGLE item_id :', item_id);
-    console.log('TOGGLE this.state[item_id] : ', this.state[item_id]);
     this.setState(state => ({
       [item_id]: { ...state[item_id], completed: !state[item_id].completed }
     }), 
     () => this.editChecklistItem(item_id));
   }
-  toggleHeading = () => {
-    this.setState({ headingAsInput: !this.state.headingAsInput });
-  }
-  toggleDescription = () => {
-    this.setState({ descriptionAsInput: !this.state.descriptionAsInput });
-  }
-
 
   renderHeading = () => {
     if (this.state.headingAsInput === true) {
@@ -364,57 +336,6 @@ class EditTaskModal extends Component {
       else return "...";
     }
   }
-
-  // renderDescription = () => {
-  //   if (this.state.descriptionAsInput === true) {
-  //     return (
-  //       <Input 
-  //         fluid
-  //         className="descriptionAsInput"
-  //         ref={nodedescription => this.nodedescription = nodedescription}
-  //         name="description"
-  //         value={this.state.description}
-  //         onChange={event => this.setState({ description: event.target.value, changesMade: true })}
-  //       />
-  //     )
-  //   }
-  //   else {
-  //     return (
-  //       <div 
-  //         className="descriptionAsText"
-  //         ref={nodedescription => this.nodedescription = nodedescription}
-  //         name="description"
-  //         // onClick={this.toggleDescription}
-  //       >{this.state.description}
-  //       </div>
-  //     )
-  //   }
-  // }
-
-  // "toggle heading in the render"
-  //               { this.state.headingAsInput ?
-  //                 <Form.Field 
-  //                     required 
-  //                     control={Input}
-  //                     ref={headingnode => this.headingnode = headingnode}
-  //                     label='Task heading'
-  //                     name="heading"
-  //                     type="text"
-  //                     value={this.state.heading}
-  //                     onChange={event => this.setState({ heading: event.target.value, changesMade: true })} 
-  //                 />
-  //                 :
-  //                 <div 
-  //                   className="headingAsText"
-  //                   ref={nodeheading => this.nodeheading = nodeheading}
-  //                   name="heading"
-  //                 >{this.state.heading}
-  //                 </div>
-  //               }
-
-
-  // <Image src={Hammer} className='sideMargin' />
-
 
   render() {
 
@@ -579,16 +500,14 @@ class EditTaskModal extends Component {
                       label={null}
                       className="checklistItemInline checkbox"
                       checked={this.state[item.id].completed}
-                      name={item.id}
                       onChange={() => this.toggleCheckbox(item.id)}
                       // onClick={() => this.toggleCheckbox(item.id)} }
                     />
                     <div className="checklistItemInline textDiv">
                       { this.state[item.id + "AsInput"] === false ?
                         <div className='checklistItemText'>
-                          <label 
-
-                            name={item.id}>{this.state[item.id].text}
+                          <label className={"completed" + this.state[item.id].completed}>
+                            {this.state[item.id].text}
                           </label>
                         </div>
                         :

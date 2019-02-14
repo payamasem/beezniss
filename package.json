@@ -2,6 +2,9 @@
   "name": "mern",
   "version": "1.0.0",
   "description": "## About This Boilerplate",
+  "engines": {
+    "node": "9.3.0"
+  },
   "main": "server.js",
   "proxy": "http://localhost:3001/",
   "scripts": {

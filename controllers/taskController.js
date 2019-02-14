@@ -21,7 +21,8 @@ module.exports = {
           .findAll({
             include: {
               all: true
-            }
+            },
+            order: [ ['due_date'], ]
           }).then(project_data => {
             let d_object = {
               Projects: project_data,

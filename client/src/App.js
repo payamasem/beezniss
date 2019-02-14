@@ -125,7 +125,7 @@ function LogoutButton(props) {
             <Header as='h2' inverted className="thePageHeader"> 
                 <img className='theLogo' src={require('./images/bee.png')} alt="logo" /> 
                 <div className='beeznissName'>Beezniss Dashboard</div>   
-            <Modal trigger={<Button style={bgColorStyle} floated='right' className='logoutBtn'><Icon name='remove user' />Logout</Button>} basic size='medium'>
+            <Modal trigger={<Button style={bgColorStyle} floated='right' className='logoutBtn'><Icon name='remove user' />Logout</Button>} basic size='large'>
               <Header icon='remove user' content='Logout?' />
               <Modal.Content>
                 <p>Do you wish to logout of your Beezniss Dashboard?</p>
@@ -160,16 +160,16 @@ function LogoutButton(props) {
             </Segment>
           </Grid.Column>
 
-          <Grid.Column widescreen={4} largeScreen={4} computer={4} mobile={16} only="widescreen large screen mobile" className="primaryColumn">
+          <Grid.Column widescreen={4} largeScreen={4} computer={4} mobile={16} only='widescreen large screen mobile' className="primaryColumn">
             <Segment className='componentBox marketing_seg'>
               <Marketing />
             </Segment>
-            <Segment className='componentBox calendar_seg' only="widescreen large screen mobile">
+            <Segment className='componentBox calendar_seg'>
               <CalendarPanel />
             </Segment>
           </Grid.Column>
 
-          <Grid.Column widescreen={3} largeScreen={3} computer={3} mobile={16} only="large screen widescreen mobile" className="primaryColumn">
+          <Grid.Column widescreen={3} largeScreen={3} computer={3} mobile={16} only='large screen widescreen mobile' className="primaryColumn">
             <Segment className='componentBox confcall_seg'>
               <ConferenceCall />
             </Segment>
@@ -178,26 +178,26 @@ function LogoutButton(props) {
             </Segment>
           </Grid.Column>
 
-          <Grid.Column tablet={5} only="tablet" className="primaryColumn">
-            <Segment className='componentBox twitter_seg' only="computer tablet">
+          <Grid.Column tablet={5} only="tablet computer" className="primaryColumn">
+            <Segment className='componentBox twitter_seg'>
               <TwitterPanel />
             </Segment>
           </Grid.Column>
 
         </Grid.Row>
 
-        <Grid.Row className="hugeRow" columns={3} only="tablet">
-          <Grid.Column tablet={4} only="computer tablet">
+        <Grid.Row className="hugeRow" columns={3} only="computer tablet">
+          <Grid.Column tablet={4}>
             <Segment className='componentBox confcall_seg'>
               <ConferenceCall />
             </Segment>
           </Grid.Column>
-          <Grid.Column tablet={6} only="computer tablet">
+          <Grid.Column tablet={6}>
             <Segment className='componentBox calendar_seg'>
               <CalendarPanel />
             </Segment>
           </Grid.Column>
-          <Grid.Column tablet={6} only="computer tablet">
+          <Grid.Column tablet={6}>
             <Segment className='componentBox marketing_seg'>
               <Marketing />
             </Segment>

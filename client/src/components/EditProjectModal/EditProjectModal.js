@@ -1,233 +1,400 @@
 import React, { Component } from "react";
-import "./EditProjectModal.css";
-import _ from 'lodash';
-import { Form, Image, Button, Dropdown, Item, List, Header, Icon, Modal, Input, Checkbox } from 'semantic-ui-react';
+import "../CSS/Modal.css";
+import { Grid, Form, Label, Image, Button, Modal, Input } from 'semantic-ui-react';
 import API from "../../utils/API";
 import Edit from '../../images/edit.png';
+import DeleteCharcoal from '../../images/deleteCharcoal.png';
+
 
 class EditProjectModal extends Component {
 
   state = {
     modalOpen: false,
-    checked: false,
-    checklist_item_text: "",
-    taskIdOfChecklistItemToBeSaved: "",
-    formattedDate: "",
+    invalidName: 0,
     name: "",
     due_date: "",
-    possible_users: [],
-    project_users: [],
-    openOptions: []
-  }
-  
-  componentWillMount() {
-    this.loadUsers();
-    this.loadOptions();
-  }
+    slim_due_date: "",
+    possible_users: [],  // [1, 2, 3, 4, 5]
+    project_users: [],   // [1, 3, ...]
+    openOptions: [],    //  [2, 4, 5, ...]
+    userMap: {},
+      // {
+      //   1: "Payam",
+      //   2: "Tong Tong",
+      //   3: "Nydia",
+      //   4: "Bill",
+      //   5: "Ehler",
+      // }
+    userRemoved: false,
+    dateAsInput: false,
+    projectNameAsInput: false,
+    confirmOpen: false,
+    changesMade: false,
+  };
 
   componentDidMount() {
     this.loadUsers();
-    this.loadOptions();
-
-    let due = new Date(this.props.project.due_date);
-    let dueDate = due.toDateString();
-    console.log('the FORMATTED due date is ', dueDate);
-    this.setState({
-      formattedDate: dueDate
-    });
   }
 
-  loadUsers = () => {
-    let project_users = [];
-    let possible_users = [];
-    this.setState({
-      name: this.props.project.name,
-      due_date: this.props.project.due_date,
+  handleEditProjectModalOpen = () => {
+    this.loadUsers();
+    this.setState({ modalOpen: true });
+    document.addEventListener('mousedown', this.handleClick, false);
+    document.addEventListener("keyup", this.handleStrike, false);
+  }
+  handleEditProjectModalClose = () => {
+    this.props.onClose();
+    this.setState({ 
+      modalOpen: false, 
+      invalidName: 0,
+      changesMade: false,
+      confirmOpen: false,
+      wannaSaveOpen: false,
     });
+    this.textify(null);
+    this.loadUsers();
+    document.removeEventListener('mousedown', this.handleClick, false);
+    document.removeEventListener("keyup", this.handleStrike, false);
+  }
+
+  checkForChanges = () => {
+    if (this.state.changesMade) this.openWannaSave();
+    else this.handleEditProjectModalClose();
+  }
+  openConfirm = () => this.setState({ confirmOpen: true })
+  closeConfirm = () => this.setState({ confirmOpen: false })
+
+  openWannaSave = () => this.setState({ wannaSaveOpen: true })
+  closeWannaSave = () => this.setState({ wannaSaveOpen: false })
+
+  loadUsers = async () => {
+    await this.updateUsers();
+    this.updateOpenOptions();
+  }
+
+  updateUsers = () => {
+    this.setState({
+      projectName: this.props.project.name,
+      due_date: this.props.project.due_date,
+      slim_due_date: this.props.project.due_date.slice(0, 10),
+    });
+    let userray = [];  let usermap = {};  let prjusers = [];
     this.props.users.map(user => {
-      let newUser = {
-        key: user.id,
-        value: user.id,
-        text: user.first_name
-      }
-      possible_users.push(newUser);
-      this.setState({ possible_users: possible_users });
+      userray.push(user.id);
+      usermap[user.id] = user.first_name;
     });
     this.props.project.Users.map(uzer => {
-      let newzer = {
-        key: uzer.id,
-        value: uzer.id,
-        text: uzer.first_name
-      }
-      project_users.push(newzer);
-      this.setState({ project_users: project_users });
-      console.log('project_users: ', this.state.project_users);
+      prjusers.push(uzer.id);
     });
-  };
-  updateUsers = (value, key) => {
-    this.setState({ [key]: value });
-    console.log(`NOW project_users in state are this: ${ [key], value }`)
-  };
-
-  loadOptions = () => {
-    this.setState({ openOptions: this.state.possible_users });
+    this.setState({ 
+      possible_users: userray,
+      project_users: prjusers,
+      userMap: usermap, 
+    });
   }
 
-  updateOptions = id => {
-    const noo = [];
-    this.state.openOptions.map((op, i) => {
-      if (op !== id) {
-        noo.push(op);
-      }
+  updateOpenOptions = () => {
+    let opens = [];
+    this.state.possible_users.map(possuser => {
+      if (this.state.project_users.indexOf(possuser) === -1) opens.push(possuser);
     });
-    this.updateUsers(noo, "openOptions");
-    const nuu = _.clone(this.state.project_users);
-    nuu.push(id);
-    this.updateUsers(nuu, "project_users");
+    this.setState({openOptions: opens});
   }
 
-  handleOpen = () => this.setState({ modalOpen: true });
-  handleClose = () => {
-    this.props.onClose();
-    this.setState({ modalOpen: false });
-  };
+  handleClick = event => {
+    const name = event.target.attributes.name ? event.target.attributes.name.nodeValue : null;
+
+    if (name) {
+      this.setState({ [name + "AsInput"]: true });
+      this.textify(name);
+    }
+    else this.textify(null);
+  }
+
+  handleStrike = event => {
+    if (event.keyCode === 13) {
+      this.textify(null);
+      if (this.state.confirmOpen === true) this.deleteProject();
+      else if (this.state.wannaSaveOpen === true) this.saveProjectEdits();
+    }
+  }
+
+  textify = (exception) => {
+    if (exception !== "projectName") this.setState({ projectNameAsInput: false });
+    if (exception !== "date") this.setState({ dateAsInput: false });
+
+    if (exception !== "projectName" && this.state.changesMade === true && this.state.projectName.trim() === "") {
+      this.setState({ projectName: this.state.projectName.trim() });
+    }
+  }
+
+  addCollaborator = id => {
+    this.setState({ project_users: [...this.state.project_users, id], changesMade: true });
+
+    let unselected = [...this.state.openOptions];
+    unselected.splice(unselected.indexOf(id), 1);
+    this.setState({ openOptions: unselected });
+  }
+
+  printState = () => {
+    console.log('–––>> this.state : ', this.state);
+    console.log('–––>> this.props : ', this.props);
+  }
+
+  removeCollaborator = id => {
+    let stillAssigenedToProject = [...this.state.project_users];
+    stillAssigenedToProject.splice(stillAssigenedToProject.indexOf(id), 1);
+    this.setState({
+      project_users: stillAssigenedToProject,
+      openOptions: [...this.state.openOptions, id],
+      userRemoved: true,
+      changesMade: true,
+    });
+  }
 
   saveProjectEdits = () => {
-    // const selectedUsers = [];
-    // this.state.project_users.forEach(user => {
-    //   console.log(`user of the forEach is ${user}`);
-    //   selectedUsers.push(user);
-    // });
-    // console.log(`selectedUsers: ${selectedUsers}`);
-    let list_item = {
-      due_date: this.state.due_date,
-      name: this.state.name,
-      users: this.state.project_users
+    console.log('this.state.slim_due_date: ', this.state.slim_due_date);
+    if (this.state.projectName.trim() === "") this.setState({ invalidName: 1 });
+    else {
+      let project_object = {
+        due_date: this.state.slim_due_date,
+        name: this.state.projectName.trim(),
+        users: this.state.project_users  // <–––– [5, 3, 4, ...]
+      }
+      console.log('||^||___ project obj to be sent to database: ', project_object);
+      API.editProject(this.props.project.id, project_object)
+        .then(res => {
+          console.log('res from editing project = ', res.data);
+          this.props.onClose();  // <–– This is critical, as it calls the loadTasks function in context of 
+                                  // the origin of props (TaskManager), updating all data on the home screen
+                                  //  to reflect the updated database including the project we just edited.  
+        })
+        .catch(err => console.log(err));
+      this.handleEditProjectModalClose();
+      if (this.state.userRemoved === true) this.cascadeUserEdits();
     }
-    console.log('project obj to be sent: ', list_item);
-    API.editProject(this.props.project.id, list_item)
-      .then(res => {
-        console.log('res from editing project = ', res.data)
-        this.props.onClose();
-        this.setState({
-          name: "",
-          due_date: "",
-          project_users: []
-        });
-      })
-      .catch(err => console.log(err));
-    this.handleClose();
-    console.log('this.props = ', this.props);
-  };
+  }
+
+  cascadeUserEdits = () => {
+    // If a user is removed from a project, that person is obviously no longer 
+    // eligible to work on that project's tasks and must be removed from
+    // any assignments to tasks of that project:
+
+    this.props.project.Tasks.forEach(tasc => {
+      let tasqueNouveau = {
+        heading: tasc.heading,
+        description: tasc.description,
+        due_date: tasc.due_date,
+        users: [],
+      };
+      tasc.Users.forEach(tu => {
+        // Check each user assigned to the task; if still assigned to the task's project, push
+        if (this.state.project_users.indexOf(tu.id) !== -1) {
+          tasqueNouveau.users.push(tu.id);
+        }
+      });
+        // Update the database:
+      API.editTask(tasc.id, tasqueNouveau)
+        .then(res => console.log('updated task ', res.data))
+        .catch(err => console.log(err));  
+    });
+    this.setState({ userRemoved: false });
+  }
+
   deleteProject = () => {
-    this.handleClose();
     API.deleteProject(this.props.project.id)
       .then(res => {
         console.log('res from deleting the project: ', res);
         this.props.onClose();
       })
       .catch(err => console.log(err));
-  };
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-        [name]: value
-    });
-  };
-
-  formatDate = () => {
-    let due = new Date(this.props.project.due_date);
-    let dueDate = due.toDateString();
-    console.log(`this.props.project.due_date ${this.props.project.due_date}`);
-    console.log(`dueDate (formatted) ${dueDate}`);    
-    return dueDate;
-  };
+    this.closeConfirm();
+    this.handleEditProjectModalClose();
+  }
 
   render() {
+    const wellStyles = { maxWidth: 400, margin: '0 auto 10px'};
+    const nameValidation = { opacity: this.state.invalidName, transition: "opacity 1.9s" };
+
     return (
-      <div className="well buttonWell">
+
+      <div className="well" style={wellStyles}>
         <Modal 
-          trigger={<Button onClick={this.handleOpen} className='editButton'><Image src={Edit} width='24' /></Button>}
+          trigger={<Button onClick={this.handleEditProjectModalOpen} 
+            className='editButton'><Image src={Edit} width='24' /></Button>}
           open={this.state.modalOpen}
           onOpen={this.loadUsers}
-          onClose={this.handleClose}
-          basic
-          size='small'
-          key={this.props.project.id}>     
-
-          <Modal.Header className='editProjectHeader'>EDIT project</Modal.Header>
+          onClose={this.checkForChanges}
+          className="theModal"
+          >
           <Modal.Content>
-            <Form>
-              <Input
-                className='projectNameBar inputBar'
-                label='project name'
-                name="name"
-                type="text"
-                value={this.state.name}
-                onChange={event => this.setState({name: event.target.value})} />
-              <div className='due_date2'> | <span className='due2'>currently due: </span>{this.state.formattedDate}</div><br/>
-              <Input 
-                label='modified project due date'
-                className='inputBar' 
-                type='date' 
-                value={this.state.due_date} 
-                onChange={event => this.setState({due_date: event.target.value})}
-              />    
-              <div className='usersBox'>
-                <div className="collaborators">current project collaborators: </div>
-                <div className='usersBox'>
-                {this.state.project_users.map(user => (
+            <Grid divided="vertically">
+              <Grid.Row className="modalRow">
+                <Grid.Column width={3} className="labels">
+                  Name of the project:
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  { this.state.projectNameAsInput === true ?
+                    <div >
+                      <Form.Field 
+                          required 
+                          control={Input}
+                          className="projectNameAsInput"
+                          name="projectName"
+                          type="text"
+                          value={this.state.projectName}
+                          onChange={event => this.setState({projectName: event.target.value, changesMade: true })} 
+                      />
+                      <Label pointing color='orange' style={nameValidation}>Project must have a name</Label>
+                    </div>
+                    :
+                    <div>
+                      <Form.Field 
+                        control={Form.Field}
+                        className="projectNameAsText"
+                        name="projectName"
+                        size="big"
+                      >{ (this.state.projectName !== "") ?
+                        this.state.projectName
+                        :
+                        <div className="addAHeading"
+                          name="projectName">add a project name...</div>
+                      }
+                      </Form.Field>
+                      <Label pointing color='orange' style={nameValidation}>Project must have a name</Label>
+                    </div>
+                  }
+                </Grid.Column>
+
+                <Grid.Column width={2} className="labels">
+                  Due date for this project:
+                </Grid.Column>
+                <Grid.Column width={5}>
+                  { this.state.dateAsInput === true ? 
+                      <div>
+                        <Form.Field>
+                          <Form.Input 
+                            required
+                            type='date'
+                            className="dateAsInput"
+                            name="date"
+                            value={this.state.slim_due_date}
+                            onChange={event => this.setState({slim_due_date: event.target.value, changesMade: true })}
+                          />
+                        </Form.Field>
+                      </div>
+                      :
+                      <Form.Field 
+                        name='date'
+                        control={Form.Field}
+                        size="big"
+                        className='dateAsText'>
+                        {this.state.slim_due_date.slice(5, 7) + "/" 
+                          + this.state.slim_due_date.slice(8, 10) 
+                          + "/" + this.state.slim_due_date.slice(0, 4)}
+                      </Form.Field>
+                  }    
+                </Grid.Column>
+              </Grid.Row>
+
+            <Grid.Row className='usersBox modalRow'>
+              <Grid.Column 
+                width={3}
+                className="labels">
+                Current project collaborators: 
+              </Grid.Column>
+              <Grid.Column width={13} className='userChipsBox'>
+                {this.state.project_users.map(userid => (
                   <div 
-                    key={user.id}
+                    key={userid}
+                    value={userid}
                     className='modal_users inline'>
-                      {user.first_name}
+                      <div className='userChipText'><div>{this.state.userMap[userid]}</div></div>
+                      <div className="xboxMargin">
+                        <div 
+                          className='x-box'
+                          onClick={() => this.removeCollaborator(userid)}
+                        ><div><Image src={DeleteCharcoal} className="theX" /></div></div>
+                      </div>
+                  </div>
+                ))}
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row className='usersBox modalRow'>
+              <Grid.Column 
+                width={3}
+                className="labels">
+                Add collaborators: 
+              </Grid.Column>
+              <Grid.Column width={13} className="userChipsBox">
+                {this.state.openOptions.map(userid => (
+                  <div
+                    key={`${userid}two`}
+                    value={userid}
+                    className="inline openOptionUsers"
+                    onClick={(event) => this.addCollaborator(userid)}
+                    ><div className="userChipText optionChipText">{this.state.userMap[userid]}</div>
                   </div>
                   ))}
-                </div>
-                <div className='selectionsBox'>
-                  {this.state.possible_users.map(user => (
-                    <div
-                      key={`${user.id}two`}
-                      value={user.first_name}
-                      content={user.first_name}
-                      className="modal_users inline"
-                      onClick={() => this.updateOptions(user.id)}
-                      >
-                    </div>
-                    ))}
-                </div>
-                <Dropdown 
-                  className='userDropdown'
-                  placeholder='Modify users...' 
-                  selection
-                  search
-                  multiple
-                  fluid
-                  options={this.state.possible_users}
-                  value={this.state.project_users}
-                  onChange={(event,{value}) => this.updateUsers(value, 'project_users')}
-                  >
-                </Dropdown>
-              </div>
-            </Form>
+              </Grid.Column>
+            </Grid.Row>
+
+
+            </Grid>      
           </Modal.Content>
-          <Modal.Content>
-            <div className='taskListHeader'>Tasks within this project:
-            </div>
-            <div className='taskListBox'>
-            {this.props.project.Tasks.map(task => (
-                <div as='h2' key={task.id} className='taskItem'>{task.heading}</div>
-            ))}
-            </div>
-          </Modal.Content>
+
           <Modal.Actions>
-              <Button color='instagram' icon='undo' content='Go Back' onClick={() => this.handleClose()} inverted />
-              <Button color='red' icon='window close' content='Delete Project' onClick={() => this.deleteProject()} inverted />
-              <Button color='olive' icon='checkmark' content='Save Project' onClick={() => this.saveProjectEdits()} inverted />
+            <Modal 
+              trigger={<Button color='red' icon='window close' content='Delete Project' onClick={() => this.openConfirm()} inverted />}
+              open={this.state.confirmOpen}
+            >
+              <Modal.Content >
+                <div className="projectNameBar">{this.props.project.name}</div>
+                <div className="confirmText">Are you sure you want to delete this project?</div> 
+              </Modal.Content>
+              <Modal.Actions>
+                <Button 
+                  color="red"
+                  onClick={() => this.deleteProject()}
+                >Yes, delete the project
+                </Button>
+                <Button 
+                  color="black"
+                  onClick={() => this.closeConfirm()}
+                >Nevermind, keep the project
+                </Button>
+              </Modal.Actions>
+            </Modal>
+
+            <Modal 
+              open={this.state.wannaSaveOpen}
+            >
+              <Modal.Content >
+                <div className="projectNameBar">{this.state.projectName}</div>
+                <div className="confirmText">Looks like you've made changes... would you like to save them?</div> 
+              </Modal.Content>
+              <Modal.Actions>
+                <Button 
+                  color="green"
+                  onClick={() => this.saveProjectEdits()}
+                >Yes, save the changes
+                </Button>
+                <Button 
+                  color="black"
+                  onClick={() => this.handleEditProjectModalClose()}
+                >Nah, let 'em go
+                </Button>
+              </Modal.Actions>
+            </Modal>
+            <Button 
+                color='grey' 
+                icon='undo' 
+                content='Go Back' 
+                onClick={() => this.checkForChanges()} />
+            <Button positive icon='checkmark' labelPosition='right' content='Save' onClick={this.saveProjectEdits} />
           </Modal.Actions>
         </Modal> 
       </div>
-       
     );
   }
 }

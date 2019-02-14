@@ -18,7 +18,6 @@ export default {
   },
   // Saves a Task to the database
   createTask: function(taskData) {
-    console.log('task to be created: ', taskData);
     return axios.post("/api/tasks", taskData);
   },
   editTask: function(id, taskData) {
@@ -28,7 +27,6 @@ export default {
     return axios.get("/api/tasks/users");
   },
   createProject: function(listData) {
-    console.log('project to be created: ', listData);
     return axios.post("/api/tasks/project", listData);
   },
   editProject: function(id, projectData) {
@@ -38,7 +36,6 @@ export default {
     return axios.delete("/api/tasks/project/" + id);
   },
   createChecklistItem: function(listData) {
-    console.log('checklistitem to be created: ', listData);
     return axios.post("/api/tasks/checklistitem", listData);
   },
   editChecklistItem: function(id, checklistData) {
@@ -52,17 +49,6 @@ export default {
   //  ===================================  
   // Gets all sales data
   getSales: function() {
-    console.log('getSales function triggered in API');
     return axios.get("/api/sales");
   },
-
-  //  ===================================
-  //========== Messenger paths ============
-  //  ===================================
-  getMessages: function() {
-
-  },
-  saveMessage: function() {
-
-  }
 };

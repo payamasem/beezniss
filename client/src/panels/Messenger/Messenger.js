@@ -5,8 +5,6 @@ import firebase from 'firebase';
 
 const firebaseAPIkey = process.env.REACT_APP_FIREBASE_API_KEY;
 
-console.log(firebaseAPIkey);
-
 class Messenger extends Component {
 
   constructor(props){

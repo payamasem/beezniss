@@ -78,8 +78,6 @@ class SalesTracker extends Component{
          theCookie.data.push(obj.cookies[i].Sales_4Q2018);
 
          newCookieDatasets.push(theCookie);
-
-         console.log('cookie '+i+', for the chart = ', theCookie);
       }
       this.setState({
          cookieQuarterly: {
@@ -227,11 +225,11 @@ class SalesTracker extends Component{
          <section>
             <div className="well" style={wellStyles}>
               <h1 className="salesHeading">Sales Forecasts</h1>
-            <Button.Group horizontal className='btnGroups'>
+            <Button.Group horizontal="true" className='btnGroups'>
                <Button fluid className='salesBtn salesBtn1' style={buttonStyle[0]} onClick={() => this.animated.show()}><Icon name='bar chart' /><span>Quarterly Sales: <br/>Cookie Division</span></Button>
                <Button fluid className='salesBtn salesBtn2' style={buttonStyle[1]} icon='bar chart' content='Quarterly Sales: Motors Division' onClick={() => this.animatedmotors.show()} />
             </Button.Group>
-            <Button.Group horizontal className='btnGroups'>
+            <Button.Group horizontal="true" className='btnGroups'>
                <Button fluid className='salesBtn salesBtn3' style={buttonStyle[0]} onClick={() => this.animatedRNA.show()}><Icon name='bar chart' /><span>Quarterly Sales: <br/>Mitochon. RNA Division</span></Button>
                <Button fluid className='salesBtn salesBtn4' style={buttonStyle[1]} onClick={() => this.animatedquarterly.show()}><Icon name='bar chart' /><span>Quarterly Sales: <br/>All Divisions</span></Button>
             </Button.Group>
