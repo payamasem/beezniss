@@ -1,7 +1,7 @@
 {
-  "name": "mern",
+  "name": "beezniss",
   "version": "1.0.0",
-  "description": "## About This Boilerplate",
+  "description": "a business dashboard",
   "engines": {
     "node": "9.3.0"
   },
